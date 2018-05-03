@@ -14,27 +14,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CustomGUI implements Runnable {	
+public class CustomGUI implements Runnable {
 	public static boolean on = false;
 	public static ScriptWriter writer;
-	
+
 	public CustomGUI(ScriptWriter w) {
 		writer = w;
 	}
-	
+
 	public void run() {
 		// Open communications to the local server
 		DashboardServerInterface.Open();
-		
+
 		// Create the JFrame that the UI will be held in
 		final JFrame f = new JFrame();
 		f.setLayout(null);
 		f.setSize(802, 630);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		BackgroundPanel bg = null;
-		
+
 		try{
 			Image img = ImageIO.read(getClass().getResource("/bg.png"));
 			bg = new BackgroundPanel(img);
@@ -42,16 +42,16 @@ public class CustomGUI implements Runnable {
 		} catch(Exception ex) {
 			//
 		}
-	
-		
+
+
 		// Status Text Box
 		final JTextField status = new JTextField();
 		status.setBounds(11, 150, 180, 25);
 		status.setOpaque(false);
-		
+
 		// Play Button
 		JButton play = new JButton();
-		
+
 		try {
 			Image img = ImageIO.read(getClass().getResource("/play_btn.png"));
 			play.setIcon(new ImageIcon(img));
@@ -59,7 +59,7 @@ public class CustomGUI implements Runnable {
 			play.setOpaque(false);
 			play.setContentAreaFilled(false);
 			play.setBorderPainted(false);
-			
+
 			play.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Play_Program();
@@ -69,10 +69,10 @@ public class CustomGUI implements Runnable {
 		} catch (Exception ex) {
 			//
 		}
-	
+
 		// Pause Button
 		JButton pause = new JButton();
-		
+
 		try {
 			Image img = ImageIO.read(getClass().getResource("/pause_btn.png"));
 		    pause.setIcon(new ImageIcon(img));
@@ -80,7 +80,7 @@ public class CustomGUI implements Runnable {
 			pause.setOpaque(false);
 			pause.setContentAreaFilled(false);
 			pause.setBorderPainted(false);
-			
+
 			pause.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Pause_Program();
@@ -88,12 +88,12 @@ public class CustomGUI implements Runnable {
 				}
 			});
 		} catch (Exception ex) {
-			
+
 		}
-		
+
 		// Stop Button
 		/*JButton stop = new JButton();
-		
+
 		try {
 			Image img = ImageIO.read(getClass().getResource("/stop_btn.png"));
 			stop.setIcon(new ImageIcon(img));
@@ -101,7 +101,7 @@ public class CustomGUI implements Runnable {
 			stop.setOpaque(false);
 			stop.setContentAreaFilled(false);
 			stop.setBorderPainted(false);
-			
+
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Stop_Program();
@@ -109,16 +109,16 @@ public class CustomGUI implements Runnable {
 				}
 			});
 		} catch (Exception ex) {
-			
+
 		}
 		*/
 
 		// Setup Button
 		JButton setup = new JButton("Setup");
-		
+
 		try {
 			setup.setBounds(11, 200, 180, 25);
-			
+
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Interface.SetupPallet();
@@ -127,13 +127,13 @@ public class CustomGUI implements Runnable {
 		} catch (Exception ex) {
 			//
 		}
-		
+
 		// Stop Button
 		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
-		
+
 		try {
 			stop.setBounds(11, 300, 180, 50);
-			
+
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Stop_Program();
@@ -143,14 +143,14 @@ public class CustomGUI implements Runnable {
 		} catch (Exception ex) {
 			//
 		}
-		
+
 
 		// Exit Button
 		JButton exit = new JButton("<html>Stop and Exit<br>to Polyscope</html>");
-		
+
 		try {
 			exit.setBounds(11, 400, 180, 50);
-			
+
 			exit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Stop_Program();
@@ -162,19 +162,19 @@ public class CustomGUI implements Runnable {
 		} catch (Exception ex) {
 			//
 		}
-		
-		
+
+
 		double pallet_width = 1.5; // metres
 		double pallet_length = 2; // metres
-		
+
 		// Panel
 		JPanel preview = new JPanel();
 		preview.setBackground(Color.ORANGE);
 		preview.setLayout(null);
-		
+
 		if (pallet_width == pallet_length) {
 			int x = (int) (202 + (600 - 550) / 2);
-			int y = (int) ((600 - 550) / 2); 
+			int y = (int) ((600 - 550) / 2);
 			preview.setBounds(x, y, 550, 550);
 		} else if (pallet_width > pallet_length) {
 			int h = (int) (pallet_length / pallet_width * 550);
@@ -198,12 +198,12 @@ public class CustomGUI implements Runnable {
 		//f.add(load);
 		f.add(preview);
 		f.add(bg);
-		
+
 		f.setVisible(true);
-		
+
 		// Trying to pause program when CustomGUI is run but it does not work
 		status.setText("Status: Setup Required");
-		
+
 		// Set the on variable to true
 		on = true;
 	}
