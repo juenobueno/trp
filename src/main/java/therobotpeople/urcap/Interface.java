@@ -1,48 +1,105 @@
 package therobotpeople.urcap;
 
+import therobotpeople.urcap.*;
+
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Interface {
-
-	public static void test() {
+	
+	
+	final int package_width;
+	final int package_height;
+	final int pallet_width;
+	final int pallet_height;
+	
+	final int edge_gap;
+	final int box_gap;
+	
+	final JFrame main_page;
+	final Grid grid;
+	final ArrayList<JButton> button_history;
+	
+	public Interface() {
+		package_width = 50;
+		package_height = 100;
+		pallet_width = 400;
+		pallet_height = 400;
 		
-		final JFrame main_page = new JFrame();
+		edge_gap = 5;
+		box_gap = 5;
+		
+		main_page = new JFrame();
 		main_page.setLayout(null);
 		
-		final int package_width = 60;
-		final int package_height = 100;
-		final int pallet_width = 400;
-		final int pallet_height = 400;
-		
-		final int edge_gap = 10;
-		final int box_gap = 5;
-		
-		final Grid grid = new Grid(pallet_width, pallet_height);
-		
+		grid = new Grid(pallet_width, pallet_height);
 		grid.set(new Point(0,0), pallet_width, pallet_height);
 		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
 		
-		final ArrayList<JButton> button_history = new ArrayList<JButton>(); 
+		button_history = new ArrayList<JButton>();
+	}
+	
+	public Interface(int package_width, int package_height, int pallet_width, int pallet_height) {
+		this.package_width = package_width;
+		this.package_height = package_height;
+		this.pallet_width = pallet_width;
+		this.pallet_height = pallet_height;
+		
+		this.edge_gap = 0;
+		this.box_gap = 0;
+		
+		main_page = new JFrame();
+		main_page.setLayout(null);
+		
+		grid = new Grid(pallet_width, pallet_height);
+		grid.set(new Point(0,0), pallet_width, pallet_height);
+		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+		
+		button_history = new ArrayList<JButton>();
+	}
+	
+	public Interface(int package_width, int package_height, int pallet_width, int pallet_height, int edge_gap, int box_gap) {
+		this.package_width = package_width;
+		this.package_height = package_height;
+		this.pallet_width = pallet_width;
+		this.pallet_height = pallet_height;
+		this.edge_gap = edge_gap;
+		this.box_gap = box_gap;
+		
+		main_page = new JFrame();
+		main_page.setLayout(null);
+		
+		grid = new Grid(pallet_width, pallet_height);
+		grid.set(new Point(0,0), pallet_width, pallet_height);
+		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+		
+		button_history = new ArrayList<JButton>();
+	}
+	
+
+	public void test() {
+		
+		//final JFrame main_page = new JFrame();
+		//main_page.setLayout(null);
+		
+		
+		//final Grid grid = new Grid(pallet_width, pallet_height);
+		
+		//grid.set(new Point(0,0), pallet_width, pallet_height);
+		//grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+		
+		//final ArrayList<JButton> button_history = new ArrayList<JButton>(); 
 		
 		JButton package_up = new JButton("^");
 		package_up.setSize(package_width, package_height);

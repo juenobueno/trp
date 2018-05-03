@@ -141,7 +141,9 @@ public class CustomGUI implements Runnable {
 			
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Interface.test();
+					Interface settup = new Interface();
+					settup.test();
+					//Interface.test();
 				}
 			});
 		} catch (Exception ex) {
