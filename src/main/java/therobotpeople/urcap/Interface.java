@@ -31,15 +31,12 @@ public class Interface {
 		
 		final int package_width = 60;
 		final int package_height = 100;
-		//int snap_size = 50; //snap everything into 5 pixel limits
-		//int count = 0;
 		final int pallet_width = 400;
 		final int pallet_height = 400;
 		
 		final int edge_gap = 10;
 		final int box_gap = 5;
 		
-		//ArrayList<Point> point_list = new ArrayList<Point>();
 		final Grid grid = new Grid(pallet_width, pallet_height);
 		
 		grid.set(new Point(0,0), pallet_width, pallet_height);
@@ -110,7 +107,6 @@ public class Interface {
 				
 				if(Selector.selected != "" && Selector.selected != null) {
 					Point position = e.getPoint();
-					//System.out.println(position);
 					
 					JButton pack = new JButton(Selector.selected + Selector.count);
 					
@@ -156,7 +152,6 @@ public class Interface {
 							//x_pos = x_pos + pack_width-((x_pos+pack_width)%pack_width);
 
 						}
-						
 						
 					}else {
 						//need to align the left

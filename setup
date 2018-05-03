@@ -1,0 +1,6 @@
+#!/bin/bash
+mvn clean install
+wait
+if [ -e  ./target/helloworld-1.0-SNAPSHOT.urcap ]; then
+    cp ./target/helloworld-1.0-SNAPSHOT.urcap ~/Desktop/programs.UR3/helloworld-1.0-SNAPSHOT.urcap
+fi
