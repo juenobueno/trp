@@ -255,6 +255,18 @@ public class Interface {
 			}
 		});
 		
+		JButton exit = new JButton("Exit");
+		exit.setSize(package_width, package_height);
+		exit.setLocation(250, 200);
+		main_page.add(exit);
+		
+		exit.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				main_page.dispose();
+			}
+		});
+		
 		JButton get_positions = new JButton("Get Positions");
 		get_positions.setSize(package_width, package_height);
 		get_positions.setLocation(100,200);
@@ -291,7 +303,7 @@ public class Interface {
 		main_page.add(pallet);
 		
 		main_page.setSize(800, 600);
-		main_page.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		main_page.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main_page.setVisible(true);
 
 	}

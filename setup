@@ -1,6 +1,6 @@
 #!/bin/bash
 mvn clean install
 wait
-if [ -e  ./target/helloworld-1.0-SNAPSHOT.urcap ]; then
-    cp ./target/helloworld-1.0-SNAPSHOT.urcap ~/Desktop/programs.UR3/helloworld-1.0-SNAPSHOT.urcap
+if [ -e  ./target/trp-alpha.urcap ]; then
+    cp ./target/trp-alpha.urcap ~/Desktop/programs.UR3/trp-alpha.urcap
 fi
