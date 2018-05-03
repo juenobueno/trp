@@ -27,7 +27,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 
 	@Override
 	public String getTitle() {
-		return "asd";
+		return "The Robot People";
 	}
 
 	@Override
@@ -37,12 +37,13 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 
 	@Override
 	public void generateScript(ScriptWriter writer) {
-		CustomGUI gui = new CustomGUI(writer);
-		
-		if(CustomGUI.on == false) {
-			Thread t = new Thread(gui);
+		if (CustomGUI.on == false){
+		    CustomGUI gui = new CustomGUI(writer);
+		    Thread t = new Thread(gui);
 			t.start();
 		}
+
+		DashboardServerInterface.Pause_Program();
 		
 		writer.sync();
 	}

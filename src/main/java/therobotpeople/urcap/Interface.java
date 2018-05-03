@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 public class Interface {
 
-	public static void test() {
+	public static void SetupPallet() {
 		
 		final JFrame main_page = new JFrame();
 		main_page.setLayout(null);
@@ -328,5 +328,4 @@ public class Interface {
 		}
 		return false;
 	}
-
 }
