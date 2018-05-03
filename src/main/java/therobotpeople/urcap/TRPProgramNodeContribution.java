@@ -42,8 +42,6 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		    Thread t = new Thread(gui);
 			t.start();
 		}
-
-		DashboardServerInterface.Pause_Program();
 		
 		writer.sync();
 	}
