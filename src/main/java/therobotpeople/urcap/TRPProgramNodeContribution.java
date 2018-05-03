@@ -27,7 +27,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 
 	@Override
 	public String getTitle() {
-		return "Test";
+		return "asd";
 	}
 
 	@Override
