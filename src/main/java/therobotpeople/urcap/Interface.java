@@ -9,6 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -322,26 +328,43 @@ public class Interface {
 		get_positions.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				for(Component c: pallet.getComponents()) {
-					if(c instanceof JButton) {
-						int x_pos = c.getLocation().x + c.getSize().width/2;
-						int y_pos = c.getLocation().y + c.getSize().height/2;
-						String orientation = "";
-						if(((JButton) c).getText().contains("^")) {
-							orientation = "up";
-						}else if(((JButton) c).getText().contains("v")) {
-							orientation = "down";
-						}else if(((JButton) c).getText().contains("<")){
-							orientation = "left";
-						}else {
-							orientation = "right";
+				
+				
+				PrintWriter writer;
+				try {
+					writer = new PrintWriter("Waypoint", "UTF-8");
+				
+				
+					for(Component c: pallet.getComponents()) {
+						if(c instanceof JButton) {
+							int x_pos = c.getLocation().x + c.getSize().width/2;
+							int y_pos = c.getLocation().y + c.getSize().height/2;
+							int z_pos = 0;
+							String orientation = "";
+							if(((JButton) c).getText().contains("^")) {
+								orientation = "0";
+							}else if(((JButton) c).getText().contains("v")) {
+								orientation = "180";
+							}else if(((JButton) c).getText().contains("<")){
+								orientation = "270";
+							}else {
+								orientation = "90";
+							}
+							//writer.println("Button"+((JButton) c).getText()+" positions is: X: "+x_pos+", Y: "+y_pos+", Orientation: "+orientation);
+							writer.println(x_pos+", "+y_pos+", "+z_pos+", "+orientation);
 						}
-						System.out.println("Button"+((JButton) c).getText()+" positions is: X: "+x_pos+", Y: "+y_pos+", Orientation: "+orientation);
+	
+						//System.out.println("The positions is: X"+x_pos+", Y"+y_pos+", Orientation"+orientation);
 					}
+					writer.close();
 
-					//System.out.println("The positions is: X"+x_pos+", Y"+y_pos+", Orientation"+orientation);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-
 
 			}
 		});
@@ -362,6 +385,7 @@ public class Interface {
 			if(pack.x == next.x && pack.y == next.y) {
 				return true;
 			}
+			
 			if(Selector.selected == "<" || Selector.selected == ">") {
 				if(pack.x+snap_size == next.x && pack.y == next.y) {
 					return true;
