@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 public class Precursor {
 
-	public static void main(String[] args) {
+	public static void run () {
 		
 		int default_package_width = 50;
 		int default_package_height = 100;
@@ -37,7 +37,8 @@ public class Precursor {
 				default_edge_gap      = Integer.parseInt(read.readLine());
 				default_box_gap		  = Integer.parseInt(read.readLine());
 				
-			} catch (NumberFormatException | IOException e) {
+				read.close();
+			} catch (Exception e) {
 			}
 			
 			//read in data
@@ -57,7 +58,7 @@ public class Precursor {
 		package_width.setLocation(50, 50);
 		main.add(package_width);
 		
-		JTextField package_width_text = new JTextField();
+		final JTextField package_width_text = new JTextField();
 		package_width_text.setSize(50,20);
 		package_width_text.setLocation(150, 50);
 		package_width_text.setText(Integer.toString(default_package_width));
@@ -68,7 +69,7 @@ public class Precursor {
 		package_height.setLocation(50, 100);
 		main.add(package_height);
 		
-		JTextField package_height_text = new JTextField();
+		final JTextField package_height_text = new JTextField();
 		package_height_text.setSize(50,20);
 		package_height_text.setLocation(150, 100);
 		package_height_text.setText(Integer.toString(default_package_height));
@@ -79,7 +80,7 @@ public class Precursor {
 		pallet_width.setLocation(50,150);
 		main.add(pallet_width);
 		
-		JTextField pallet_width_text = new JTextField();
+		final JTextField pallet_width_text = new JTextField();
 		pallet_width_text.setSize(50,20);
 		pallet_width_text.setLocation(150,150);
 		pallet_width_text.setText(Integer.toString(default_pallet_width));
@@ -90,7 +91,7 @@ public class Precursor {
 		pallet_height.setLocation(50, 200);
 		main.add(pallet_height);
 		
-		JTextField pallet_height_text = new JTextField();
+		final JTextField pallet_height_text = new JTextField();
 		pallet_height_text.setSize(50,20);
 		pallet_height_text.setLocation(150, 200);
 		pallet_height_text.setText(Integer.toString(default_pallet_height));
@@ -101,7 +102,7 @@ public class Precursor {
 		edge_gap.setLocation(50,250);
 		main.add(edge_gap);
 		
-		JTextField edge_gap_text = new JTextField();
+		final JTextField edge_gap_text = new JTextField();
 		edge_gap_text.setSize(50,20);
 		edge_gap_text.setLocation(150,250);
 		edge_gap_text.setText(Integer.toString(default_edge_gap));
@@ -112,7 +113,7 @@ public class Precursor {
 		box_gap.setLocation(50, 300);
 		main.add(box_gap);
 		
-		JTextField box_gap_text = new JTextField();
+		final JTextField box_gap_text = new JTextField();
 		box_gap_text.setSize(50,20);
 		box_gap_text.setLocation(150, 300);
 		box_gap_text.setText(Integer.toString(default_box_gap));
@@ -140,7 +141,10 @@ public class Precursor {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Need to call the interface from here with all the variables I need
+				Interface pallet = new Interface(Integer.parseInt(package_width_text.getText()), Integer.parseInt(package_height_text.getText()), Integer.parseInt(pallet_width_text.getText()), Integer.parseInt(pallet_height_text.getText()), Integer.parseInt(edge_gap_text.getText()), Integer.parseInt(box_gap_text.getText()));
+				pallet.test();
 				
+				main.dispose();
 				
 			}
 		});

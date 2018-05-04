@@ -90,17 +90,6 @@ public class Interface {
 
 	public void test() {
 
-		//final JFrame main_page = new JFrame();
-		//main_page.setLayout(null);
-
-
-		//final Grid grid = new Grid(pallet_width, pallet_height);
-
-		//grid.set(new Point(0,0), pallet_width, pallet_height);
-		//grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
-
-		//final ArrayList<JButton> button_history = new ArrayList<JButton>();
-
 		JButton package_up = new JButton("^");
 		package_up.setSize(package_width, package_height);
 		package_up.setLocation(0, 0);
