@@ -15,8 +15,13 @@ import javax.swing.JTextField;
 
 public class Precursor {
 
+	//add bit for pallet position here
+	
 	public static void run () {
 		
+		int default_pallet_x = 0;
+		int default_pallet_y = 0;
+		int default_pallet_z = 0;
 		int default_package_width = 50;
 		int default_package_height = 100;
 		int default_pallet_width = 400;
@@ -119,6 +124,35 @@ public class Precursor {
 		box_gap_text.setText(Integer.toString(default_box_gap));
 		main.add(box_gap_text);
 		
+		JLabel pallet_x_pos = new JLabel("Pallet X_Pos");
+		JLabel pallet_y_pos = new JLabel("Pallet Y_Pos");
+		JLabel pallet_z_pos = new JLabel("Pallet Z Pos");
+		pallet_x_pos.setSize(100,20);
+		pallet_y_pos.setSize(100,20);;
+		pallet_z_pos.setSize(100,20);
+		pallet_x_pos.setLocation(200,150);
+		pallet_y_pos.setLocation(200,200);
+		pallet_z_pos.setLocation(200,250);
+		main.add(pallet_x_pos);
+		main.add(pallet_y_pos);
+		main.add(pallet_z_pos);
+
+		final JTextField pallet_x_text = new JTextField();
+		final JTextField pallet_y_text = new JTextField();
+		final JTextField pallet_z_text = new JTextField();
+		pallet_x_text.setSize(50, 20);
+		pallet_y_text.setSize(50, 20);
+		pallet_z_text.setSize(50, 20);
+		pallet_x_text.setLocation(300, 150);
+		pallet_y_text.setLocation(300, 200);
+		pallet_z_text.setLocation(300, 250);
+		pallet_x_text.setText(Integer.toString(default_pallet_x));
+		pallet_y_text.setText(Integer.toString(default_pallet_y));
+		pallet_z_text.setText(Integer.toString(default_pallet_z));
+		main.add(pallet_x_text);
+		main.add(pallet_y_text);
+		main.add(pallet_z_text);
+		
 		JButton close = new JButton("Exit");
 		close.setSize(100,50);
 		close.setLocation(300,50);
@@ -141,7 +175,8 @@ public class Precursor {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Need to call the interface from here with all the variables I need
-				Interface pallet = new Interface(Integer.parseInt(package_width_text.getText()), Integer.parseInt(package_height_text.getText()), Integer.parseInt(pallet_width_text.getText()), Integer.parseInt(pallet_height_text.getText()), Integer.parseInt(edge_gap_text.getText()), Integer.parseInt(box_gap_text.getText()));
+				Interface pallet = new Interface(Integer.parseInt(package_width_text.getText()), Integer.parseInt(package_height_text.getText()), Integer.parseInt(pallet_width_text.getText()), Integer.parseInt(pallet_height_text.getText()), Integer.parseInt(edge_gap_text.getText()), Integer.parseInt(box_gap_text.getText()), Integer.parseInt(pallet_x_text.getText()), Integer.parseInt(pallet_y_text.getText()), Integer.parseInt(pallet_y_text.getText()));
+
 				pallet.test();
 				
 				main.dispose();

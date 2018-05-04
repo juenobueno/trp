@@ -33,6 +33,17 @@ public class Interface {
 	final int edge_gap;
 	final int box_gap;
 
+	final int pallet_x;
+	final int pallet_y;
+	final int pallet_z;
+	
+	//2 more variables
+	//final int pallet_representation_width;
+	//final int pallet_representation_height;
+	
+	//int x_pixel_distort = pallet_representation_width/pallet_width;
+	//int y_pixel_distort = pallet_representation_height/pallet_height;
+	
 	final JFrame main_page;
 	final Grid grid;
 	final ArrayList<JButton> button_history;
@@ -46,6 +57,11 @@ public class Interface {
 		edge_gap = 5;
 		box_gap = 5;
 
+
+		pallet_x = 0;
+		pallet_y = 0;
+		pallet_z = 0;
+		
 		main_page = new JFrame();
 		main_page.setLayout(null);
 
@@ -65,6 +81,10 @@ public class Interface {
 		this.edge_gap = 0;
 		this.box_gap = 0;
 
+		pallet_x = 0;
+		pallet_y = 0;
+		pallet_z = 0;
+		
 		main_page = new JFrame();
 		main_page.setLayout(null);
 
@@ -83,6 +103,10 @@ public class Interface {
 		this.edge_gap = edge_gap;
 		this.box_gap = box_gap;
 
+		pallet_x = 0;
+		pallet_y = 0;
+		pallet_z = 0;
+		
 		main_page = new JFrame();
 		main_page.setLayout(null);
 
@@ -91,6 +115,28 @@ public class Interface {
 		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
 
 		button_history = new ArrayList<JButton>();
+	}
+	
+	public Interface(int package_width, int package_height, int pallet_width, int pallet_height, int edge_gap, int box_gap, int px, int py, int pz) {
+		this.package_width = package_width;
+		this.package_height = package_height;
+		this.pallet_width = pallet_width;
+		this.pallet_height = pallet_height;
+		this.edge_gap = edge_gap;
+		this.box_gap = box_gap;
+
+		main_page = new JFrame();
+		main_page.setLayout(null);
+
+		grid = new Grid(pallet_width, pallet_height);
+		grid.set(new Point(0,0), pallet_width, pallet_height);
+		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+
+		button_history = new ArrayList<JButton>();
+		
+		pallet_x = px;
+		pallet_y = py;
+		pallet_z = pz;
 	}
 
 
