@@ -23,7 +23,7 @@ public class CustomGUI implements Runnable {
 	}
 
 	public void run() {
-		// Open communications to the local server
+		//Open Communication to the DashboardServer for play, pause and stop control
 		DashboardServerInterface.Open();
 
 		// Create the JFrame that the UI will be held in
@@ -33,8 +33,8 @@ public class CustomGUI implements Runnable {
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
-
 		try{
 			Image img = ImageIO.read(getClass().getResource("/bg.png"));
 			bg = new BackgroundPanel(img);
@@ -43,7 +43,6 @@ public class CustomGUI implements Runnable {
 			//
 		}
 
-
 		// Status Text Box
 		final JTextField status = new JTextField();
 		status.setBounds(11, 150, 180, 25);
@@ -51,7 +50,6 @@ public class CustomGUI implements Runnable {
 
 		// Play Button
 		JButton play = new JButton();
-
 		try {
 			Image img = ImageIO.read(getClass().getResource("/play_btn.png"));
 			play.setIcon(new ImageIcon(img));
@@ -72,7 +70,6 @@ public class CustomGUI implements Runnable {
 
 		// Pause Button
 		JButton pause = new JButton();
-
 		try {
 			Image img = ImageIO.read(getClass().getResource("/pause_btn.png"));
 		    pause.setIcon(new ImageIcon(img));
@@ -91,31 +88,8 @@ public class CustomGUI implements Runnable {
 
 		}
 
-		// Stop Button
-		/*JButton stop = new JButton();
-
-		try {
-			Image img = ImageIO.read(getClass().getResource("/stop_btn.png"));
-			stop.setIcon(new ImageIcon(img));
-			stop.setBounds(450, 500, 100, 100);
-			stop.setOpaque(false);
-			stop.setContentAreaFilled(false);
-			stop.setBorderPainted(false);
-
-			stop.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					DashboardServerInterface.Stop_Program();
-					status.setText("Status: Stopped");
-				}
-			});
-		} catch (Exception ex) {
-
-		}
-		*/
-
 		// Setup Button
 		JButton setup = new JButton("Setup");
-
 		try {
 			setup.setBounds(11, 200, 180, 25);
 
@@ -130,7 +104,6 @@ public class CustomGUI implements Runnable {
 
 		// Stop Button
 		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
-
 		try {
 			stop.setBounds(11, 300, 180, 50);
 
@@ -144,10 +117,8 @@ public class CustomGUI implements Runnable {
 			//
 		}
 
-
 		// Exit Button
 		JButton exit = new JButton("<html>Stop and Exit<br>to Polyscope</html>");
-
 		try {
 			exit.setBounds(11, 400, 180, 50);
 
@@ -163,11 +134,10 @@ public class CustomGUI implements Runnable {
 			//
 		}
 
-
 		double pallet_width = 1.5; // metres
 		double pallet_length = 2; // metres
 
-		// Panel
+		//Pallet Preview
 		JPanel preview = new JPanel();
 		preview.setBackground(Color.ORANGE);
 		preview.setLayout(null);
@@ -194,8 +164,6 @@ public class CustomGUI implements Runnable {
 		f.add(pause);
 		f.add(setup);
 		f.add(status);
-		//f.add(fileName);
-		//f.add(load);
 		f.add(preview);
 		f.add(bg);
 
