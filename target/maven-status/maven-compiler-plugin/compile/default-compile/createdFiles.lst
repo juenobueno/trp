@@ -1,5 +1,7 @@
 therobotpeople/urcap/GUIConfigure.class
 therobotpeople/urcap/CustomGUI$1.class
+therobotpeople/urcap/GUIConfigure$2.class
+therobotpeople/urcap/CustomGUI$6.class
 therobotpeople/urcap/Grid.class
 therobotpeople/urcap/Interface$4.class
 therobotpeople/urcap/TRPProgramNodeService.class
@@ -12,6 +14,7 @@ therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/Precursor$1.class
 therobotpeople/urcap/Interface$2.class
 therobotpeople/urcap/DashboardServerInterface.class
+therobotpeople/urcap/GUIConfigure$1.class
 therobotpeople/urcap/CustomGUI$5.class
 therobotpeople/urcap/Interface$7.class
 therobotpeople/urcap/Interface$3.class

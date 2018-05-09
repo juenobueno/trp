@@ -10,9 +10,12 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 public class CustomGUI implements Runnable {
 	public static boolean on = false;
@@ -47,7 +50,7 @@ public class CustomGUI implements Runnable {
 		final JTextField status = new JTextField();
 		status.setBounds(11, 150, 180, 25);
 		status.setOpaque(false);
-
+		
 		// Play Button
 		JButton play = new JButton();
 		try {
@@ -96,6 +99,7 @@ public class CustomGUI implements Runnable {
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Precursor.run();
+					GUIConfigure.run();
 				}
 			});
 		} catch (Exception ex) {
@@ -157,7 +161,40 @@ public class CustomGUI implements Runnable {
 			int y = (int) ((600 - 550) / 2);
 			preview.setBounds(x, y, w, 550);
 		}
+		
+		//Creating a load file button/preset
+		//Has a file called default which stores all the file names
+		//A drop down box readers out of default, re-read on drop down?
+		//Load button to load the script file
+		
+		final FileManipulate file = new FileManipulate("default");
+		final JComboBox<String> drop_down = new JComboBox<String>();
+		drop_down.setBounds(0, 0, 100, 50 );
+		String options;
+		while((options = file.readLine()) != null) {
+			drop_down.addItem(options);
+		}
+		file.close();
+		drop_down.addPopupMenuListener(new PopupMenuListener() {
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				drop_down.removeAllItems();
+				String opt;
+				while((opt = file.readLine()) != null) {
+					drop_down.addItem(opt);
+				}
+				file.close();
+			}
 
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent arg0) {}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {}
+		});
+		
+
+		f.add(drop_down);
 		f.add(exit);
 		f.add(stop);
 		f.add(play);

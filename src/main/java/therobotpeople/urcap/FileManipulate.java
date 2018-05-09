@@ -16,8 +16,25 @@ public class FileManipulate {
 	
 	public FileManipulate(String file_name) {
 		this.filename = file_name;
-		this.file = new File("sample-file.dat");
+		this.file = new File(file_name);
 		
+		if( this.file.exists() == false) {
+			try {
+				this.file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		
+	}
+	
+	public boolean exists() {
+		if( this.file == null) {
+			return false;
+		}
+		return this.file.exists();
 	}
 	
 	public void close() {
@@ -30,12 +47,6 @@ public class FileManipulate {
 			if( this.writer != null) {
 				this.writer.close();
 				this.writer = null;
-			}
-			if( this.file != null) {
-				this.file = null;
-			}
-			if( this.filename != null) {
-				this.filename = null;
 			}
 		}catch(IOException e) {
 			e.printStackTrace();
