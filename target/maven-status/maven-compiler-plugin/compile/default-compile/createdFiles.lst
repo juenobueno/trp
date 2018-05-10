@@ -7,6 +7,7 @@ therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/Precursor$1.class
 therobotpeople/urcap/Interface$2.class
 therobotpeople/urcap/DashboardServerInterface.class
+therobotpeople/urcap/GUIPalletSetup$9.class
 therobotpeople/urcap/GUIConfigure$1.class
 therobotpeople/urcap/Interface$3.class
 therobotpeople/urcap/Activator.class
@@ -18,6 +19,7 @@ therobotpeople/urcap/Precursor$2.class
 therobotpeople/urcap/TRPProgramNodeContribution.class
 therobotpeople/urcap/FileManipulate.class
 therobotpeople/urcap/Precursor.class
+therobotpeople/urcap/GUIPalletSetup$10.class
 therobotpeople/urcap/Interface$6.class
 therobotpeople/urcap/CustomGUI$1.class
 therobotpeople/urcap/GUIConfigure$2.class

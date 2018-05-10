@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class GUIPalletSetup {
 	final int pallet_x;
@@ -341,6 +342,49 @@ public class GUIPalletSetup {
 
 		main.add(pallet);
 
+		//Add a layer textbox with 2 buttons to go up and down
+		final JTextField layer_text = new JTextField();
+		JButton layer_up = new JButton("+");
+		JButton layer_down = new JButton("-");
+		
+		layer_text.setSize(50, 40);
+		layer_up.setSize(60,40);
+		layer_down.setSize(60,40);
+		
+		layer_text.setLocation(300, 400);
+		layer_up.setLocation(360,400);
+		layer_down.setLocation(420,400);
+		
+		layer_text.setText("1");
+		
+		layer_up.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int layer = Integer.parseInt(layer_text.getText());
+				layer = layer+1;
+				layer_text.setText(Integer.toString(layer));
+			}
+		});
+		
+		layer_down.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int layer = Integer.parseInt(layer_text.getText());
+				if( layer > 1) {
+					layer = layer-1;
+				}
+				layer_text.setText(Integer.toString(layer));
+			}
+		});
+		
+		main.add(layer_text);
+		main.add(layer_up);
+		main.add(layer_down);
+		
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.setVisible(true);
 	}
