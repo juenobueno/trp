@@ -33,10 +33,10 @@ public class GUIConfigure {
 				default_pallet_x	  = Integer.parseInt(saved.readLine());
 				default_pallet_y	  = Integer.parseInt(saved.readLine());
 				default_pallet_z	  = Integer.parseInt(saved.readLine());
-				default_package_width = Integer.parseInt(saved.readLine());
-				default_package_height= Integer.parseInt(saved.readLine());
 				default_pallet_width  = Integer.parseInt(saved.readLine());
 				default_pallet_height = Integer.parseInt(saved.readLine());
+				default_package_width = Integer.parseInt(saved.readLine());
+				default_package_height= Integer.parseInt(saved.readLine());
 				default_edge_gap      = Integer.parseInt(saved.readLine());
 				default_box_gap		  = Integer.parseInt(saved.readLine());
 				
@@ -170,9 +170,6 @@ public class GUIConfigure {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Need to call the interface from here with all the variables I need
-				Interface pallet = new Interface(Integer.parseInt(package_width_text.getText()), Integer.parseInt(package_height_text.getText()), Integer.parseInt(pallet_width_text.getText()), Integer.parseInt(pallet_height_text.getText()), Integer.parseInt(edge_gap_text.getText()), Integer.parseInt(box_gap_text.getText()), Integer.parseInt(pallet_x_text.getText()), Integer.parseInt(pallet_y_text.getText()), Integer.parseInt(pallet_z_text.getText()));
-
-				pallet.test();
 				
 				String package_height = package_height_text.getText();
 				String package_width = package_width_text.getText();
@@ -183,6 +180,23 @@ public class GUIConfigure {
 				String pallet_x = pallet_x_text.getText();
 				String pallet_y = pallet_y_text.getText();
 				String pallet_z = pallet_z_text.getText();
+
+				GUIPalletSetup pallet = new GUIPalletSetup(
+						Integer.parseInt(pallet_x),
+						Integer.parseInt(pallet_y),
+						Integer.parseInt(pallet_z),
+						Integer.parseInt(pallet_width),
+						Integer.parseInt(pallet_height),
+						Integer.parseInt(package_width),
+						Integer.parseInt(package_height),
+						Integer.parseInt(edge_gap),
+						Integer.parseInt(box_gap));
+						
+
+				pallet.run();
+
+				
+				
 				
 				saved.writeln(pallet_x);
 				saved.writeln(pallet_y);
@@ -191,8 +205,8 @@ public class GUIConfigure {
 				saved.writeln(pallet_height);
 				saved.writeln(package_width);
 				saved.writeln(package_height);
-				saved.write(edge_gap);
-				saved.write(box_gap);
+				saved.writeln(edge_gap);
+				saved.writeln(box_gap);
 				saved.close();
 				
 				main.dispose();

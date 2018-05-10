@@ -98,7 +98,7 @@ public class CustomGUI implements Runnable {
 
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Precursor.run();
+					//Precursor.run();
 					GUIConfigure.run();
 				}
 			});
