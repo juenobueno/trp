@@ -33,7 +33,9 @@ public class GUIPalletSetup {
 	
 	final JFrame main;
 	final Grid grid;
-	final ArrayList<JButton> button_history;
+	final ArrayList<ArrayList<JButton>> button_layout;
+	
+	private static int layer = 0;
 	
 	public GUIPalletSetup() {
 		this(0,0,0,400,400,100,50,0,0);
@@ -62,7 +64,8 @@ public class GUIPalletSetup {
 		grid.set(new Point(0,0), pallet_width, pallet_height);
 		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
 
-		button_history = new ArrayList<JButton>();
+		button_layout = new ArrayList<ArrayList<JButton>>();
+		button_layout.add(new ArrayList<JButton>());
 	}
 	
 	public void run() {
@@ -131,7 +134,7 @@ public class GUIPalletSetup {
 				if(Selector.selected != "" && Selector.selected != null) {
 					Point position = e.getPoint();
 
-					JButton pack = new JButton(Selector.selected + Selector.count);
+					JButton pack = new JButton(Selector.selected + Selector.count + (GUIPalletSetup.layer+1));
 
 					int x_pos = -1;
 					int y_pos = -1;
@@ -237,8 +240,10 @@ public class GUIPalletSetup {
 
 						palletized.add(pack);
 
-						button_history.add(pack);
+						//button_history.add(pack);
 
+						button_layout.get(GUIPalletSetup.layer).add(pack);
+						
 						pallet.add(pack);
 						main.repaint();
 
@@ -260,11 +265,11 @@ public class GUIPalletSetup {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(button_history.size() >= 1) {
+				if( button_layout.get(GUIPalletSetup.layer).size() >= 1) {
 
-					JButton to_Remove = button_history.get(button_history.size()-1);
-					button_history.remove(to_Remove);
-
+					JButton to_Remove= button_layout.get(GUIPalletSetup.layer).get(button_layout.get(GUIPalletSetup.layer).size() - 1);
+					button_layout.get(GUIPalletSetup.layer).remove(to_Remove);
+					
 					System.out.println("Removing a button at: "+ to_Remove.getLocation());
 
 					grid.clear(to_Remove.getLocation(), to_Remove.getSize().width+box_gap, to_Remove.getSize().height+box_gap);
@@ -299,44 +304,29 @@ public class GUIPalletSetup {
 		get_positions.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				PrintWriter writer;
-				try {
-					writer = new PrintWriter("Waypoint", "UTF-8");
-				
-				
-					for(Component c: pallet.getComponents()) {
-						if(c instanceof JButton) {
-							int x_pos = c.getLocation().x + c.getSize().width/2;
-							int y_pos = c.getLocation().y + c.getSize().height/2;
-							int z_pos = 0;
-							String orientation = "";
-							if(((JButton) c).getText().contains("^")) {
-								orientation = "0";
-							}else if(((JButton) c).getText().contains("v")) {
-								orientation = "180";
-							}else if(((JButton) c).getText().contains("<")){
-								orientation = "270";
-							}else {
-								orientation = "90";
-							}
-							//writer.println("Button"+((JButton) c).getText()+" positions is: X: "+x_pos+", Y: "+y_pos+", Orientation: "+orientation);
-							writer.println(x_pos+", "+y_pos+", "+z_pos+", "+orientation);
+				FileManipulate save = new FileManipulate("Waypoint");
+				for( int i = 0; i < button_layout.size(); i++) {
+					save.writeln("==== Layer "+i+" ====");
+					for( int j = 0; j < button_layout.get(i).size(); j++) {
+						JButton temp = button_layout.get(i).get(j);
+						int x_pos = temp.getLocation().x + temp.getSize().width/2;
+						int y_pos = temp.getLocation().y + temp.getSize().height/2;
+						int z_pos = 0;
+						String orientation = "";
+						if(temp.getText().contains("^")) {
+							orientation = "0";
+						}else if(temp.getText().contains("v")) {
+							orientation = "180";
+						}else if(temp.getText().contains("<")) {
+							orientation = "270";
+						}else {
+							orientation = "90";
 						}
-	
-						//System.out.println("The positions is: X"+x_pos+", Y"+y_pos+", Orientation"+orientation);
+						save.writeln(x_pos +", "+ y_pos +", "+ z_pos +", "+ orientation);
 					}
-					writer.close();
-
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-
+				
+				save.close();
 			}
 		});
 
@@ -364,6 +354,11 @@ public class GUIPalletSetup {
 				// TODO Auto-generated method stub
 				int layer = Integer.parseInt(layer_text.getText());
 				layer = layer+1;
+				
+				if( button_layout.size() <= layer) {
+					button_layout.add(new ArrayList<JButton>());
+				}
+			GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
 			}
 		});
@@ -377,6 +372,7 @@ public class GUIPalletSetup {
 				if( layer > 1) {
 					layer = layer-1;
 				}
+				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
 			}
 		});
