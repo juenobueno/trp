@@ -37,13 +37,19 @@ public class GUIPalletSetup {
 	final Grid grid;
 	final ArrayList<ArrayList<JButton>> button_layout;
 	
+	final String folder;
+	
 	private static int layer = 0;
 	
 	public GUIPalletSetup() {
-		this(0,0,0,400,400,100,50,0,0);
+		this(0,0,0,400,400,100,50,0,0, "Default");
 	}
 	
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
+		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "default");
+	}
+	
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder) {
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
@@ -56,6 +62,8 @@ public class GUIPalletSetup {
 		
 		this.edge_gap = edge_gap;
 		this.box_gap = box_gap;
+		
+		this.folder = folder;
 		
 		this.main = new JFrame();
 		this.main.setSize(802, 630);
@@ -306,7 +314,7 @@ public class GUIPalletSetup {
 		get_positions.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FileManipulate save = new FileManipulate("Waypoint");
+				FileManipulate save = new FileManipulate("Waypoint", folder);
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
@@ -360,8 +368,15 @@ public class GUIPalletSetup {
 				if( button_layout.size() <= layer) {
 					button_layout.add(new ArrayList<JButton>());
 				}
-			GUIPalletSetup.layer = layer-1;
+				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
+				
+				pallet.removeAll();
+				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
+					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
+				}
+				pallet.repaint();
+				
 			}
 		});
 		
@@ -376,6 +391,12 @@ public class GUIPalletSetup {
 				}
 				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
+				
+				pallet.removeAll();
+				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
+					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
+				}
+				pallet.repaint();
 			}
 		});
 		
@@ -401,4 +422,5 @@ public class GUIPalletSetup {
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.setVisible(true);
 	}
+	
 }
