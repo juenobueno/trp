@@ -167,7 +167,7 @@ public class GUIHome implements Runnable {
 		//A drop down box readers out of default, re-read on drop down?
 		//Load button to load the script file
 		
-		final FileManipulate file = new FileManipulate("default");
+		final FileManipulate file = new FileManipulate("Default");
 		final JComboBox drop_down = new JComboBox();
 		drop_down.setBounds(11, 100, 180, 25);
 		String options;
