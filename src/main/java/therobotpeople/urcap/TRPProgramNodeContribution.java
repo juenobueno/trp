@@ -37,8 +37,8 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 
 	@Override
 	public void generateScript(ScriptWriter writer) {
-		if (CustomGUI.on == false){
-		    CustomGUI gui = new CustomGUI(writer);
+		if (GUIHome.on == false){
+		    GUIHome gui = new GUIHome(writer);
 		    Thread t = new Thread(gui);
 			t.start();
 		}

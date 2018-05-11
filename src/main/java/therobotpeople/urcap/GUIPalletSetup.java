@@ -2,6 +2,7 @@ package therobotpeople.urcap;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,9 +58,9 @@ public class GUIPalletSetup {
 		this.box_gap = box_gap;
 		
 		this.main = new JFrame();
+		this.main.setSize(802, 630);
 		this.main.setLayout(null);
-		this.main.setSize(800, 600);
-		
+		this.main.setLocationRelativeTo(null);
 		
 		grid = new Grid(pallet_width, pallet_height);
 		grid.set(new Point(0,0), pallet_width, pallet_height);
@@ -377,9 +379,24 @@ public class GUIPalletSetup {
 			}
 		});
 		
+		
 		main.add(layer_text);
 		main.add(layer_up);
 		main.add(layer_down);
+		
+		
+		
+		// Create a background and load in a custom image
+		BackgroundPanel bg = null;
+		try{
+			Image img = ImageIO.read(getClass().getResource("/bg_plain.png"));
+			bg = new BackgroundPanel(img);
+			bg.setBounds(0, 0, 802, 630);
+		} catch(Exception ex) {
+			//
+		}
+		
+		main.add(bg);
 		
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.setVisible(true);

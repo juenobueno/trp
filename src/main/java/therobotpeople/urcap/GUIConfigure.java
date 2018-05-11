@@ -1,11 +1,13 @@
 package therobotpeople.urcap;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +15,6 @@ import javax.swing.JTextField;
 
 public class GUIConfigure {
 
-	
 	public static void run() {
 		int default_pallet_x = 0;
 		int default_pallet_y = 0;
@@ -52,6 +53,9 @@ public class GUIConfigure {
 		
 		final JFrame main = new JFrame();
 		main.setLayout(null);
+		main.setSize(802, 630);
+		main.setLocationRelativeTo(null);
+		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JLabel package_width = new JLabel("Package Width");
 		package_width.setSize(100, 20);
@@ -214,8 +218,18 @@ public class GUIConfigure {
 			}
 		});
 		
-		main.setSize(640, 480);
-		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		// Create a background and load in a custom image
+		BackgroundPanel bg = null;
+		try{
+			Image img = ImageIO.read(GUIConfigure.class.getResource("/bg_plain.png"));
+			bg = new BackgroundPanel(img);
+			bg.setBounds(0, 0, 802, 630);
+		} catch(Exception ex) {
+			//
+		}
+		
+		main.add(bg);
+		
 		main.setVisible(true);
 
 	}

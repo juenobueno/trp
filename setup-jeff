@@ -1,0 +1,6 @@
+#!/bin/bash
+mvn install
+wait
+if [ -e  ./target/trp-alpha.urcap ]; then
+    mv ./target/trp-alpha.urcap /home/ur/ursim-current/programs.UR3
+fi

@@ -17,11 +17,11 @@ import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-public class CustomGUI implements Runnable {
+public class GUIHome implements Runnable {
 	public static boolean on = false;
 	public static ScriptWriter writer;
 
-	public CustomGUI(ScriptWriter w) {
+	public GUIHome(ScriptWriter w) {
 		writer = w;
 	}
 
@@ -34,7 +34,7 @@ public class CustomGUI implements Runnable {
 		f.setLayout(null);
 		f.setSize(802, 630);
 		f.setLocationRelativeTo(null);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
@@ -48,7 +48,7 @@ public class CustomGUI implements Runnable {
 
 		// Status Text Box
 		final JTextField status = new JTextField();
-		status.setBounds(11, 150, 180, 25);
+		status.setBounds(11, 200, 180, 25);
 		status.setOpaque(false);
 		
 		// Play Button
@@ -94,7 +94,7 @@ public class CustomGUI implements Runnable {
 		// Setup Button
 		JButton setup = new JButton("Setup");
 		try {
-			setup.setBounds(11, 200, 180, 25);
+			setup.setBounds(11, 250, 180, 25);
 
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -109,7 +109,7 @@ public class CustomGUI implements Runnable {
 		// Stop Button
 		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
 		try {
-			stop.setBounds(11, 300, 180, 50);
+			stop.setBounds(11, 325, 180, 50);
 
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -130,7 +130,7 @@ public class CustomGUI implements Runnable {
 				public void actionPerformed(ActionEvent e) {
 					DashboardServerInterface.Stop_Program();
 					DashboardServerInterface.Close();
-	                CustomGUI.on=false;
+	                GUIHome.on=false;
 	                f.dispose();
 				}
 			});
@@ -168,13 +168,14 @@ public class CustomGUI implements Runnable {
 		//Load button to load the script file
 		
 		final FileManipulate file = new FileManipulate("default");
-		final JComboBox<String> drop_down = new JComboBox<String>();
-		drop_down.setBounds(0, 0, 100, 50 );
+		final JComboBox drop_down = new JComboBox();
+		drop_down.setBounds(11, 100, 180, 25);
 		String options;
 		while((options = file.readLine()) != null) {
 			drop_down.addItem(options);
 		}
 		file.close();
+		
 		drop_down.addPopupMenuListener(new PopupMenuListener() {
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
