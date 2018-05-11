@@ -13,8 +13,11 @@ import javax.swing.JTextField;
 
 public class GUIConfigure {
 
-	
 	public static void run() {
+		run("Default");
+	}
+	
+	public static void run(String folder) {
 		int default_pallet_x = 0;
 		int default_pallet_y = 0;
 		int default_pallet_z = 0;
@@ -25,7 +28,7 @@ public class GUIConfigure {
 		int default_edge_gap = 0;
 		int default_box_gap = 0;
 		
-		final FileManipulate saved = new FileManipulate("PalletConfiguration");
+		final FileManipulate saved = new FileManipulate("PalletConfiguration", folder);
 		if( saved.exists()) {
 		
 			try {

@@ -167,7 +167,7 @@ public class CustomGUI implements Runnable {
 		//A drop down box readers out of default, re-read on drop down?
 		//Load button to load the script file
 		
-		final FileManipulate file = new FileManipulate("default");
+		final FileManipulate file = new FileManipulate("Default");
 		final JComboBox<String> drop_down = new JComboBox<String>();
 		drop_down.setBounds(0, 0, 100, 50 );
 		String options;

@@ -9,17 +9,25 @@ import java.io.IOException;
 
 public class FileManipulate {
 	
+	private String folder = null;
 	private String filename = null;
 	private File file = null;
 	private BufferedReader reader = null;
 	private BufferedWriter writer = null;
 	
 	public FileManipulate(String file_name) {
+		this(file_name, "Default");
+	}
+	
+	
+	public FileManipulate(String file_name, String folder) {
+		this.folder = folder;
 		this.filename = file_name;
-		this.file = new File(file_name);
+		this.file = new File(folder+"/"+file_name);
 		
 		if( this.file.exists() == false) {
 			try {
+				this.file.getParentFile().mkdirs();
 				this.file.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
