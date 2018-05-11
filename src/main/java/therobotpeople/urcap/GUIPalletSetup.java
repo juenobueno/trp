@@ -361,9 +361,6 @@ public class GUIPalletSetup {
 				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
 				
-				//Need to clear the pallet and load in any relevant boxes
-				//repopulate(pallet, button_layout.get(GUIPalletSetup.layer));
-				
 				pallet.removeAll();
 				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
 					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
@@ -385,7 +382,7 @@ public class GUIPalletSetup {
 				}
 				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
-				//repopulate(pallet, button_layout.get(GUIPalletSetup.layer));
+				
 				pallet.removeAll();
 				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
 					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
@@ -402,12 +399,4 @@ public class GUIPalletSetup {
 		main.setVisible(true);
 	}
 	
-	public void repopulate(JPanel pallet, ArrayList<JButton> layer) {
-		//Will take the pallet and repopulate it
-		pallet.removeAll();
-		for( int i = 0; i < layer.size(); i++) {
-			pallet.add(layer.get(i));
-		}
-		
-	}
 }
