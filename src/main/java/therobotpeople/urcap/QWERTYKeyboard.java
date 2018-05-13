@@ -38,8 +38,9 @@ public class QWERTYKeyboard {
 		
 		//JFrame main = new JFrame();
 		main.setUndecorated(true);
+		main.setLayout(null);
 		main.setSize(480,300);
-		main.setLocation(0, 300);
+		//main.setLocation(0, 300);
 		
 		
 		JTextField display_box = new JTextField();
@@ -47,6 +48,9 @@ public class QWERTYKeyboard {
 
 		setLower();
 		setBottom();
+		
+		
+		main.setVisible(true);
 		
 		//Shift, Space, yes, no, backspace are special
 	}
@@ -91,8 +95,8 @@ public class QWERTYKeyboard {
 		//space
 		JButton space = new JButton();
 		space.setSize(200, QWERTYKeyboard.button_height);
-		shift.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 4*QWERTYKeyboard.button_height);
-		shift.addActionListener(new ActionListener() {
+		space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 4*QWERTYKeyboard.button_height);
+		space.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				QWERTYKeyboard.output += " ";
@@ -121,6 +125,12 @@ public class QWERTYKeyboard {
 				QWERTYKeyboard.main.dispose();
 			}
 		});
+		
+		
+		QWERTYKeyboard.main.add(shift);
+		QWERTYKeyboard.main.add(space);
+		QWERTYKeyboard.main.add(yes);
+		QWERTYKeyboard.main.add(no);
 	}
 	
 	private static void keyRow(String[] characters, int start_x, int start_y) {
@@ -146,6 +156,8 @@ public class QWERTYKeyboard {
 				}
 				
 			});
+
+			QWERTYKeyboard.main.add(temp);
 		}
 	}
 }

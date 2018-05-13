@@ -12,7 +12,10 @@ therobotpeople/urcap/Interface$3.class
 therobotpeople/urcap/Activator.class
 therobotpeople/urcap/Interface.class
 therobotpeople/urcap/Selector.class
+therobotpeople/urcap/QWERTYKeyboard$2.class
 therobotpeople/urcap/GUIPalletSetup$4.class
+therobotpeople/urcap/GUIConfigure$3.class
+therobotpeople/urcap/QWERTYKeyboard$5.class
 therobotpeople/urcap/Precursor$2.class
 therobotpeople/urcap/TRPProgramNodeContribution.class
 therobotpeople/urcap/FileManipulate.class
@@ -21,6 +24,7 @@ therobotpeople/urcap/GUIHome$3.class
 therobotpeople/urcap/GUIPalletSetup$10.class
 therobotpeople/urcap/Interface$6.class
 therobotpeople/urcap/GUIHome.class
+therobotpeople/urcap/QWERTYKeyboard$1.class
 therobotpeople/urcap/GUIConfigure$2.class
 therobotpeople/urcap/Grid.class
 therobotpeople/urcap/Interface$4.class
@@ -30,6 +34,8 @@ therobotpeople/urcap/Palletizer$1.class
 therobotpeople/urcap/GUIHome$1.class
 therobotpeople/urcap/GUIPalletSetup$3.class
 therobotpeople/urcap/GUIPalletSetup$7.class
+therobotpeople/urcap/NumberKeyboard.class
+therobotpeople/urcap/QWERTYKeyboard$4.class
 therobotpeople/urcap/GUIPalletSetup$6.class
 therobotpeople/urcap/GUIHome$4.class
 therobotpeople/urcap/Interface$7.class
@@ -41,4 +47,6 @@ therobotpeople/urcap/Interface$5.class
 therobotpeople/urcap/GUIHome$2.class
 therobotpeople/urcap/GUIPalletSetup$8.class
 therobotpeople/urcap/GUIPalletSetup$2.class
+therobotpeople/urcap/QWERTYKeyboard$3.class
+therobotpeople/urcap/QWERTYKeyboard.class
 therobotpeople/urcap/GUIPalletSetup$5.class

@@ -70,6 +70,31 @@ public class GUIConfigure {
 		package_width_text.setSize(50,20);
 		package_width_text.setLocation(150, 50);
 		package_width_text.setText(Integer.toString(default_package_width));
+		
+		package_width_text.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				QWERTYKeyboard temp = new QWERTYKeyboard();
+				QWERTYKeyboard.run();
+				while(QWERTYKeyboard.running == true) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				if( QWERTYKeyboard.output != "") {
+					package_width_text.setText(QWERTYKeyboard.output);
+				}
+				
+			}
+
+		});
+		
+		
 		main.add(package_width_text);
 		
 		JLabel package_height = new JLabel("Package Height");

@@ -1,4 +1,5 @@
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/DashboardServerInterface.java
+/media/sf_Documents/trp/src/main/java/therobotpeople/urcap/NumberKeyboard.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/GUIPalletSetup.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/TRPProgramNodeContribution.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/Palletizer.java
@@ -6,6 +7,7 @@
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/GUIHome.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/TRPProgramNodeService.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/Selector.java
+/media/sf_Documents/trp/src/main/java/therobotpeople/urcap/QWERTYKeyboard.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/GUIStatistics.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/Interface.java
 /media/sf_Documents/trp/src/main/java/therobotpeople/urcap/Activator.java
