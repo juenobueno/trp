@@ -33,25 +33,28 @@ public class QWERTYKeyboard {
 	}
 	
 	public static void run() {
+		
 		//open a jframe with a bit for text
 		QWERTYKeyboard.running = true;
 		
 		//JFrame main = new JFrame();
-		main.setUndecorated(true);
-		main.setLayout(null);
-		main.setSize(480,300);
+		//main.setUndecorated(true);
+		
 		//main.setLocation(0, 300);
 		
 		
 		JTextField display_box = new JTextField();
 		
 
-		setLower();
-		setBottom();
+		//setLower();
+		//setBottom();
 		
-		
-		main.setVisible(true);
-		
+		QWERTYKeyboard.main.setLayout(null);
+		QWERTYKeyboard.main.setSize(480,640);
+		//main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		QWERTYKeyboard.main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		QWERTYKeyboard.main.setVisible(true);
+		QWERTYKeyboard.main.repaint();
 		//Shift, Space, yes, no, backspace are special
 	}
 	
