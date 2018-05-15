@@ -80,23 +80,10 @@ public class GUIConfigure {
 				//GUIHome gui = new GUIHome(writer);
 			    
 				QWERTYKeyboard temp = new QWERTYKeyboard();
+				temp.text = package_width_text;
 				//QWERTYKeyboard.run();
 				Thread t = new Thread(temp);
 				t.start();
-				
-				while(true) {
-					if( QWERTYKeyboard.running == false) {
-						package_width_text.setText(QWERTYKeyboard.output);
-						QWERTYKeyboard.output = "";
-						break;
-					}
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				
 				
 			}

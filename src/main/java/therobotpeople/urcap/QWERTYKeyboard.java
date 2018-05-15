@@ -2,6 +2,8 @@ package therobotpeople.urcap;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,6 +13,7 @@ import javax.swing.JTextField;
 public class QWERTYKeyboard implements Runnable{
 	public static String output = "";
 	public static Boolean running = false;
+	public static JTextField text = new JTextField();
 	public static int button_width = 50;
 	public static int button_height = 50;
 	public static Boolean lower_case = true;
@@ -24,7 +27,28 @@ public class QWERTYKeyboard implements Runnable{
 	private static String[] THIRDROW = {"A","S","D","F","G","H","J","K","L",":","\""};
 	private static String[] FOURTHROW = {"Z","X","C","V","B","N","M","<",">","?"};
 
-	public final static JDialog mainframe = new JDialog();;
+	public final static JFrame mainframe = new JFrame();;
+	
+	/*public QWERTYKeyboard() {
+		QWERTYKeyboard.mainframe.addFocusListener(new FocusListener() {
+			private boolean gained = false;
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				gained = true;
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				if(gained == true) {
+					QWERTYKeyboard.mainframe.dispose();
+				}
+			}
+			
+		});
+		
+	}//*/
 	
 	public static void reset() {
 		QWERTYKeyboard.output = "";
@@ -48,7 +72,6 @@ public class QWERTYKeyboard implements Runnable{
 		
 		
 		mainframe.setVisible(true);
-		mainframe.validate();
 		
 		//Shift, Space, yes, no, backspace are special
 	}
@@ -109,6 +132,8 @@ public class QWERTYKeyboard implements Runnable{
 			public void actionPerformed(ActionEvent argo0) {
 				QWERTYKeyboard.running = false;
 				QWERTYKeyboard.mainframe.dispose();
+				
+				QWERTYKeyboard.text.setText(QWERTYKeyboard.output);
 			}
 		});
 		//no
