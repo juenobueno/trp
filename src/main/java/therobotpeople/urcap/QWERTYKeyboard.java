@@ -4,10 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class QWERTYKeyboard {
+public class QWERTYKeyboard implements Runnable{
 	public static String output = "";
 	public static Boolean running = false;
 	public static int button_width = 50;
@@ -17,44 +18,38 @@ public class QWERTYKeyboard {
 	private static String[] secondRow = {"q","w","e","r","t","y","u","i","o","p","[","]"};
 	private static String[] thirdRow = {"a","s","d","f","g","h","j","k","l",";","'"};
 	private static String[] fourthRow = {"z","x","c","v","b","n","m",",",".","/"};
-	private static String[] fifthRow = {"Shift"," ", "Yes","No"};
 	
 	private static String[] FIRSTROW = {"!","@","#","$","%","^","&","*","(",")","_","+"};
 	private static String[] SECONDROW = {"Q","W","E","R","T","Y","U","I","O","P","{","}"};
 	private static String[] THIRDROW = {"A","S","D","F","G","H","J","K","L",":","\""};
 	private static String[] FOURTHROW = {"Z","X","C","V","B","N","M","<",">","?"};
 
-	public final static JFrame main = new JFrame();;
-	
+	public final static JDialog mainframe = new JDialog();;
 	
 	public static void reset() {
 		QWERTYKeyboard.output = "";
 		QWERTYKeyboard.running = false;
 	}
 	
-	public static void run() {
-		
+	//public static void run() {
+	public void run() {
 		//open a jframe with a bit for text
 		QWERTYKeyboard.running = true;
 		
 		//JFrame main = new JFrame();
 		//main.setUndecorated(true);
-		
+		mainframe.setLayout(null);
+		mainframe.setSize(480,300);
 		//main.setLocation(0, 300);
 		
-		
-		JTextField display_box = new JTextField();
-		
 
-		//setLower();
-		//setBottom();
+		setLower();
+		setBottom();
 		
-		QWERTYKeyboard.main.setLayout(null);
-		QWERTYKeyboard.main.setSize(480,640);
-		//main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		QWERTYKeyboard.main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		QWERTYKeyboard.main.setVisible(true);
-		QWERTYKeyboard.main.repaint();
+		
+		mainframe.setVisible(true);
+		mainframe.validate();
+		
 		//Shift, Space, yes, no, backspace are special
 	}
 	
@@ -81,7 +76,7 @@ public class QWERTYKeyboard {
 		shift.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				QWERTYKeyboard.main.removeAll();
+				QWERTYKeyboard.mainframe.removeAll();
 				
 				if( QWERTYKeyboard.lower_case == true) {
 					QWERTYKeyboard.lower_case = false;
@@ -92,7 +87,7 @@ public class QWERTYKeyboard {
 					setLower();
 					setBottom();
 				}
-				QWERTYKeyboard.main.repaint();
+				QWERTYKeyboard.mainframe.repaint();
 			}
 		});
 		//space
@@ -113,7 +108,7 @@ public class QWERTYKeyboard {
 			@Override
 			public void actionPerformed(ActionEvent argo0) {
 				QWERTYKeyboard.running = false;
-				QWERTYKeyboard.main.dispose();
+				QWERTYKeyboard.mainframe.dispose();
 			}
 		});
 		//no
@@ -125,15 +120,15 @@ public class QWERTYKeyboard {
 			public void actionPerformed(ActionEvent argo0) {
 				QWERTYKeyboard.output = "";
 				QWERTYKeyboard.running = false;
-				QWERTYKeyboard.main.dispose();
+				QWERTYKeyboard.mainframe.dispose();
 			}
 		});
 		
 		
-		QWERTYKeyboard.main.add(shift);
-		QWERTYKeyboard.main.add(space);
-		QWERTYKeyboard.main.add(yes);
-		QWERTYKeyboard.main.add(no);
+		QWERTYKeyboard.mainframe.add(shift);
+		QWERTYKeyboard.mainframe.add(space);
+		QWERTYKeyboard.mainframe.add(yes);
+		QWERTYKeyboard.mainframe.add(no);
 	}
 	
 	private static void keyRow(String[] characters, int start_x, int start_y) {
@@ -151,16 +146,16 @@ public class QWERTYKeyboard {
 					
 					if( QWERTYKeyboard.lower_case == false) {
 						QWERTYKeyboard.lower_case = true;
-						QWERTYKeyboard.main.removeAll();
+						QWERTYKeyboard.mainframe.removeAll();
 						setLower();
 						setBottom();
-						QWERTYKeyboard.main.repaint();
+						QWERTYKeyboard.mainframe.repaint();
 					}
 				}
 				
 			});
 
-			QWERTYKeyboard.main.add(temp);
+			QWERTYKeyboard.mainframe.add(temp);
 		}
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import therobotpeople.urcap.BackgroundPanel;
 
 public class GUIConfigure {
 
@@ -75,9 +76,20 @@ public class GUIConfigure {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
+				//GUIHome gui = new GUIHome(writer);
+			    
 				QWERTYKeyboard temp = new QWERTYKeyboard();
-				QWERTYKeyboard.run();
-				while(QWERTYKeyboard.running == true) {
+				//QWERTYKeyboard.run();
+				Thread t = new Thread(temp);
+				t.start();
+				
+				while(true) {
+					if( QWERTYKeyboard.running == false) {
+						package_width_text.setText(QWERTYKeyboard.output);
+						QWERTYKeyboard.output = "";
+						break;
+					}
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
@@ -86,9 +98,6 @@ public class GUIConfigure {
 					}
 				}
 				
-				if( QWERTYKeyboard.output != "") {
-					package_width_text.setText(QWERTYKeyboard.output);
-				}
 				
 			}
 
