@@ -1,14 +1,22 @@
 package therobotpeople.urcap;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+// This class needs to be completly modified to not use static at all
+// Otherwise I can't get it to close at all
+// Will need to replace a lot fo the static with final instead
 
 public class QWERTYKeyboard implements Runnable{
 	public static String output = "";
@@ -29,27 +37,6 @@ public class QWERTYKeyboard implements Runnable{
 
 	public final static JFrame mainframe = new JFrame();;
 	
-	/*public QWERTYKeyboard() {
-		QWERTYKeyboard.mainframe.addFocusListener(new FocusListener() {
-			private boolean gained = false;
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				// TODO Auto-generated method stub
-				gained = true;
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				// TODO Auto-generated method stub
-				if(gained == true) {
-					QWERTYKeyboard.mainframe.dispose();
-				}
-			}
-			
-		});
-		
-	}//*/
-	
 	public static void reset() {
 		QWERTYKeyboard.output = "";
 		QWERTYKeyboard.running = false;
@@ -57,6 +44,24 @@ public class QWERTYKeyboard implements Runnable{
 	
 	//public static void run() {
 	public void run() {
+		//Attemping to close on click out
+		//Fails due to static text field
+		/*
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener("focusedWindow", new VetoableChangeListener() {
+			private boolean gained = false;
+			
+			@Override
+			public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException{
+				if( evt.getNewValue() == mainframe) {
+					gained = true;
+				}
+				if ( gained && evt.getNewValue() != mainframe) {
+					mainframe.dispose();
+				}
+			}
+		});
+		//*/
+		
 		//open a jframe with a bit for text
 		QWERTYKeyboard.running = true;
 		

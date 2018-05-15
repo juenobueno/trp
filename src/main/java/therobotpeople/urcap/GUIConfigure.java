@@ -67,11 +67,11 @@ public class GUIConfigure {
 		package_width.setLocation(50, 50);
 		main.add(package_width);
 		
-		final JTextField package_width_text = new JTextField();
+		final GuiTextField package_width_text = new GuiTextField();
 		package_width_text.setSize(50,20);
 		package_width_text.setLocation(150, 50);
 		package_width_text.setText(Integer.toString(default_package_width));
-		
+		/*//This part moved into GuiTextField which adds it to add textfields
 		package_width_text.addActionListener(new ActionListener() {
 
 			@Override
@@ -88,7 +88,7 @@ public class GUIConfigure {
 				
 			}
 
-		});
+		});//*/
 		
 		
 		main.add(package_width_text);
@@ -98,7 +98,9 @@ public class GUIConfigure {
 		package_height.setLocation(50, 100);
 		main.add(package_height);
 		
-		final JTextField package_height_text = new JTextField();
+		//final JTextField package_height_text = new JTextField();
+		final GuiTextField package_height_text = new GuiTextField();
+		
 		package_height_text.setSize(50,20);
 		package_height_text.setLocation(150, 100);
 		package_height_text.setText(Integer.toString(default_package_height));
@@ -109,7 +111,7 @@ public class GUIConfigure {
 		pallet_width.setLocation(50,150);
 		main.add(pallet_width);
 		
-		final JTextField pallet_width_text = new JTextField();
+		final GuiTextField pallet_width_text = new GuiTextField();
 		pallet_width_text.setSize(50,20);
 		pallet_width_text.setLocation(150,150);
 		pallet_width_text.setText(Integer.toString(default_pallet_width));
@@ -120,7 +122,7 @@ public class GUIConfigure {
 		pallet_height.setLocation(50, 200);
 		main.add(pallet_height);
 		
-		final JTextField pallet_height_text = new JTextField();
+		final GuiTextField pallet_height_text = new GuiTextField();
 		pallet_height_text.setSize(50,20);
 		pallet_height_text.setLocation(150, 200);
 		pallet_height_text.setText(Integer.toString(default_pallet_height));
@@ -131,7 +133,7 @@ public class GUIConfigure {
 		edge_gap.setLocation(50,250);
 		main.add(edge_gap);
 		
-		final JTextField edge_gap_text = new JTextField();
+		final GuiTextField edge_gap_text = new GuiTextField();
 		edge_gap_text.setSize(50,20);
 		edge_gap_text.setLocation(150,250);
 		edge_gap_text.setText(Integer.toString(default_edge_gap));
@@ -142,7 +144,7 @@ public class GUIConfigure {
 		box_gap.setLocation(50, 300);
 		main.add(box_gap);
 		
-		final JTextField box_gap_text = new JTextField();
+		final GuiTextField box_gap_text = new GuiTextField();
 		box_gap_text.setSize(50,20);
 		box_gap_text.setLocation(150, 300);
 		box_gap_text.setText(Integer.toString(default_box_gap));
@@ -161,9 +163,9 @@ public class GUIConfigure {
 		main.add(pallet_y_pos);
 		main.add(pallet_z_pos);
 
-		final JTextField pallet_x_text = new JTextField();
-		final JTextField pallet_y_text = new JTextField();
-		final JTextField pallet_z_text = new JTextField();
+		final GuiTextField pallet_x_text = new GuiTextField();
+		final GuiTextField pallet_y_text = new GuiTextField();
+		final GuiTextField pallet_z_text = new GuiTextField();
 		pallet_x_text.setSize(50, 20);
 		pallet_y_text.setSize(50, 20);
 		pallet_z_text.setSize(50, 20);

@@ -1,8 +1,10 @@
 therobotpeople/urcap/GUIConfigure.class
 therobotpeople/urcap/GUIHome$6.class
+therobotpeople/urcap/QWERTYKeyboard$6.class
 therobotpeople/urcap/GUIPalletSetup$1.class
 therobotpeople/urcap/Palletizer.class
 therobotpeople/urcap/BackgroundPanel.class
+therobotpeople/urcap/GuiTextField.class
 therobotpeople/urcap/Precursor$1.class
 therobotpeople/urcap/Interface$2.class
 therobotpeople/urcap/DashboardServerInterface.class
@@ -14,7 +16,6 @@ therobotpeople/urcap/Interface.class
 therobotpeople/urcap/Selector.class
 therobotpeople/urcap/QWERTYKeyboard$2.class
 therobotpeople/urcap/GUIPalletSetup$4.class
-therobotpeople/urcap/GUIConfigure$3.class
 therobotpeople/urcap/QWERTYKeyboard$5.class
 therobotpeople/urcap/Precursor$2.class
 therobotpeople/urcap/TRPProgramNodeContribution.class
