@@ -66,7 +66,7 @@ public class GUIPalletSetup {
 		this.folder = folder;
 		
 		this.main = new JFrame();
-		this.main.setSize(802, 630);
+		this.main.setSize(800, 600);
 		this.main.setLayout(null);
 		this.main.setLocationRelativeTo(null);
 		
@@ -412,7 +412,7 @@ public class GUIPalletSetup {
 		try{
 			Image img = ImageIO.read(getClass().getResource("/bg_plain.png"));
 			bg = new BackgroundPanel(img);
-			bg.setBounds(0, 0, 802, 630);
+			bg.setBounds(0, 0, 800, 600);
 		} catch(Exception ex) {
 			//
 		}

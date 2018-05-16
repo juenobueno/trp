@@ -1,6 +1,6 @@
 package therobotpeople.urcap;
 
-import com.ur.urcap.api.domain.script.ScriptWriter;
+import com.ur.urcap.api.domain.URCapAPI;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -19,10 +19,10 @@ import javax.swing.event.PopupMenuListener;
 
 public class GUIHome implements Runnable {
 	public static boolean on = false;
-	public static ScriptWriter writer;
+	private final URCapAPI api;
 
-	public GUIHome(ScriptWriter w) {
-		writer = w;
+	public GUIHome(URCapAPI api) {
+		this.api = api;
 	}
 
 	public void run() {
@@ -32,7 +32,7 @@ public class GUIHome implements Runnable {
 		// Create the JFrame that the UI will be held in
 		final JFrame f = new JFrame();
 		f.setLayout(null);
-		f.setSize(802, 630);
+		f.setSize(800, 600);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -41,7 +41,7 @@ public class GUIHome implements Runnable {
 		try{
 			Image img = ImageIO.read(getClass().getResource("/bg.png"));
 			bg = new BackgroundPanel(img);
-			bg.setBounds(0, 0, 802, 630);
+			bg.setBounds(0, 0, 800, 600);
 		} catch(Exception ex) {
 			//
 		}
@@ -99,7 +99,7 @@ public class GUIHome implements Runnable {
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//Precursor.run();
-					GUIConfigure.run();
+					GUIConfigure.run(api);
 				}
 			});
 		} catch (Exception ex) {

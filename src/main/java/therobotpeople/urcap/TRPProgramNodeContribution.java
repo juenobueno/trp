@@ -62,7 +62,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	public void generateScript(ScriptWriter writer) {
 
 		if (GUIHome.on == false){
-		    GUIHome gui = new GUIHome(writer);
+		    GUIHome gui = new GUIHome(api);
 		    Thread t = new Thread(gui);
 			t.start();
 		}
