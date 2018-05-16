@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class FileManipulate {
 	
-	private String folder = null;
-	private String filename = null;
+	//private String folder = null;
+	//private String filename = null;
 	private File file = null;
 	private BufferedReader reader = null;
 	private BufferedWriter writer = null;
@@ -21,8 +21,8 @@ public class FileManipulate {
 	
 	
 	public FileManipulate(String file_name, String folder) {
-		this.folder = folder;
-		this.filename = file_name;
+		//this.folder = folder;
+		//this.filename = file_name;
 		this.file = new File(folder+"/"+file_name);
 		
 		if( this.file.exists() == false) {
@@ -30,7 +30,6 @@ public class FileManipulate {
 				this.file.getParentFile().mkdirs();
 				this.file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.exit(0);
 			}
