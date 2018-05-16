@@ -66,8 +66,25 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		    Thread t = new Thread(gui);
 			t.start();
 		}
+		String temp = null;
 		
-		writer.sync();
+		Selector.script_file = "Popup.script";
+		
+		if( Selector.script_file == "") {
+			writer.sync();
+		}else {
+			//Open and read the script file line by line into the writer
+			FileManipulate urscript = new FileManipulate("../programs/Popup.script");
+			//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
+			temp = urscript.readLine();
+			while(temp != null) {
+				writer.appendLine(temp+"\n");
+				temp = urscript.readLine();
+			}
+			
+			//writer.writeChildren();
+			writer.sync();
+		}
 	}
 
 	private String generatePopupMessage() {

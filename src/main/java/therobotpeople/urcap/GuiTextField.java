@@ -16,8 +16,10 @@ public class GuiTextField extends JTextField implements MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		QWERTYKeyboard temp = new QWERTYKeyboard();
-		temp.text = this;
+		//QWERTYKeyboard temp = new QWERTYKeyboard();
+		//temp.text = this;
+		VirtualKeyboard temp = new VirtualKeyboard();
+		temp.set_text(this);
 		Thread t = new Thread(temp);
 		t.start();
 	}
@@ -47,4 +49,3 @@ public class GuiTextField extends JTextField implements MouseListener {
 	}
 	
 }
-/
