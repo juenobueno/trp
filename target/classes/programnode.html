@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>TRP</title>
-		<h1 style="text-align: center;">The Robot People GUI</h1>
+		<title>HelloWorld</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 400px;
+				height: 50px;
+			}
+
+			#preview {
+				display: block;
+				padding: 50px 50px 50px 0px;
+			}
+		</style>
 	</head>
 	<body>
+		<form>
+			<p>This program node will open a popup on execution.</p><br \>
+			<label>Enter your name:</label> <input id="yourname" type="text"/>
+			<br/>
+			<div id="preview">
+				<h3>Preview</h3><br \>
+				Title: <label id="titlePreviewLabel" style="width: 600px;"/> <br \>
+				Message: <label id="messagePreviewLabel" style="width: 600px;"/>				
+			</div>
+			<div id ="divo">feifjweoijweifoewjifweiofwe &nbsp;</div>		
+		</form>
 	</body>
 </html>

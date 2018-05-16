@@ -1,16 +1,12 @@
 package therobotpeople.urcap;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -23,61 +19,112 @@ public class GUIPalletSetup {
 	final int pallet_x;
 	final int pallet_y;
 	final int pallet_z;
-	
+
 	final int pallet_width;
 	final int pallet_height;
-	
+
+	private final int pallet_width_max = 500;
+	private final int pallet_height_max = 500;
+	private double x_ratio = 1;
+	private double y_ratio = 1;
+
 	final int package_width;
 	final int package_height;
-	
+	final int package_depth = 50;
+
+	final int package_width_real;
+	final int package_height_real;
+
 	final int edge_gap;
 	final int box_gap;
-	
+
+	final int edge_gap_x;
+	final int edge_gap_y;
+	final int box_gap_x;
+	final int box_gap_y;
+
+
+
 	final JFrame main;
 	final Grid grid;
 	final ArrayList<ArrayList<JButton>> button_layout;
-	
+
 	final String folder;
-	
+
 	private static int layer = 0;
-	
+
 	public GUIPalletSetup() {
 		this(0,0,0,400,400,100,50,0,0, "Default");
 	}
-	
+
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
-		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "default");
+		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default");
 	}
-	
+
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder) {
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
-		
-		this.pallet_width = pallet_width;
-		this.pallet_height = pallet_height;
-		
-		this.package_width = package_width;
-		this.package_height = package_height;
-		
-		this.edge_gap = edge_gap;
-		this.box_gap = box_gap;
-		
+
+		if( pallet_width > pallet_width_max || pallet_height > pallet_height_max) {
+
+			if(pallet_width > pallet_width_max) {
+				x_ratio = pallet_width/pallet_width_max;
+			}
+			if(pallet_height > pallet_height_max) {
+				y_ratio = pallet_height/pallet_height_max;
+			}
+			this.pallet_width = pallet_width_max;
+			this.pallet_height = pallet_height_max;
+
+			this.package_width_real = package_width;
+			this.package_height_real = package_height;
+
+			this.package_width = (int)(package_width/x_ratio+0.5); //+0.5 for natural rounding to cloests int
+			this.package_height = (int)(package_height/y_ratio+0.5);
+
+			//Ratios would need to be split into x and y components
+			this.edge_gap = edge_gap;
+			this.box_gap = box_gap;
+
+			this.edge_gap_x =(int)(edge_gap/x_ratio + 0.5);
+			this.edge_gap_y = (int)(edge_gap/y_ratio + 0.5);
+			this.box_gap_x = (int)(box_gap/x_ratio + 0.5);
+			this.box_gap_y = (int)(box_gap/y_ratio + 0.5);
+		}else {
+			this.pallet_width = pallet_width;
+			this.pallet_height = pallet_height;
+
+			this.package_width = package_width;
+			this.package_height = package_height;
+
+			this.package_width_real = package_width;
+			this.package_height_real = package_height;
+
+			this.edge_gap = edge_gap;
+			this.box_gap = box_gap;
+
+			this.edge_gap_x =edge_gap;
+			this.edge_gap_y = edge_gap;
+			this.box_gap_x = box_gap;
+			this.box_gap_y = box_gap;
+		}
+
 		this.folder = folder;
-		
+
 		this.main = new JFrame();
 		this.main.setSize(800, 600);
 		this.main.setLayout(null);
 		this.main.setLocationRelativeTo(null);
-		
+
 		grid = new Grid(pallet_width, pallet_height);
 		grid.set(new Point(0,0), pallet_width, pallet_height);
-		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+		grid.clear(new Point(edge_gap_x,edge_gap_y),pallet_width - edge_gap_x, pallet_height - edge_gap_y);
 
 		button_layout = new ArrayList<ArrayList<JButton>>();
 		button_layout.add(new ArrayList<JButton>());
 	}
-	
+
 	public void run() {
 
 		JButton package_up = new JButton("^");
@@ -193,7 +240,7 @@ public class GUIPalletSetup {
 						//need to align the left
 
 						if(left_distance == 0 && right_distance == 0) {
-							x_pos = x_pos - x_pos%pack_width + edge_gap;
+							x_pos = x_pos - x_pos%pack_width + edge_gap_x;
 						}else {
 
 							System.out.println("==NEED TO ALIGN LEFT");
@@ -227,7 +274,7 @@ public class GUIPalletSetup {
 					}else {
 						//need to align the top
 						if(top_distance== 0 && bottom_distance == 0) {
-							y_pos = y_pos - y_pos%pack_height + edge_gap;
+							y_pos = y_pos - y_pos%pack_height + edge_gap_y;
 
 						}else {
 						System.out.println("==NEED TO ALIGN TOP");
@@ -253,7 +300,7 @@ public class GUIPalletSetup {
 						//button_history.add(pack);
 
 						button_layout.get(GUIPalletSetup.layer).add(pack);
-						
+
 						pallet.add(pack);
 						main.repaint();
 
@@ -279,7 +326,7 @@ public class GUIPalletSetup {
 
 					JButton to_Remove= button_layout.get(GUIPalletSetup.layer).get(button_layout.get(GUIPalletSetup.layer).size() - 1);
 					button_layout.get(GUIPalletSetup.layer).remove(to_Remove);
-					
+
 					System.out.println("Removing a button at: "+ to_Remove.getLocation());
 
 					grid.clear(to_Remove.getLocation(), to_Remove.getSize().width+box_gap, to_Remove.getSize().height+box_gap);
@@ -313,15 +360,17 @@ public class GUIPalletSetup {
 
 		get_positions.addActionListener(new ActionListener() {
 			@Override
+			//
 			public void actionPerformed(ActionEvent arg0) {
 				FileManipulate save = new FileManipulate("Waypoint", folder);
+
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
 						JButton temp = button_layout.get(i).get(j);
-						int x_pos = temp.getLocation().x + temp.getSize().width/2;
-						int y_pos = temp.getLocation().y + temp.getSize().height/2;
-						int z_pos = 0;
+						int x_pos = (int) ((temp.getLocation().x + temp.getSize().width/2)*x_ratio);
+						int y_pos = (int) ((temp.getLocation().y + temp.getSize().height/2)* y_ratio);
+						int z_pos = package_depth;
 						String orientation = "";
 						if(temp.getText().contains("^")) {
 							orientation = "0";
@@ -335,7 +384,7 @@ public class GUIPalletSetup {
 						save.writeln(x_pos +", "+ y_pos +", "+ z_pos +", "+ orientation);
 					}
 				}
-				
+
 				save.close();
 			}
 		});
@@ -346,17 +395,17 @@ public class GUIPalletSetup {
 		final JTextField layer_text = new JTextField();
 		JButton layer_up = new JButton("+");
 		JButton layer_down = new JButton("-");
-		
+
 		layer_text.setSize(50, 40);
 		layer_up.setSize(60,40);
 		layer_down.setSize(60,40);
-		
+
 		layer_text.setLocation(300, 400);
 		layer_up.setLocation(360,400);
 		layer_down.setLocation(420,400);
-		
+
 		layer_text.setText("1");
-		
+
 		layer_up.addActionListener(new ActionListener() {
 
 			@Override
@@ -364,22 +413,22 @@ public class GUIPalletSetup {
 				// TODO Auto-generated method stub
 				int layer = Integer.parseInt(layer_text.getText());
 				layer = layer+1;
-				
+
 				if( button_layout.size() <= layer) {
 					button_layout.add(new ArrayList<JButton>());
 				}
 				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
-				
+
 				pallet.removeAll();
 				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
 					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
 				}
 				pallet.repaint();
-				
+
 			}
 		});
-		
+
 		layer_down.addActionListener(new ActionListener() {
 
 			@Override
@@ -391,7 +440,7 @@ public class GUIPalletSetup {
 				}
 				GUIPalletSetup.layer = layer-1;
 				layer_text.setText(Integer.toString(layer));
-				
+
 				pallet.removeAll();
 				for( int i = 0; i < button_layout.get(GUIPalletSetup.layer).size(); i++) {
 					pallet.add(button_layout.get(GUIPalletSetup.layer).get(i));
@@ -400,13 +449,13 @@ public class GUIPalletSetup {
 			}
 		});
 		
-		
+
 		main.add(layer_text);
 		main.add(layer_up);
 		main.add(layer_down);
-		
-		
-		
+
+
+
 		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
 		try{
@@ -416,11 +465,11 @@ public class GUIPalletSetup {
 		} catch(Exception ex) {
 			//
 		}
-		
+
 		main.add(bg);
-		
+
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.setVisible(true);
 	}
-	
+
 }

@@ -168,7 +168,7 @@ public class GUIHome implements Runnable {
 		//Load button to load the script file
 		
 		final FileManipulate file = new FileManipulate("Default");
-		final JComboBox drop_down = new JComboBox();
+		final JComboBox<String> drop_down = new JComboBox<String>();
 		drop_down.setBounds(11, 100, 180, 25);
 		String options;
 		while((options = file.readLine()) != null) {

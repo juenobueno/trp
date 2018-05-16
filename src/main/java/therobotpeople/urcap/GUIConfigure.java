@@ -3,28 +3,19 @@ package therobotpeople.urcap;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import com.ur.urcap.api.domain.userinteraction.RobotPositionCallback;
-import com.ur.urcap.api.domain.value.Pose;
-import com.ur.urcap.api.domain.value.jointposition.JointPositions;
-import com.ur.urcap.api.domain.URCapAPI;
+import therobotpeople.urcap.BackgroundPanel;
 
 public class GUIConfigure {
 
-	public static void run(final URCapAPI api) {
-		run(api, "Default");
+	public static void run() {
+		run("Default");
 	}
-	
-	public static void run(final URCapAPI api, String folder) {
+
+	public static void run(String folder) {
 		int default_pallet_x = 0;
 		int default_pallet_y = 0;
 		int default_pallet_z = 0;
@@ -34,12 +25,12 @@ public class GUIConfigure {
 		int default_package_height = 100;
 		int default_edge_gap = 0;
 		int default_box_gap = 0;
-		
+
 		final FileManipulate saved = new FileManipulate("PalletConfiguration", folder);
 		if( saved.exists()) {
-		
+
 			try {
-				
+
 				default_pallet_x	  = Integer.parseInt(saved.readLine());
 				default_pallet_y	  = Integer.parseInt(saved.readLine());
 				default_pallet_z	  = Integer.parseInt(saved.readLine());
@@ -49,89 +40,111 @@ public class GUIConfigure {
 				default_package_height= Integer.parseInt(saved.readLine());
 				default_edge_gap      = Integer.parseInt(saved.readLine());
 				default_box_gap		  = Integer.parseInt(saved.readLine());
-				
+
 				saved.close();
 			} catch (Exception e) {
 			}
-			
+
 			//read in data
 		}else {
 			//Save the data once so its in there, then save it at the end
 			//for any modifications
 		}
-		
+
 		final JFrame main = new JFrame();
 		main.setLayout(null);
 		main.setSize(800, 600);
 		main.setLocationRelativeTo(null);
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+
 		JLabel package_width = new JLabel("Package Width");
 		package_width.setSize(100, 20);
 		package_width.setLocation(50, 100);
 		main.add(package_width);
-		
-		final JTextField package_width_text = new JTextField();
+
+		final GuiTextField package_width_text = new GuiTextField();
 		package_width_text.setSize(50,20);
 		package_width_text.setLocation(150, 100);
 		package_width_text.setText(Integer.toString(default_package_width));
+		/*//This part moved into GuiTextField which adds it to add textfields
+		package_width_text.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				//GUIHome gui = new GUIHome(writer);
+
+				QWERTYKeyboard temp = new QWERTYKeyboard();
+				temp.text = package_width_text;
+				//QWERTYKeyboard.run();
+				Thread t = new Thread(temp);
+				t.start();
+
+
+			}
+
+		});//*/
+
+
 		main.add(package_width_text);
-		
+
 		JLabel package_height = new JLabel("Package Height");
 		package_height.setSize(100,20);
 		package_height.setLocation(50, 130);
 		main.add(package_height);
-		
-		final JTextField package_height_text = new JTextField();
+
+		//final JTextField package_height_text = new JTextField();
+		final GuiTextField package_height_text = new GuiTextField();
+
 		package_height_text.setSize(50,20);
 		package_height_text.setLocation(150, 130);
 		package_height_text.setText(Integer.toString(default_package_height));
 		main.add(package_height_text);
-		
+
 		JLabel pallet_width = new JLabel("Pallet Width");
 		pallet_width.setSize(100,20);
 		pallet_width.setLocation(50,160);
 		main.add(pallet_width);
-		
-		final JTextField pallet_width_text = new JTextField();
+
+		final GuiTextField pallet_width_text = new GuiTextField();
 		pallet_width_text.setSize(50,20);
 		pallet_width_text.setLocation(150,160);
 		pallet_width_text.setText(Integer.toString(default_pallet_width));
 		main.add(pallet_width_text);
-		
+
 		JLabel pallet_height = new JLabel("Pallet Height");
 		pallet_height.setSize(100,20);
 		pallet_height.setLocation(50, 190);
 		main.add(pallet_height);
-		
-		final JTextField pallet_height_text = new JTextField();
+
+		final GuiTextField pallet_height_text = new GuiTextField();
 		pallet_height_text.setSize(50,20);
 		pallet_height_text.setLocation(150, 190);
 		pallet_height_text.setText(Integer.toString(default_pallet_height));
 		main.add(pallet_height_text);
-		
+
 		JLabel edge_gap = new JLabel("Edge Gap");
 		edge_gap.setSize(100,20);
 		edge_gap.setLocation(50,220);
 		main.add(edge_gap);
-		
-		final JTextField edge_gap_text = new JTextField();
+
+		final GuiTextField edge_gap_text = new GuiTextField();
 		edge_gap_text.setSize(50,20);
 		edge_gap_text.setLocation(150,220);
 		edge_gap_text.setText(Integer.toString(default_edge_gap));
 		main.add(edge_gap_text);
-		
+
 		JLabel box_gap = new JLabel("Box Gap");
 		box_gap.setSize(100,20);
 		box_gap.setLocation(50, 250);
 		main.add(box_gap);
-		
-		final JTextField box_gap_text = new JTextField();
+
+		final GuiTextField box_gap_text = new GuiTextField();
 		box_gap_text.setSize(50,20);
 		box_gap_text.setLocation(150, 250);
 		box_gap_text.setText(Integer.toString(default_box_gap));
 		main.add(box_gap_text);
-		
+
 		JLabel pallet_x_pos = new JLabel("Pallet X_Pos");
 		JLabel pallet_y_pos = new JLabel("Pallet Y_Pos");
 		JLabel pallet_z_pos = new JLabel("Pallet Z Pos");
@@ -145,9 +158,9 @@ public class GUIConfigure {
 		main.add(pallet_y_pos);
 		main.add(pallet_z_pos);
 
-		final JTextField pallet_x_text = new JTextField();
-		final JTextField pallet_y_text = new JTextField();
-		final JTextField pallet_z_text = new JTextField();
+		final GuiTextField pallet_x_text = new GuiTextField();
+		final GuiTextField pallet_y_text = new GuiTextField();
+		final GuiTextField pallet_z_text = new GuiTextField();
 		pallet_x_text.setSize(50, 20);
 		pallet_y_text.setSize(50, 20);
 		pallet_z_text.setSize(50, 20);
@@ -160,51 +173,30 @@ public class GUIConfigure {
 		main.add(pallet_x_text);
 		main.add(pallet_y_text);
 		main.add(pallet_z_text);
-		
+
 		JButton close = new JButton("Cancel");
 		close.setSize(100,50);
-		close.setLocation(50,500);
+		close.setLocation(300,50);
 		main.add(close);
-		
+
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				main.dispose();
 			}
-			
-		});
-		
-		JButton chooseOrigin = new JButton("Choose Origin");
-		chooseOrigin.setSize(100, 50);
-		chooseOrigin.setLocation(700, 550);
-		main.add(chooseOrigin);
-		
-		chooseOrigin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				api.getUserInteraction().getUserDefinedRobotPosition(new RobotPositionCallback() {
-					@Override
-					public void onOk(Pose pose, JointPositions jointPositions) {
-						// Do something with pose and jointPositions
-					}
-				});
-				*/
-			}
-		});
-		
-		
 
-		
+		});
+
 		JButton pallet = new JButton("Pallet");
 		pallet.setSize(100,50);
 		pallet.setLocation(300,100);
 		main.add(pallet);
-		
+
 		pallet.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Need to call the interface from here with all the variables I need
-				
+
 				String package_height = package_height_text.getText();
 				String package_width = package_width_text.getText();
 				String pallet_width = pallet_width_text.getText();
@@ -225,13 +217,13 @@ public class GUIConfigure {
 						Integer.parseInt(package_height),
 						Integer.parseInt(edge_gap),
 						Integer.parseInt(box_gap));
-						
+
 
 				pallet.run();
 
-				
-				
-				
+
+
+
 				saved.writeln(pallet_x);
 				saved.writeln(pallet_y);
 				saved.writeln(pallet_z);
@@ -242,12 +234,12 @@ public class GUIConfigure {
 				saved.writeln(edge_gap);
 				saved.writeln(box_gap);
 				saved.close();
-				
+
 				main.dispose();
-				
+
 			}
 		});
-		
+
 		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
 		try{
@@ -257,9 +249,9 @@ public class GUIConfigure {
 		} catch(Exception ex) {
 			//
 		}
-		
+
 		main.add(bg);
-		
+
 		main.setVisible(true);
 
 	}

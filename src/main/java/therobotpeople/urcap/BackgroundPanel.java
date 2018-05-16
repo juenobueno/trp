@@ -3,6 +3,7 @@ package therobotpeople.urcap;
 import java.awt.*;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class BackgroundPanel extends JPanel {
     Image image;
     /** Creates a new instance of Canvas */
