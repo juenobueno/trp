@@ -38,6 +38,25 @@ public class GUIPalletSetup {
 	final int edge_gap;
 	final int box_gap;
 	
+	final int edge_gap_x;
+	final int edge_gap_y;
+	final int box_gap_x;
+	final int box_gap_y;
+	
+	
+	1 2 3 4 - > 2 4 1 3 -> 6 moves
+
+	1 2 3 4 5 -> 1 3 5 2 4 -> 6 moves
+	
+	1 2 3 4 5 6 -> 1 3 5 2 4 6 -> 6 moves
+	
+	1 2 3 4 5 6 7 -> 1 3 5 2 6 4 7 -> 8
+	
+	1 2 3 4 5 6 7 8 -> 1 3 5 2 6 8 4 7 -> 10
+	
+	1 2 3 4 5 6 7 8 9 -> 1 3 5 2 6 8 4 7 9 -> 10
+	
+	
 	final JFrame main;
 	final Grid grid;
 	final ArrayList<ArrayList<JButton>> button_layout;
@@ -59,7 +78,7 @@ public class GUIPalletSetup {
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
 		
-		if( pallet_width > pallet_width max || pallet_height > pallet_height_max) {
+		if( pallet_width > pallet_width_max || pallet_height > pallet_height_max) {
 		
 			if(pallet_width > pallet_width_max) {
 				x_ratio = pallet_width/pallet_width_max;
@@ -74,8 +93,13 @@ public class GUIPalletSetup {
 			this.package_height = (int)(package_height/y_ratio+0.5);
 			
 			//Ratios would need to be split into x and y components
-			this.edge_gap = (int)(edge_gap/x_ratio);
-			this.box_gap = (int)(box_gap/x_ratio);
+			this.edge_gap = edge_gap;
+			this.box_gap = box_gap;
+			
+			this.edge_gap_x =(int)(edge_gap/x_ratio + 0.5);
+			this.edge_gap_y = (int)(edge_gap/y_ratio + 0.5);
+			this.box_gap_x = (int)(box_gap/x_ratio + 0.5);
+			this.box_gap_y = (int)(box_gap/y_ratio + 0.5);
 		}else {
 			this.pallet_width = pallet_width;
 			this.pallet_height = pallet_height;
@@ -85,6 +109,11 @@ public class GUIPalletSetup {
 			
 			this.edge_gap = edge_gap;
 			this.box_gap = box_gap;
+			
+			this.edge_gap_x =edge_gap;
+			this.edge_gap_y = edge_gap;
+			this.box_gap_x = box_gap;
+			this.box_gap_y = box_gap;
 		}
 		
 		this.folder = folder;
@@ -96,7 +125,7 @@ public class GUIPalletSetup {
 		
 		grid = new Grid(pallet_width, pallet_height);
 		grid.set(new Point(0,0), pallet_width, pallet_height);
-		grid.clear(new Point(edge_gap,edge_gap),pallet_width - edge_gap, pallet_height - edge_gap);
+		grid.clear(new Point(edge_gap_x,edge_gap_y),pallet_width - edge_gap_x, pallet_height - edge_gap_y);
 
 		button_layout = new ArrayList<ArrayList<JButton>>();
 		button_layout.add(new ArrayList<JButton>());
@@ -217,7 +246,7 @@ public class GUIPalletSetup {
 						//need to align the left
 
 						if(left_distance == 0 && right_distance == 0) {
-							x_pos = x_pos - x_pos%pack_width + edge_gap;
+							x_pos = x_pos - x_pos%pack_width + edge_gap_x;
 						}else {
 
 							System.out.println("==NEED TO ALIGN LEFT");
@@ -251,7 +280,7 @@ public class GUIPalletSetup {
 					}else {
 						//need to align the top
 						if(top_distance== 0 && bottom_distance == 0) {
-							y_pos = y_pos - y_pos%pack_height + edge_gap;
+							y_pos = y_pos - y_pos%pack_height + edge_gap_y;
 
 						}else {
 						System.out.println("==NEED TO ALIGN TOP");
