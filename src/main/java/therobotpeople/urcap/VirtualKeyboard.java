@@ -112,69 +112,71 @@ public class VirtualKeyboard implements Runnable {
 		}
 	}
 	
+	
 	private void setBottom() {
 		//shift
-				JButton shift = new JButton("Shift");
-				shift.setSize(button_width, button_height);
-				shift.setLocation(0, 4*button_height);
-				shift.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						mainframe.removeAll();
-						
-						if( lower_case == true) {
-							lower_case = false;
-							setUpper();
-							setBottom();
-						}else {
-							lower_case = true;
-							setLower();
-							setBottom();
-						}
-						mainframe.repaint();
-					}
-				});
-				//space
-				JButton space = new JButton();
-				space.setSize(200, button_height);
-				space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 4*QWERTYKeyboard.button_height);
-				space.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						output += " ";
-					}
-				});
-				//yes
-				JButton yes = new JButton("yes");
-				yes.setSize(button_width, button_height);
-				yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 4*QWERTYKeyboard.button_height);
-				yes.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent argo0) {
-						running = false;
-						mainframe.dispose();
-						
-						text.setText(output);
-					}
-				});
-				//no
-				JButton no = new JButton("no");
-				no.setSize(button_width, button_height);
-				no.setLocation((int)(yes.getLocation().x + yes.getSize().getWidth()), 4*QWERTYKeyboard.button_height);
-				no.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent argo0) {
-						output = "";
-						running = false;
-						mainframe.dispose();
-					}
-				});
+		JButton shift = new JButton("Shift");
+		shift.setSize(button_width, button_height);
+		shift.setLocation(0, 4*button_height);
+		shift.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mainframe.removeAll();
 				
+				if( lower_case == true) {
+					lower_case = false;
+					setUpper();
+					setBottom();
+				}else {
+					lower_case = true;
+					setLower();
+					setBottom();
+				}
+				mainframe.repaint();
+			}
+		});
+		//space
+		JButton space = new JButton();
+		space.setSize(200, button_height);
+		space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 4*button_height);
+		space.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				output += " ";
+			}
+		});
+		//yes
+		JButton yes = new JButton("yes");
+		yes.setSize(button_width, button_height);
+		yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 4*button_height);
+		yes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent argo0) {
+				running = false;
+				mainframe.dispose();
 				
-				mainframe.add(shift);
-				mainframe.add(space);
-				mainframe.add(yes);
-				mainframe.add(no);
+				text.setText(output);
+			}
+		});
+		//no
+		JButton no = new JButton("no");
+		no.setSize(button_width, button_height);
+		no.setLocation((int)(yes.getLocation().x + yes.getSize().getWidth()), 4*button_height);
+		no.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent argo0) {
+				output = "";
+				running = false;
+				mainframe.dispose();
+			}
+		});
+		
+		
+		mainframe.add(shift);
+		mainframe.add(space);
+		mainframe.add(yes);
+		mainframe.add(no);
+		
 	}
 	
 	

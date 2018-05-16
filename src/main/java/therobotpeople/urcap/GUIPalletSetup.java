@@ -364,8 +364,10 @@ public class GUIPalletSetup {
 
 		get_positions.addActionListener(new ActionListener() {
 			@Override
+			//
 			public void actionPerformed(ActionEvent arg0) {
 				FileManipulate save = new FileManipulate("Waypoint", folder);
+				
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
