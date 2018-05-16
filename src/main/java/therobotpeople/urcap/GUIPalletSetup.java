@@ -34,6 +34,10 @@ public class GUIPalletSetup {
 	
 	final int package_width;
 	final int package_height;
+	final int package_depth = 50;
+	
+	final int package_width_real;
+	final int package_height_real;
 	
 	final int edge_gap;
 	final int box_gap;
@@ -43,18 +47,6 @@ public class GUIPalletSetup {
 	final int box_gap_x;
 	final int box_gap_y;
 	
-	
-	1 2 3 4 - > 2 4 1 3 -> 6 moves
-
-	1 2 3 4 5 -> 1 3 5 2 4 -> 6 moves
-	
-	1 2 3 4 5 6 -> 1 3 5 2 4 6 -> 6 moves
-	
-	1 2 3 4 5 6 7 -> 1 3 5 2 6 4 7 -> 8
-	
-	1 2 3 4 5 6 7 8 -> 1 3 5 2 6 8 4 7 -> 10
-	
-	1 2 3 4 5 6 7 8 9 -> 1 3 5 2 6 8 4 7 9 -> 10
 	
 	
 	final JFrame main;
@@ -89,6 +81,9 @@ public class GUIPalletSetup {
 			this.pallet_width = pallet_width_max;
 			this.pallet_height = pallet_height_max;
 			
+			this.package_width_real = package_width;
+			this.package_height_real = package_height;
+			
 			this.package_width = (int)(package_width/x_ratio+0.5); //+0.5 for natural rounding to cloests int
 			this.package_height = (int)(package_height/y_ratio+0.5);
 			
@@ -106,6 +101,9 @@ public class GUIPalletSetup {
 			
 			this.package_width = package_width;
 			this.package_height = package_height;
+			
+			this.package_width_real = package_width;
+			this.package_height_real = package_height;
 			
 			this.edge_gap = edge_gap;
 			this.box_gap = box_gap;
@@ -372,9 +370,9 @@ public class GUIPalletSetup {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
 						JButton temp = button_layout.get(i).get(j);
-						int x_pos = temp.getLocation().x + temp.getSize().width/2;
-						int y_pos = temp.getLocation().y + temp.getSize().height/2;
-						int z_pos = 0;
+						int x_pos = (int) ((temp.getLocation().x + temp.getSize().width/2)*x_ratio);
+						int y_pos = (int) ((temp.getLocation().y + temp.getSize().height/2)* y_ratio);
+						int z_pos = package_depth;
 						String orientation = "";
 						if(temp.getText().contains("^")) {
 							orientation = "0";
