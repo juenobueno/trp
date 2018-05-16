@@ -70,21 +70,27 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		
 		Selector.script_file = "Popup.script";
 		
-		if( Selector.script_file == "") {
-			writer.sync();
-		}else {
+		//if( Selector.script_file == "") {
+		//	writer.sync();
+		//}else {
 			//Open and read the script file line by line into the writer
-			FileManipulate urscript = new FileManipulate("../programs/Popup.script");
+			FileManipulate urscript = new FileManipulate("../../programs/Robotpaint.script");
+			FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
 			//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
 			temp = urscript.readLine();
 			while(temp != null) {
+				//writer.appendLine("popup(\""+temp+"\", title=\"OMG it worked\", blocking=True)");
 				writer.appendLine(temp+"\n");
+				urcopy.writeln(temp);
 				temp = urscript.readLine();
 			}
 			
+			urcopy.close();
+			urscript.close();
+			
 			//writer.writeChildren();
 			writer.sync();
-		}
+		//}
 	}
 
 	private String generatePopupMessage() {
