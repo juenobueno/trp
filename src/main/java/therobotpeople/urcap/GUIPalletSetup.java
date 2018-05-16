@@ -62,7 +62,7 @@ public class GUIPalletSetup {
 	}
 	
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
-		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "default");
+		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default");
 	}
 	
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder) {
