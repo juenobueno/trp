@@ -2,7 +2,6 @@ therobotpeople/urcap/GUIConfigure.class
 therobotpeople/urcap/GUIHome$6.class
 therobotpeople/urcap/VirtualKeyboard$6.class
 therobotpeople/urcap/GUIPalletSetup$1.class
-therobotpeople/urcap/Palletizer.class
 therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/GuiTextField.class
 therobotpeople/urcap/DashboardServerInterface.class
@@ -24,7 +23,6 @@ therobotpeople/urcap/GUIConfigure$2.class
 therobotpeople/urcap/Grid.class
 therobotpeople/urcap/TRPProgramNodeService.class
 therobotpeople/urcap/GUIPalletSetup.class
-therobotpeople/urcap/Palletizer$1.class
 therobotpeople/urcap/GUIHome$1.class
 therobotpeople/urcap/GUIPalletSetup$3.class
 therobotpeople/urcap/GUIPalletSetup$7.class
