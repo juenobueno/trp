@@ -27,6 +27,11 @@ public class GUIPalletSetup {
 	final int pallet_width;
 	final int pallet_height;
 	
+	private final int pallet_width_max = 500;
+	private final int pallet_height_max = 500;
+	private double x_ratio = 1;
+	private double y_ratio = 1;
+	
 	final int package_width;
 	final int package_height;
 	
@@ -54,14 +59,33 @@ public class GUIPalletSetup {
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
 		
-		this.pallet_width = pallet_width;
-		this.pallet_height = pallet_height;
+		if( pallet_width > pallet_width max || pallet_height > pallet_height_max) {
 		
-		this.package_width = package_width;
-		this.package_height = package_height;
-		
-		this.edge_gap = edge_gap;
-		this.box_gap = box_gap;
+			if(pallet_width > pallet_width_max) {
+				x_ratio = pallet_width/pallet_width_max;
+			}
+			if(pallet_height > pallet_height_max) {
+				y_ratio = pallet_height/pallet_height_max;
+			}
+			this.pallet_width = pallet_width_max;
+			this.pallet_height = pallet_height_max;
+			
+			this.package_width = (int)(package_width/x_ratio+0.5); //+0.5 for natural rounding to cloests int
+			this.package_height = (int)(package_height/y_ratio+0.5);
+			
+			//Ratios would need to be split into x and y components
+			this.edge_gap = (int)(edge_gap/x_ratio);
+			this.box_gap = (int)(box_gap/x_ratio);
+		}else {
+			this.pallet_width = pallet_width;
+			this.pallet_height = pallet_height;
+			
+			this.package_width = package_width;
+			this.package_height = package_height;
+			
+			this.edge_gap = edge_gap;
+			this.box_gap = box_gap;
+		}
 		
 		this.folder = folder;
 		
