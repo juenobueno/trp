@@ -6,12 +6,15 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
@@ -26,30 +29,135 @@ public class GUIHome implements Runnable {
 	}
 
 	public void run() {
-		//Open Communication to the DashboardServer for play, pause and stop control
+		// Open Communication to the DashboardServer for play, pause and stop control
 		DashboardServerInterface.Open();
 
-		// Create the JFrame that the UI will be held in
+		
+		// JFrame Setup
 		final JFrame f = new JFrame();
 		f.setLayout(null);
 		f.setSize(800, 600);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		// Create a background and load in a custom image
-		BackgroundPanel bg = null;
-		try{
-			Image img = ImageIO.read(getClass().getResource("/bg.png"));
-			bg = new BackgroundPanel(img);
-			bg.setBounds(0, 0, 800, 600);
-		} catch(Exception ex) {
+		
+		// Status Label
+		final JLabel status = new JLabel();
+		status.setBounds(11, 75, 180, 25);
+		status.setText("Status: Choose Preset");
+		f.add(status);
+		
+		
+		// Dropdown box for Presets
+		// Presets stored in Default/pallet_presets
+		final JComboBox presets = new JComboBox();
+		presets.setBounds(11, 150, 180, 25);
+		f.add(presets);
+		
+		// Populate presets
+		presets.addItem("-- new preset --");
+		final FileManipulate file = new FileManipulate("pallet_presets", "Default");
+		String options;
+		while((options = file.readLine()) != null) {
+			presets.addItem(options);
+		}
+		file.close();
+		
+		presets.addPopupMenuListener(new PopupMenuListener() {
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				presets.removeAllItems();
+				
+				presets.addItem("-- new preset --");
+				
+				String opt;
+				while((opt = file.readLine()) != null) {
+					presets.addItem(opt);
+				}
+				file.close();
+			}
+
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent arg0) {}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {}
+		});
+		
+		
+		// Setup Button
+		final JButton setup = new JButton("Edit Preset");
+		try {
+			setup.setBounds(11, 200, 180, 25);
+
+			setup.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIConfigure.run((String)presets.getSelectedItem());
+				}
+			});
+		} catch (Exception ex) {
 			//
 		}
+		f.add(setup);
+		
+	
+		// Listening for selection on drop down box
+		presets.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                //JComboBox comboBox = (JComboBox) event.getSource();
 
-		// Status Text Box
-		final JTextField status = new JTextField();
-		status.setBounds(11, 200, 180, 25);
-		status.setOpaque(false);
+                String selection = event.getItem().toString();
+
+		    	if (!selection.equals("-- new preset --")) {
+		    		String buffer = "Status: ";
+		    		buffer += selection; 
+		    		buffer += " Ready";
+		    		
+		    		status.setText(buffer);
+		    		setup.setText("Edit Preset");
+		        } else {
+		        	status.setText("Status: Choose Preset");
+		        	setup.setText("New Preset");
+		        }
+            }
+	    });
+		
+		
+		// Stop Button
+		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
+		try {
+			stop.setBounds(11, 375, 180, 50);
+
+			stop.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DashboardServerInterface.Stop_Program();
+					status.setText("Status: Stopped");
+				}
+			});
+		} catch (Exception ex) {
+			//
+		}
+		f.add(stop);
+
+		
+		// Exit Button
+		JButton exit = new JButton("<html>Stop and Exit<br>to Polyscope</html>");
+		try {
+			exit.setBounds(11, 450, 180, 50);
+
+			exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DashboardServerInterface.Stop_Program();
+					DashboardServerInterface.Close();
+	                GUIHome.on=false;
+	                f.dispose();
+				}
+			});
+		} catch (Exception ex) {
+			//
+		}
+		f.add(exit);
+		
 		
 		// Play Button
 		JButton play = new JButton();
@@ -70,7 +178,9 @@ public class GUIHome implements Runnable {
 		} catch (Exception ex) {
 			//
 		}
+		f.add(play);
 
+		
 		// Pause Button
 		JButton pause = new JButton();
 		try {
@@ -90,60 +200,15 @@ public class GUIHome implements Runnable {
 		} catch (Exception ex) {
 
 		}
+		f.add(pause);
 
-		// Setup Button
-		JButton setup = new JButton("Setup");
-		try {
-			setup.setBounds(11, 250, 180, 25);
-
-			setup.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//Precursor.run();
-					GUIConfigure.run(api);
-				}
-			});
-		} catch (Exception ex) {
-			//
-		}
-
-		// Stop Button
-		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
-		try {
-			stop.setBounds(11, 325, 180, 50);
-
-			stop.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					DashboardServerInterface.Stop_Program();
-					status.setText("Status: Stopped");
-				}
-			});
-		} catch (Exception ex) {
-			//
-		}
-
-		// Exit Button
-		JButton exit = new JButton("<html>Stop and Exit<br>to Polyscope</html>");
-		try {
-			exit.setBounds(11, 400, 180, 50);
-
-			exit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					DashboardServerInterface.Stop_Program();
-					DashboardServerInterface.Close();
-	                GUIHome.on=false;
-	                f.dispose();
-				}
-			});
-		} catch (Exception ex) {
-			//
-		}
-
+		
+		//Pallet Preview
 		double pallet_width = 1.5; // metres
 		double pallet_length = 2; // metres
 
-		//Pallet Preview
 		JPanel preview = new JPanel();
-		preview.setBackground(Color.ORANGE);
+		preview.setBackground(Color.WHITE);
 		preview.setLayout(null);
 
 		if (pallet_width == pallet_length) {
@@ -161,54 +226,23 @@ public class GUIHome implements Runnable {
 			int y = (int) ((600 - 550) / 2);
 			preview.setBounds(x, y, w, 550);
 		}
-		
-		//Creating a load file button/preset
-		//Has a file called default which stores all the file names
-		//A drop down box readers out of default, re-read on drop down?
-		//Load button to load the script file
-		
-		final FileManipulate file = new FileManipulate("Default");
-		final JComboBox<String> drop_down = new JComboBox<String>();
-		drop_down.setBounds(11, 100, 180, 25);
-		String options;
-		while((options = file.readLine()) != null) {
-			drop_down.addItem(options);
-		}
-		file.close();
-		
-		drop_down.addPopupMenuListener(new PopupMenuListener() {
-			@Override
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				drop_down.removeAllItems();
-				String opt;
-				while((opt = file.readLine()) != null) {
-					drop_down.addItem(opt);
-				}
-				file.close();
-			}
 
-			@Override
-			public void popupMenuCanceled(PopupMenuEvent arg0) {}
-
-			@Override
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {}
-		});
-		
-
-		f.add(drop_down);
-		f.add(exit);
-		f.add(stop);
-		f.add(play);
-		f.add(pause);
-		f.add(setup);
-		f.add(status);
 		f.add(preview);
+		
+		
+		// Create a background and load in a custom image
+		BackgroundPanel bg = null;
+		try{
+			Image img = ImageIO.read(getClass().getResource("/bg_home.png"));
+			bg = new BackgroundPanel(img);
+			bg.setBounds(0, 0, 800, 600);
+		} catch(Exception ex) {
+			//
+		}
 		f.add(bg);
 
+		// Open the JFrame
 		f.setVisible(true);
-
-		// Trying to pause program when CustomGUI is run but it does not work
-		status.setText("Status: Setup Required");
 
 		// Set the on variable to true
 		on = true;

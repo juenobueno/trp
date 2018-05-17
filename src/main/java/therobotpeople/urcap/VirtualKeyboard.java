@@ -60,7 +60,8 @@ public class VirtualKeyboard implements Runnable {
 		
 		
 		this.mainframe.setLayout(null);
-		this.mainframe.setSize(480, 300);
+		this.mainframe.setSize(800, 300);
+		this.mainframe.setLocationRelativeTo(null);
 		
 		setLower();
 		setBottom();

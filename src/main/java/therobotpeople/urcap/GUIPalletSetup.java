@@ -43,8 +43,6 @@ public class GUIPalletSetup {
 	final int box_gap_x;
 	final int box_gap_y;
 
-
-
 	final JFrame main;
 	final Grid grid;
 	final ArrayList<ArrayList<JButton>> button_layout;
@@ -459,13 +457,12 @@ public class GUIPalletSetup {
 		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
 		try{
-			Image img = ImageIO.read(getClass().getResource("/bg_plain.png"));
+			Image img = ImageIO.read(getClass().getResource("/bg_pallet.png"));
 			bg = new BackgroundPanel(img);
 			bg.setBounds(0, 0, 800, 600);
 		} catch(Exception ex) {
 			//
 		}
-
 		main.add(bg);
 
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

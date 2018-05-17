@@ -160,6 +160,26 @@ public class FileManipulate {
 		}
 	}
 	
+	public boolean writeln_append(String input) {
+		try {
+			if(this.reader != null) {
+				this.reader.close();
+				this.reader = null;
+			}
+			if( this.writer == null) {
+				this.writer = new BufferedWriter(new FileWriter(this.file, true));
+			}
+			
+			this.writer.append(input + "\n");
+			
+			return true;
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public void delete() {
 		if( this.file != null) {
 			this.file.delete();
