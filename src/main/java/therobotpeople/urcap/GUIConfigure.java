@@ -223,7 +223,7 @@ public class GUIConfigure {
 		preset_name_label.setLocation(50,460);
 		
 		if (existing_preset_name == default_string) {
-			main.add(preset_name_label);
+		main.add(preset_name_label);
 		}
 		
 		

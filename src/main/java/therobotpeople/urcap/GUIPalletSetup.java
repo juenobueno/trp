@@ -49,6 +49,9 @@ public class GUIPalletSetup {
 
 	final String folder;
 
+	private final int button_width = 100;
+	private final int button_height = 50;
+	
 	private static int layer = 0;
 
 	public GUIPalletSetup() {
@@ -60,6 +63,7 @@ public class GUIPalletSetup {
 	}
 
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder) {
+
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
@@ -313,7 +317,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton undo = new JButton("Undo");
-		undo.setSize(package_width, package_height);
+		undo.setSize(button_width, button_height);
 		undo.setLocation(0,200);
 		main.add(undo);
 
@@ -339,7 +343,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton exit = new JButton("Exit");
-		exit.setSize(package_width, package_height);
+		exit.setSize(button_width, button_height);
 		exit.setLocation(250, 200);
 		main.add(exit);
 
@@ -351,7 +355,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton get_positions = new JButton("Get Positions");
-		get_positions.setSize(package_width, package_height);
+		get_positions.setSize(button_width, button_height);
 		get_positions.setLocation(100,200);
 		main.add(get_positions);
 
