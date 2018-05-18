@@ -23,10 +23,10 @@ public class GUIConfigure {
 		int default_pallet_x = 0;
 		int default_pallet_y = 0;
 		int default_pallet_z = 0;
-		int default_pallet_width = 0;
-		int default_pallet_height = 0;
-		int default_package_width = 0;
-		int default_package_height = 0;
+		int default_pallet_width = 400;
+		int default_pallet_height = 400;
+		int default_package_width = 100;
+		int default_package_height = 50;
 		int default_package_elevation = 0;
 		int default_edge_gap = 0;
 		int default_box_gap = 0;
