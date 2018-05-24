@@ -71,6 +71,8 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		    gui_home_thread.run();
 		}
 
+		String temp = null;
+		
 		Selector.script_file = "Popup.script";
 	
 		//if( Selector.script_file == "") {

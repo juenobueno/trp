@@ -38,7 +38,7 @@ public class GUIHome implements Runnable {
 
 		
 		// Status Label
-		final JLabel status = new JLabel();
+		final JLabel status = new JLabel("Status: Choose Preset");
 		status.setBounds(10, 75, 180, 25);
 		f.add(status);
 		

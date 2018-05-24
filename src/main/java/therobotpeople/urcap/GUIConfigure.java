@@ -237,10 +237,6 @@ public class GUIConfigure {
 		preset_name_label.setLocation(50,460);
 		main.add(preset_name_label);
 		
-		main.add(preset_name_label);
-		if (existing_preset_name == default_string) {
-		}
-		
 		// Preset Name Text Field
 		final GuiTextField preset_name_text = new GuiTextField();
 		preset_name_text.setSize(100, 20);
@@ -365,7 +361,7 @@ public class GUIConfigure {
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new GUIHome();
+				TRPProgramNodeContribution.gui_home_thread.run();
 				main.dispose();
 			}
 		});
