@@ -55,11 +55,14 @@ public class GUIPalletSetup {
 		this(0,0,0,400,400,100,50,0,0, "Default");
 	}
 
-	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width,int pallet_height,
+						  int package_width, int package_height, int edge_gap, int box_gap) {
 		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default");
 	}
 
-	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder) {
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height,
+						  int package_width, int package_height, int edge_gap, int box_gap, String folder) {
+
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
@@ -346,6 +349,7 @@ public class GUIPalletSetup {
 		exit.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				TRPProgramNodeContribution.gui_home_thread.run();
 				main.dispose();
 			}
 		});

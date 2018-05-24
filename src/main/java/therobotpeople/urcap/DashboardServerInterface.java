@@ -13,7 +13,7 @@ public final class DashboardServerInterface {
 	private static BufferedReader in;
 	private static PrintWriter out;
 
-	//If the socket ever fails, iwll need to reconnect it
+	//If the socket ever fails, will need to reconnect it
 
 	public DashboardServerInterface() {
 		Open();

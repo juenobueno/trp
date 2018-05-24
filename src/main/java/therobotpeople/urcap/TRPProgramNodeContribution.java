@@ -1,9 +1,15 @@
 package therobotpeople.urcap;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
+import com.ur.urcap.api.domain.util.Filter;
+import com.ur.urcap.api.domain.variable.Variable;
 import com.ur.urcap.api.ui.annotation.Input;
 import com.ur.urcap.api.ui.annotation.Label;
 import com.ur.urcap.api.ui.component.InputEvent;
@@ -14,10 +20,12 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	private static final String NAME = "name";
 
 	private final DataModel model;
-	private final URCapAPI api;
+	public static URCapAPI api;
+	public static Thread gui_home_thread = new Thread(new GUIHome());
+	//private final ScriptWriter writer;
 
 	public TRPProgramNodeContribution(URCapAPI api, DataModel model) {
-		this.api = api;
+		TRPProgramNodeContribution.api = api;
 		this.model = model;
 	}
 	
@@ -34,14 +42,11 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	public void onInput(InputEvent event) {
 		if (event.getEventType() == InputEvent.EventType.ON_CHANGE) {
 			setName(nameTextField.getText());
-			updatePopupMessageAndPreview();
 		}
 	}
 
 	@Override
-	public void openView() {
-		nameTextField.setText(getName());
-		updatePopupMessageAndPreview();
+	public void openView() {	
 	}
 
 	@Override
@@ -50,26 +55,28 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 
 	@Override
 	public String getTitle() {
-		return "HelloWorld: " + (model.isSet(NAME) ? getName() : "");
+		return "TRP";
+		
 	}
 
 	@Override
 	public boolean isDefined() {
 		return true;
 	}
-
+	
 	@Override
 	public void generateScript(ScriptWriter writer) {
-
 		if (GUIHome.on == false){
-		    GUIHome gui = new GUIHome(api);
-		    Thread t = new Thread(gui);
-			t.start();
+		    gui_home_thread.run();
 		}
-		String temp = null;
+
+		writer.sync();	
+
+		//String temp = null;
 		
+		/*
 		Selector.script_file = "Popup.script";
-		
+	
 		//if( Selector.script_file == "") {
 		//	writer.sync();
 		//}else {
@@ -80,9 +87,9 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			temp = urscript.readLine();
 			while(temp != null) {
 				//writer.appendLine("popup(\""+temp+"\", title=\"OMG it worked\", blocking=True)");
-				writer.appendLine(temp+"\n");
-				urcopy.writeln(temp);
-				temp = urscript.readLine();
+				//writer.appendLine(temp+"\n");
+				//urcopy.writeln(temp);
+				//temp = urscript.readLine();
 			}
 			
 			urcopy.close();
@@ -91,14 +98,11 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			//writer.writeChildren();
 			writer.sync();
 		//}
+		 * */
 	}
 
 	private String generatePopupMessage() {
 		return model.isSet(NAME) ? "Hello " + getName() + ", welcome to PolyScope!" : "No name set";
-	}
-
-	private void updatePopupMessageAndPreview() {
-		messagePreviewLabel.setText(generatePopupMessage());
 	}
 
 	private String getName() {

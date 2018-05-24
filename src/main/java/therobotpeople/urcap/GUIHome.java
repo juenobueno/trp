@@ -1,7 +1,5 @@
 package therobotpeople.urcap;
 
-import com.ur.urcap.api.domain.URCapAPI;
-
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -16,18 +14,16 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
+
+import com.ur.urcap.api.domain.variable.Variable;
 
 public class GUIHome implements Runnable {
 	public static boolean on = false;
-	private final URCapAPI api;
 
-	public GUIHome(URCapAPI api) {
-		this.api = api;
+	public GUIHome() {
+		
 	}
-
+	
 	public void run() {
 		// Open Communication to the DashboardServer for play, pause and stop control
 		DashboardServerInterface.Open();
@@ -43,56 +39,26 @@ public class GUIHome implements Runnable {
 		
 		// Status Label
 		final JLabel status = new JLabel();
-		status.setBounds(11, 75, 180, 25);
-		status.setText("Status: Choose Preset");
+		status.setBounds(10, 75, 180, 25);
 		f.add(status);
 		
 		
-		// Dropdown box for Presets
-		// Presets stored in Default/pallet_presets
+		// Dropdown box for Presets: Stored in path "Default/pallet_presets"
 		final JComboBox presets = new JComboBox();
-		presets.setBounds(11, 150, 180, 25);
+		presets.setBounds(10, 150, 180, 25);
 		f.add(presets);
-		
-		// Populate presets
-		presets.addItem("-- new preset --");
-		final FileManipulate file = new FileManipulate("pallet_presets", "Default");
-		String options;
-		while((options = file.readLine()) != null) {
-			presets.addItem(options);
-		}
-		file.close();
-		
-		presets.addPopupMenuListener(new PopupMenuListener() {
-			@Override
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				presets.removeAllItems();
-				
-				presets.addItem("-- new preset --");
-				
-				String opt;
-				while((opt = file.readLine()) != null) {
-					presets.addItem(opt);
-				}
-				file.close();
-			}
-
-			@Override
-			public void popupMenuCanceled(PopupMenuEvent arg0) {}
-
-			@Override
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {}
-		});
+		refresh_presets(presets);
 		
 		
 		// Setup Button
-		final JButton setup = new JButton("Edit Preset");
+		final JButton setup = new JButton("New Preset");
 		try {
-			setup.setBounds(11, 200, 180, 25);
+			setup.setBounds(10, 200, 180, 25);
 
 			setup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GUIConfigure.run((String)presets.getSelectedItem());
+					new GUIConfigure((String)presets.getSelectedItem());
+					f.dispose();
 				}
 			});
 		} catch (Exception ex) {
@@ -100,7 +66,26 @@ public class GUIHome implements Runnable {
 		}
 		f.add(setup);
 		
-	
+		
+		// Delete Button
+		final JButton delete = new JButton("Delete Preset");
+		try {
+			delete.setBounds(10, 250, 180, 25);
+
+			delete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					FileManipulate f = new FileManipulate((String)presets.getSelectedItem(), FileManipulate.default_pallet_presets_folder);
+					f.delete();
+					f.close();
+					refresh_presets(presets);
+				}
+			});
+		} catch (Exception ex) {
+			//
+		}
+		f.add(delete);
+
+		
 		// Listening for selection on drop down box
 		presets.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
@@ -126,7 +111,7 @@ public class GUIHome implements Runnable {
 		// Stop Button
 		JButton stop = new JButton("<html>Stop and Go<br>Back To Start</html>");
 		try {
-			stop.setBounds(11, 375, 180, 50);
+			stop.setBounds(10, 375, 180, 50);
 
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -143,7 +128,7 @@ public class GUIHome implements Runnable {
 		// Exit Button
 		JButton exit = new JButton("<html>Stop and Exit<br>to Polyscope</html>");
 		try {
-			exit.setBounds(11, 450, 180, 50);
+			exit.setBounds(10, 450, 180, 50);
 
 			exit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -247,4 +232,20 @@ public class GUIHome implements Runnable {
 		// Set the on variable to true
 		on = true;
 	}
+	
+	private void refresh_presets(JComboBox presets) {
+		presets.removeAllItems();
+		presets.addItem("-- new preset --");
+	
+		FileManipulate presets_folder = new FileManipulate(FileManipulate.default_pallet_presets_folder);
+		String[] file_names = presets_folder.get_list_of_files();
+		
+		for (int i = 0; i < file_names.length; i++) {
+			presets.addItem(file_names[i]);
+		}
+		
+		presets_folder.close();
+	}
+	
+
 }
