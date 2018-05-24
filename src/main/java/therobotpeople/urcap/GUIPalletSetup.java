@@ -48,20 +48,22 @@ public class GUIPalletSetup {
 	final ArrayList<ArrayList<JButton>> button_layout;
 
 	final String folder;
+	final String file_name;
 
+	private final int button_width = 100;
+	private final int button_height = 50;
+	
 	private static int layer = 0;
 
 	public GUIPalletSetup() {
-		this(0,0,0,400,400,100,50,0,0, "Default");
+		this(0,0,0,400,400,100,50,0,0, "Default", "Waypoint1");
 	}
 
-	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width,int pallet_height,
-						  int package_width, int package_height, int edge_gap, int box_gap) {
-		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default");
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
+		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default", "Waypoint2");
 	}
 
-	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height,
-						  int package_width, int package_height, int edge_gap, int box_gap, String folder) {
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder, String file_name) {
 
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
@@ -112,7 +114,7 @@ public class GUIPalletSetup {
 		}
 
 		this.folder = folder;
-
+		this.file_name = file_name;
 		this.main = new JFrame();
 		this.main.setSize(800, 600);
 		this.main.setLayout(null);
@@ -316,7 +318,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton undo = new JButton("Undo");
-		undo.setSize(package_width, package_height);
+		undo.setSize(button_width, button_height);
 		undo.setLocation(0,200);
 		main.add(undo);
 
@@ -342,7 +344,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton exit = new JButton("Exit");
-		exit.setSize(package_width, package_height);
+		exit.setSize(button_width, button_height);
 		exit.setLocation(250, 200);
 		main.add(exit);
 
@@ -355,7 +357,7 @@ public class GUIPalletSetup {
 		});
 
 		JButton get_positions = new JButton("Get Positions");
-		get_positions.setSize(package_width, package_height);
+		get_positions.setSize(button_width, button_height);
 		get_positions.setLocation(100,200);
 		main.add(get_positions);
 
@@ -364,7 +366,8 @@ public class GUIPalletSetup {
 			@Override
 			//
 			public void actionPerformed(ActionEvent arg0) {
-				FileManipulate save = new FileManipulate("Waypoint", folder);
+				FileManipulate save = new FileManipulate(file_name, folder+"/waypoint");
+				
 
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
@@ -372,6 +375,7 @@ public class GUIPalletSetup {
 						JButton temp = button_layout.get(i).get(j);
 						int x_pos = (int) ((temp.getLocation().x + temp.getSize().width/2)*x_ratio);
 						int y_pos = (int) ((temp.getLocation().y + temp.getSize().height/2)* y_ratio);
+						// Package Dimensions Labels
 						int z_pos = package_depth;
 						String orientation = "";
 						if(temp.getText().contains("^")) {

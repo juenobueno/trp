@@ -1,9 +1,5 @@
 package therobotpeople.urcap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
@@ -31,6 +27,10 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	
 	@Input(id = "yourname")
 	private InputTextField nameTextField;
+	@Input(id = "yourname2")
+	private InputTextField nameTextField2;
+	@Input(id = "yourname3")
+	private InputTextField nameTextField3;
 
 	@Label(id = "titlePreviewLabel")
 	private LabelComponent titlePreviewLabel;
@@ -44,6 +44,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			setName(nameTextField.getText());
 		}
 	}
+	
 
 	@Override
 	public void openView() {	
@@ -70,11 +71,6 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		    gui_home_thread.run();
 		}
 
-		writer.sync();	
-
-		//String temp = null;
-		
-		/*
 		Selector.script_file = "Popup.script";
 	
 		//if( Selector.script_file == "") {
@@ -98,7 +94,6 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			//writer.writeChildren();
 			writer.sync();
 		//}
-		 * */
 	}
 
 	private String generatePopupMessage() {
