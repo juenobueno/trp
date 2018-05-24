@@ -296,7 +296,9 @@ public class GUIConfigure {
 					Integer.parseInt(package_width),
 					Integer.parseInt(package_height),
 					Integer.parseInt(edge_gap),
-					Integer.parseInt(box_gap)
+					Integer.parseInt(box_gap),
+					"Default",
+					existing_preset_name
 				);
 
 				pallet.run();

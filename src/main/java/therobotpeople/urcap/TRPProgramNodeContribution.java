@@ -1,5 +1,7 @@
 package therobotpeople.urcap;
 
+import java.text.DecimalFormat;
+
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
@@ -23,6 +25,10 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	
 	@Input(id = "yourname")
 	private InputTextField nameTextField;
+	@Input(id = "yourname2")
+	private InputTextField nameTextField2;
+	@Input(id = "yourname3")
+	private InputTextField nameTextField3;
 
 	@Label(id = "titlePreviewLabel")
 	private LabelComponent titlePreviewLabel;
@@ -37,6 +43,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			updatePopupMessageAndPreview();
 		}
 	}
+	
 
 	@Override
 	public void openView() {
@@ -67,7 +74,22 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			t.start();
 		}
 		String temp = null;
-		
+		getRobotRealtimeData getData = new getRobotRealtimeData();
+		double[] tcp = getData.getActualJointPose();
+		DecimalFormat df = new DecimalFormat("#.####");
+		String showTcp = "p["+
+				df.format(tcp[0])+","+
+				df.format(tcp[1])+","+
+				df.format(tcp[2])+","+
+				df.format(tcp[3])+","+
+				df.format(tcp[4])+","+
+				df.format(tcp[5])+"]";
+
+		writer.appendLine("foo = "+showTcp+"\n");
+		writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
+		writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");
+		writer.sync();
+		/*
 		Selector.script_file = "Popup.script";
 		
 		//if( Selector.script_file == "") {
@@ -91,6 +113,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			//writer.writeChildren();
 			writer.sync();
 		//}
+		//*/
 	}
 
 	private String generatePopupMessage() {

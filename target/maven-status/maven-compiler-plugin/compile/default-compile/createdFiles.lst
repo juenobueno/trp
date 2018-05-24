@@ -1,6 +1,7 @@
 therobotpeople/urcap/GUIConfigure.class
 therobotpeople/urcap/GUIHome$6.class
 therobotpeople/urcap/VirtualKeyboard$6.class
+therobotpeople/urcap/getRobotRealtimeData$RTinfo.class
 therobotpeople/urcap/GUIPalletSetup$1.class
 therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/GuiTextField.class
@@ -16,6 +17,7 @@ therobotpeople/urcap/GUIHome$7.class
 therobotpeople/urcap/TRPProgramNodeContribution.class
 therobotpeople/urcap/VirtualKeyboard$5.class
 therobotpeople/urcap/FileManipulate.class
+therobotpeople/urcap/getRobotRealtimeData.class
 therobotpeople/urcap/GUIHome$3.class
 therobotpeople/urcap/GUIPalletSetup$10.class
 therobotpeople/urcap/VirtualKeyboard$2.class
