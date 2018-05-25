@@ -11,6 +11,7 @@ public class FileManipulate {
 	
 	public static String default_pallet_preset = "-- new preset --";
 	public static String default_pallet_presets_folder = "trp_pallet_presets";
+	public static String default_waypoints_folder = "trp_waypoints";
 	
 	//private String folder = null;
 	//private String filename = null;
@@ -214,6 +215,11 @@ public class FileManipulate {
 		} else {
 			return null;
 		}
+	}
+	
+	public void rename(FileManipulate new_file) {
+		this.file.renameTo(new_file.file);
+		this.file = null;
 	}
 	
 }

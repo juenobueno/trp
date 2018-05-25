@@ -16,27 +16,27 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class GUIPalletSetup {
+	final int package_width;
+	final int package_height;
+	final int package_depth = 50;
+	
+	final int pallet_width;
+	final int pallet_height;
+	
 	final int pallet_x;
 	final int pallet_y;
 	final int pallet_z;
-
-	final int pallet_width;
-	final int pallet_height;
+	
+	final int edge_gap;
+	final int box_gap;
 
 	private final int pallet_width_max = 500;
 	private final int pallet_height_max = 500;
 	private double x_ratio = 1;
 	private double y_ratio = 1;
 
-	final int package_width;
-	final int package_height;
-	final int package_depth = 50;
-
 	final int package_width_real;
 	final int package_height_real;
-
-	final int edge_gap;
-	final int box_gap;
 
 	final int edge_gap_x;
 	final int edge_gap_y;
@@ -55,6 +55,7 @@ public class GUIPalletSetup {
 	
 	private static int layer = 0;
 
+	/* Never used
 	public GUIPalletSetup() {
 		this(0,0,0,400,400,100,50,0,0, "Default", "Waypoint1");
 	}
@@ -62,9 +63,10 @@ public class GUIPalletSetup {
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap) {
 		this(pallet_x,pallet_y,pallet_z,pallet_width,pallet_height,package_width, package_height, edge_gap, box_gap, "Default", "Waypoint2");
 	}
+	*/
 
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder, String file_name) {
-
+		
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
@@ -366,9 +368,8 @@ public class GUIPalletSetup {
 			@Override
 			//
 			public void actionPerformed(ActionEvent arg0) {
-				FileManipulate save = new FileManipulate(file_name, folder+"/waypoint");
+				FileManipulate save = new FileManipulate(file_name, folder);
 				
-
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {

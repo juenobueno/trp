@@ -290,12 +290,17 @@ public class GUIConfigure {
 					}
 				}
 				
-				// Check if preset name was edited, if so delete the old file
+				// Check if preset name was edited, if so delete the old pallet_preset file and rename the waypoints file
 				if (existing_preset_name != FileManipulate.default_pallet_preset) {
 					if (preset_name_text.getText().equals(existing_preset_name) == false) {
 						FileManipulate f = new FileManipulate(existing_preset_name, folder);
 						f.delete();
 						f.close();
+						
+						FileManipulate old_waypoints = new FileManipulate(existing_preset_name, FileManipulate.default_waypoints_folder);
+						FileManipulate new_waypoints = new FileManipulate(preset_name_text.getText(), FileManipulate.default_waypoints_folder);
+						old_waypoints.rename(new_waypoints);
+						old_waypoints.close();
 					}
 				}
 				
@@ -341,8 +346,8 @@ public class GUIConfigure {
 					Integer.parseInt(package_height),
 					Integer.parseInt(edge_gap),
 					Integer.parseInt(box_gap),
-					"Default",
-					existing_preset_name
+					FileManipulate.default_waypoints_folder,
+					preset_name
 				);
 
 				pallet.run();

@@ -74,9 +74,16 @@ public class GUIHome implements Runnable {
 
 			delete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					FileManipulate f = new FileManipulate((String)presets.getSelectedItem(), FileManipulate.default_pallet_presets_folder);
-					f.delete();
-					f.close();
+					// Delete corresponding file in trp_pallet_presets
+					FileManipulate f1 = new FileManipulate((String)presets.getSelectedItem(), FileManipulate.default_pallet_presets_folder);
+					f1.delete();
+					f1.close();
+					
+					// Delete corresponding file in trp_waypoints
+					FileManipulate f2 = new FileManipulate((String)presets.getSelectedItem(), FileManipulate.default_waypoints_folder);
+					f2.delete();
+					f2.close();
+					
 					refresh_presets(presets);
 				}
 			});
