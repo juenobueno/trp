@@ -223,8 +223,7 @@ public class GUIConfigure {
 					public void onOk(Pose pose, JointPositions jointPositions) { 
 						pallet_x_text.setText(String.format("%d", (int)(pose.getPosition().getX() * 1000)));
 						pallet_y_text.setText(String.format("%d", (int)(pose.getPosition().getY() * 1000)));
-						//pallet_z_text.setText(String.format("%d", (int)(pose.getPosition().getZ() * 1000)));
-						pallet_z_text.setText(String.format("%f", pose.getPosition().getZ() * 1000));
+						pallet_z_text.setText(String.format("%d", (int)(pose.getPosition().getZ() * 1000)));
 						
 						main.setVisible(true);
 					} 
