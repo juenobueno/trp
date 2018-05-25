@@ -3,23 +3,32 @@ package therobotpeople.urcap;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import therobotpeople.urcap.BackgroundPanel;
+import javax.swing.JOptionPane;
 
-public class GUIConfigure {
+import com.ur.urcap.api.domain.value.Pose;
+import com.ur.urcap.api.domain.variable.Variable;
+import com.ur.urcap.api.domain.userinteraction.RobotPositionCallback;
+import com.ur.urcap.api.domain.value.jointposition.JointPositions;
 
-	private static String default_string = "-- new preset --";
+
+
+public class GUIConfigure {	
+	public GUIConfigure(String existing_preset_name) {
+		this.run(existing_preset_name);
+	}
 	
-	// GUIHome can either call GUIConfigure with a preset name or without one
-
-	public static void run(String existing_preset_name) {
-		run(existing_preset_name, "Default");
+	// GUIHome can either call GUIConfigure with or without a folder name
+	public void run(String existing_preset_name) {
+		run(existing_preset_name, FileManipulate.default_pallet_presets_folder);
 	}
 
-	public static void run(final String existing_preset_name, final String folder) {
+	public void run(final String existing_preset_name, final String folder) {
 		int default_pallet_x = 0;
 		int default_pallet_y = 0;
 		int default_pallet_z = 0;
@@ -32,8 +41,8 @@ public class GUIConfigure {
 		int default_box_gap = 0;
 		String default_preset_name = ""; 
 
-		if (existing_preset_name != default_string) {
-			final FileManipulate saved = new FileManipulate(existing_preset_name, folder);
+		if (existing_preset_name != FileManipulate.default_pallet_preset) {
+			final FileManipulate saved = new FileManipulate(existing_preset_name, FileManipulate.default_pallet_presets_folder);
 			
 			if(saved.exists()) {
 				try {
@@ -158,7 +167,44 @@ public class GUIConfigure {
 		box_gap_text.setLocation(200, 270);
 		box_gap_text.setText(Integer.toString(default_box_gap));
 		main.add(box_gap_text);
-
+	    
+		
+		// Pallet Position Labels
+		JLabel pallet_x_pos = new JLabel("Pallet X Pos");
+		pallet_x_pos.setSize(100,20);
+		pallet_x_pos.setLocation(50,360);
+		main.add(pallet_x_pos);
+		
+		JLabel pallet_y_pos = new JLabel("Pallet Y Pos");
+		pallet_y_pos.setSize(100,20);
+		pallet_y_pos.setLocation(50,390);
+		main.add(pallet_y_pos);
+		
+		JLabel pallet_z_pos = new JLabel("Pallet Z Pos");
+		pallet_z_pos.setSize(100,20);	
+		pallet_z_pos.setLocation(50,420);
+		main.add(pallet_z_pos);
+		
+		
+		// Pallet Position Text Fields 
+		final GuiTextField pallet_x_text = new GuiTextField();
+		pallet_x_text.setSize(100, 20);
+		pallet_x_text.setLocation(150,360);
+		pallet_x_text.setText(Integer.toString(default_pallet_x));
+		main.add(pallet_x_text);
+		
+		final GuiTextField pallet_y_text = new GuiTextField();
+		pallet_y_text.setSize(100, 20);
+		pallet_y_text.setLocation(150,390);
+		pallet_y_text.setText(Integer.toString(default_pallet_y));
+		main.add(pallet_y_text);
+		
+		final GuiTextField pallet_z_text = new GuiTextField();
+		pallet_z_text.setSize(100, 20);
+		pallet_z_text.setText(Integer.toString(default_pallet_z));
+		pallet_z_text.setLocation(150,420);
+		main.add(pallet_z_text);
+		
 		
 		// Choose Origin Button
 	    JButton chooseOrigin = new JButton("Choose Origin"); 
@@ -167,75 +213,36 @@ public class GUIConfigure {
 	    main.add(chooseOrigin); 
 	     
 	    chooseOrigin.addActionListener(new ActionListener() { 
-	      public void actionPerformed(ActionEvent e) { 
-	        /* 
-	        api.getUserInteraction().getUserDefinedRobotPosition(new RobotPositionCallback() { 
-	          @Override 
-	          public void onOk(Pose pose, JointPositions jointPositions) { 
-	            // Do something with pose and jointPositions 
-	          } 
-	        }); 
-	        */ 
-	      } 
+			public void actionPerformed(ActionEvent e) {	
+				main.setVisible(false);
+				
+				TRPProgramNodeContribution.api.getUserInteraction().getUserDefinedRobotPosition(new RobotPositionCallback() { 
+					@SuppressWarnings("deprecation")
+					@Override 
+					public void onOk(Pose pose, JointPositions jointPositions) { 
+						pallet_x_text.setText(String.format("%d", (int)(pose.getPosition().getX() * 1000)));
+						pallet_y_text.setText(String.format("%d", (int)(pose.getPosition().getY() * 1000)));
+						pallet_z_text.setText(String.format("%d", (int)(pose.getPosition().getZ() * 1000)));
+						
+						main.setVisible(true);
+					} 
+				});
+			} 
 	    }); 
-	    
-		
-		// Pallet Position Labels
-		JLabel pallet_x_pos = new JLabel("Pallet X Pos");
-		pallet_x_pos.setSize(150,20);
-		pallet_x_pos.setLocation(50,360);
-		main.add(pallet_x_pos);
-		
-		JLabel pallet_y_pos = new JLabel("Pallet Y Pos");
-		pallet_y_pos.setSize(150,20);
-		pallet_y_pos.setLocation(50,390);
-		main.add(pallet_y_pos);
-		
-		JLabel pallet_z_pos = new JLabel("Pallet Z Pos");
-		pallet_z_pos.setSize(150,20);	
-		pallet_z_pos.setLocation(50,420);
-		main.add(pallet_z_pos);
-		
-		
-		// Pallet Position Text Fields 
-		final GuiTextField pallet_x_text = new GuiTextField();
-		pallet_x_text.setSize(50, 20);
-		pallet_x_text.setLocation(200,360);
-		pallet_x_text.setText(Integer.toString(default_pallet_x));
-		main.add(pallet_x_text);
-		
-		final GuiTextField pallet_y_text = new GuiTextField();
-		pallet_y_text.setSize(50, 20);
-		pallet_y_text.setLocation(200,390);
-		pallet_y_text.setText(Integer.toString(default_pallet_y));
-		main.add(pallet_y_text);
-		
-		final GuiTextField pallet_z_text = new GuiTextField();
-		pallet_z_text.setSize(50, 20);
-		pallet_z_text.setText(Integer.toString(default_pallet_z));
-		pallet_z_text.setLocation(200,420);
-		main.add(pallet_z_text);
 	    
 		
 		// Preset Name Label
 		JLabel preset_name_label = new JLabel("Preset Name");
 		preset_name_label.setSize(100,20);
 		preset_name_label.setLocation(50,460);
-		
-		if (existing_preset_name == default_string) {
 		main.add(preset_name_label);
-		}
-		
 		
 		// Preset Name Text Field
 		final GuiTextField preset_name_text = new GuiTextField();
 		preset_name_text.setSize(100, 20);
 		preset_name_text.setText(default_preset_name);
 		preset_name_text.setLocation(150,460);
-
-		if (existing_preset_name == default_string) {
-			main.add(preset_name_text);
-		}
+		main.add(preset_name_text);
 		
 	    
 		// Pallet Button 
@@ -247,6 +254,56 @@ public class GUIConfigure {
 		pallet.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				// Check for empty preset name text field
+				if (preset_name_text.getText().equals("")) {
+					JOptionPane.showMessageDialog(main, "Please Input a Preset Name");
+					return;
+				}
+			
+				// Check for no duplicate preset names when making new preset
+				if (existing_preset_name == FileManipulate.default_pallet_preset) {
+					FileManipulate presets_folder = new FileManipulate("trp_pallet_presets");
+					String[] file_names = presets_folder.get_list_of_files();
+					
+					for (int i = 0; i < file_names.length; i++) {
+						if (preset_name_text.getText().equals(file_names[i])) {
+							JOptionPane.showMessageDialog(main, "Preset Already Exists");  
+							return; 
+						}
+					}
+				}
+				
+				// Check for no duplicate preset names when editing preset name
+				if (existing_preset_name != FileManipulate.default_pallet_preset) {
+					FileManipulate presets_folder = new FileManipulate("trp_pallet_presets");
+					String[] file_names = presets_folder.get_list_of_files();
+					
+					for (int i = 0; i < file_names.length; i++) {
+						if (preset_name_text.getText().equals(existing_preset_name) == true) {
+							continue; 
+						}
+						
+						if (preset_name_text.getText().equals(file_names[i])) {
+							JOptionPane.showMessageDialog(main, "Preset Already Exists");  
+							return; 
+						}
+					}
+				}
+				
+				// Check if preset name was edited, if so delete the old pallet_preset file and rename the waypoints file
+				if (existing_preset_name != FileManipulate.default_pallet_preset) {
+					if (preset_name_text.getText().equals(existing_preset_name) == false) {
+						FileManipulate f = new FileManipulate(existing_preset_name, folder);
+						f.delete();
+						f.close();
+						
+						FileManipulate old_waypoints = new FileManipulate(existing_preset_name, FileManipulate.default_waypoints_folder);
+						FileManipulate new_waypoints = new FileManipulate(preset_name_text.getText(), FileManipulate.default_waypoints_folder);
+						old_waypoints.rename(new_waypoints);
+						old_waypoints.close();
+					}
+				}
+				
 				// Get all the information in the text fields		
 				String package_height = package_height_text.getText();
 				String package_width = package_width_text.getText();
@@ -278,14 +335,6 @@ public class GUIConfigure {
 				f.writeln(pallet_z);
 				f.close();
 				
-				// Update pallet_presets file
-				if (existing_preset_name == default_string) {
-					FileManipulate pp = new FileManipulate("pallet_presets", folder);
-					pp.writeln_append(preset_name);
-					pp.close();
-				}
-	
-				
 				//Need to call the interface from here with all the variables I need
 				GUIPalletSetup pallet = new GUIPalletSetup(
 					Integer.parseInt(pallet_x),
@@ -297,8 +346,8 @@ public class GUIConfigure {
 					Integer.parseInt(package_height),
 					Integer.parseInt(edge_gap),
 					Integer.parseInt(box_gap),
-					"Default",
-					existing_preset_name
+					FileManipulate.default_waypoints_folder,
+					preset_name
 				);
 
 				pallet.run();
@@ -317,6 +366,7 @@ public class GUIConfigure {
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				TRPProgramNodeContribution.gui_home_thread.run();
 				main.dispose();
 			}
 		});

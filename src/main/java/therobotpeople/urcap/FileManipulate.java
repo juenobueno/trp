@@ -9,14 +9,29 @@ import java.io.IOException;
 
 public class FileManipulate {
 	
+	public static String default_pallet_preset = "-- new preset --";
+	public static String default_pallet_presets_folder = "trp_pallet_presets";
+	public static String default_waypoints_folder = "trp_waypoints";
+	
 	//private String folder = null;
 	//private String filename = null;
 	private File file = null;
 	private BufferedReader reader = null;
 	private BufferedWriter writer = null;
 	
+	/*
 	public FileManipulate(String file_name) {
 		this(file_name, "Default");
+	}
+	*/
+	
+	// Replacing this constructor to be compatible with folders also
+	public FileManipulate(String folder_path) {
+		this.file = new File(folder_path);
+		
+		if (this.file.exists() == false) {
+			this.file.mkdirs();
+		}
 	}
 	
 	
@@ -184,6 +199,27 @@ public class FileManipulate {
 		if( this.file != null) {
 			this.file.delete();
 		}
+	}
+	
+	public String[] get_list_of_files() {
+		if (this.file.isDirectory()) {
+			File[] list_of_files = this.file.listFiles();
+			
+			String[] file_names = new String[list_of_files.length];
+			
+			for (int i = 0; i < list_of_files.length; i++) {
+				file_names[i] = list_of_files[i].getName();
+			}
+			
+			return file_names;
+		} else {
+			return null;
+		}
+	}
+	
+	public void rename(FileManipulate new_file) {
+		this.file.renameTo(new_file.file);
+		this.file = null;
 	}
 	
 }
