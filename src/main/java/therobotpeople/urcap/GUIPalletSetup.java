@@ -215,25 +215,25 @@ public class GUIPalletSetup {
 					x_pos = position.x;
 					y_pos = position.y;
 
-					System.out.println("The x and y positions are x: "+x_pos+" , y: "+y_pos+" ");
+					//System.out.println("The x and y positions are x: "+x_pos+" , y: "+y_pos+" ");
 
 					int left_distance = grid.left_limit(position, pack_width, pack_height);
 					int right_distance= grid.right_limit(position, pack_width, pack_height);
 
-					System.out.println("The Left Distance to nearest object is: "+left_distance);
-					System.out.println("The Right distance to nearest object is: "+right_distance);
+					//System.out.println("The Left Distance to nearest object is: "+left_distance);
+					//System.out.println("The Right distance to nearest object is: "+right_distance);
 					if(left_distance == position.x) {
-						System.out.println("LL: There is no object between this and the Left wall");
+						//System.out.println("LL: There is no object between this and the Left wall");
 
 						if(right_distance+pack_width+position.x == pallet_width) {
 							//In line with the grid, lock into grid
-							System.out.println("RR: There is no object between this and the Right wall");
+							//System.out.println("RR: There is no object between this and the Right wall");
 
 							x_pos = x_pos - x_pos%pack_width;
 
 						}else {
 							//need to align the right
-							System.out.println("==NEED TO ALIGN RIGHT");
+							//System.out.println("==NEED TO ALIGN RIGHT");
 							x_pos = x_pos + (right_distance)%pack_width+1; //need to +1 to get correct alignment
 							//x_pos = x_pos + pack_width-((x_pos+pack_width)%pack_width);
 
@@ -252,24 +252,24 @@ public class GUIPalletSetup {
 						//x_pos = x_pos - x_pos%pack_width;
 					}
 					//The box is now lined up horizontally
-					System.out.println("====New X_POS is "+x_pos);
+					//System.out.println("====New X_POS is "+x_pos);
 
 					int top_distance = grid.top_limit(position, pack_width, pack_height);
 					int bottom_distance = grid.bottom_limit(position, pack_width, pack_height);
 
-					System.out.println("The Top Distance to nearest object is: "+top_distance);
-					System.out.println("The Bottom Distance to nearest object is: "+bottom_distance);
+					//System.out.println("The Top Distance to nearest object is: "+top_distance);
+					//System.out.println("The Bottom Distance to nearest object is: "+bottom_distance);
 
 					if(top_distance == position.y) {
-						System.out.println("TT: There is no object between this and the Top wall");
+						//System.out.println("TT: There is no object between this and the Top wall");
 						if(bottom_distance+pack_height+position.y == pallet_height) {
 							//In line with grid lock into grid
-							System.out.println("BB: There is no object between this and the Bottom wall");
+							//System.out.println("BB: There is no object between this and the Bottom wall");
 
 							y_pos = y_pos - y_pos%pack_height;
 						}else {
 							//need to align the bottom
-							System.out.println("==NEED TO ALIGN BOTTOM");
+							//System.out.println("==NEED TO ALIGN BOTTOM");
 							//y_pos = y_pos + pack_height - ((y_pos+pack_height)%pack_height);
 							y_pos = y_pos+(bottom_distance)%pack_height+1;
 						}
@@ -280,21 +280,21 @@ public class GUIPalletSetup {
 							y_pos = y_pos - y_pos%pack_height + edge_gap_y;
 
 						}else {
-						System.out.println("==NEED TO ALIGN TOP");
+						//System.out.println("==NEED TO ALIGN TOP");
 						y_pos = y_pos - top_distance%pack_height;
 						//y_pos = y_pos - y_pos%pack_height;
 						}
 					}
-					System.out.println("====New Y_POS is "+y_pos);
+					//System.out.println("====New Y_POS is "+y_pos);
 
 					pack.setLocation(x_pos, y_pos);
 
-					System.out.println(position.x);
+					//System.out.println(position.x);
 
 					if(grid.set_Object(new Point(pack.getLocation().x, pack.getLocation().y ),  pack_width, pack_height)) {
 
 
-						System.out.println(pack.getLocation());
+						//System.out.println(pack.getLocation());
 
 						pack.setVisible(true);
 
@@ -366,7 +366,7 @@ public class GUIPalletSetup {
 			//
 			public void actionPerformed(ActionEvent arg0) {
 				FileManipulate save = new FileManipulate(file_name, folder+"/waypoint");
-				
+				FileManipulate urscript = new FileManipulate("../../programs/waypointTest.script"); 
 
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
@@ -380,16 +380,19 @@ public class GUIPalletSetup {
 						if(temp.getText().contains("^")) {
 							orientation = "0";
 						}else if(temp.getText().contains("v")) {
-							orientation = "180";
+							orientation = "0";
 						}else if(temp.getText().contains("<")) {
-							orientation = "270";
+							orientation = "1";
 						}else {
-							orientation = "90";
+							orientation = "1";
 						}
 						save.writeln(x_pos +", "+ y_pos +", "+ z_pos +", "+ orientation);
+						urscript.writeln("movel(p["+x_pos/1000+", "+y_pos/1000+", "+z_pos/1000+", -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)");
+						
+						//  movel(p[-0.400000, 0.065382, -0.031471, -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)
 					}
 				}
-
+				urscript.close();
 				save.close();
 			}
 		});

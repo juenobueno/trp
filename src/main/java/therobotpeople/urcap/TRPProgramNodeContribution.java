@@ -86,32 +86,37 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 				df.format(tcp[5])+"]";
 
 		writer.appendLine("foo = "+showTcp+"\n");
-		writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
-		writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");
-		writer.sync();
-		/*
-		Selector.script_file = "Popup.script";
+		//writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
+		//writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");
+		//writer.appendLine("popup(\""+Double.toString(tcp[0])+"\", title=\"OMG it worked\", blocking=True)");
+		//writer.sync();
+		///*
+		//Selector.script_file = "Popup.script";
 		
+		
+		if( Selector.first_run == true) {
 		//if( Selector.script_file == "") {
 		//	writer.sync();
 		//}else {
 			//Open and read the script file line by line into the writer
-			FileManipulate urscript = new FileManipulate("../../programs/Robotpaint.script");
-			FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
+			FileManipulate urscript = new FileManipulate("../../programs/waypointTest.script");
+			//FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
 			//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
 			temp = urscript.readLine();
 			while(temp != null) {
 				//writer.appendLine("popup(\""+temp+"\", title=\"OMG it worked\", blocking=True)");
 				writer.appendLine(temp+"\n");
-				urcopy.writeln(temp);
+				//urcopy.writeln(temp);
 				temp = urscript.readLine();
 			}
 			
-			urcopy.close();
+			//urcopy.close();
 			urscript.close();
 			
+		}
+		Selector.first_run = true;
 			//writer.writeChildren();
-			writer.sync();
+		writer.sync();
 		//}
 		//*/
 	}
