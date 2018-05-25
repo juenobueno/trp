@@ -155,9 +155,10 @@ public class GUIPalletSetup {
 						home_x = (float)(pose.getPosition().getX());
 						home_y = (float)(pose.getPosition().getY());
 						home_z = (float)(pose.getPosition().getZ());
-						
+						main.setVisible(true);
 					} 
 				});
+				
 			} 
 	    });
 		
@@ -407,7 +408,7 @@ public class GUIPalletSetup {
 						float x_pos = ((float)pallet_x/1000) + ((float)((temp.getLocation().x + temp.getSize().width/2)*x_ratio)/1000);
 						float y_pos = ((float)pallet_y/1000) + ((float)((temp.getLocation().y + temp.getSize().height/2)* y_ratio)/1000);
 						// Package Dimensions Labels
-						float z_pos = (float)pallet_z/1000 + (float)package_depth/1000;
+						float z_pos = (float)pallet_z/1000 + (float)(package_depth*i)/1000;
 						String orientation = "";
 						if(temp.getText().contains("^")) {
 							orientation = "0";
@@ -422,13 +423,13 @@ public class GUIPalletSetup {
 						
 						urscript.writeln("movej(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
 						
-						urscript.writeln("set digital out(0, 1)");
+						urscript.writeln("set_digital_out(0, True)");
 						urscript.writeln("movel(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
 						urscript.writeln("movel(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
 						
 						urscript.writeln("movej(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString((float)(z_pos+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
 						urscript.writeln("movel(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString(z_pos)+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
-						urscript.writeln("set digital out(0, 0)");
+						urscript.writeln("set_digital_out(0, False)");
 						urscript.writeln("movel(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString((float)(z_pos+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
 						
 						urscript.writeln("movej(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
