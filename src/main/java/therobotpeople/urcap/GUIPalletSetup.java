@@ -15,6 +15,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.ur.urcap.api.domain.userinteraction.RobotPositionCallback;
+import com.ur.urcap.api.domain.value.Pose;
+import com.ur.urcap.api.domain.value.jointposition.JointPositions;
+
 public class GUIPalletSetup {
 	final int package_width;
 	final int package_height;
@@ -54,6 +58,8 @@ public class GUIPalletSetup {
 
 	private final int button_width = 100;
 	private final int button_height = 50;
+	
+	public static float home_x, home_y, home_z;
 	
 	private static int layer = 0;
 
@@ -136,6 +142,30 @@ public class GUIPalletSetup {
 
 	public void run() {
 
+		// Choose Origin Button
+	    JButton chooseOrigin = new JButton("Choose Origin"); 
+	    chooseOrigin.setSize(200, 40); 
+	    chooseOrigin.setLocation(350, 350);
+	    main.add(chooseOrigin); 
+	
+	    chooseOrigin.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {	
+				main.setVisible(false);
+				
+				TRPProgramNodeContribution.api.getUserInteraction().getUserDefinedRobotPosition(new RobotPositionCallback() { 
+					@SuppressWarnings("deprecation")
+					@Override 
+					public void onOk(Pose pose, JointPositions jointPositions) { 
+						home_x = (float)(pose.getPosition().getX());
+						home_y = (float)(pose.getPosition().getY());
+						home_z = (float)(pose.getPosition().getZ());
+						
+					} 
+				});
+			} 
+	    });
+		
+		
 		JButton package_up = new JButton("^");
 		package_up.setSize(package_width, package_height);
 		package_up.setLocation(0, 0);
@@ -372,16 +402,16 @@ public class GUIPalletSetup {
 			@Override
 			//
 			public void actionPerformed(ActionEvent arg0) {
-				FileManipulate urscript = new FileManipulate("../../programs/waypointTest.script"); 
+				FileManipulate urscript = new FileManipulate("waypointTest.script", "../programs"); 
 				FileManipulate save = new FileManipulate(file_name, folder);
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
 						JButton temp = button_layout.get(i).get(j);
-						int x_pos = (int) ((temp.getLocation().x + temp.getSize().width/2)*x_ratio);
-						int y_pos = (int) ((temp.getLocation().y + temp.getSize().height/2)* y_ratio);
+						float x_pos = ((float)pallet_x/1000) + ((float)((temp.getLocation().x + temp.getSize().width/2)*x_ratio)/1000);
+						float y_pos = ((float)pallet_y/1000) + ((float)((temp.getLocation().y + temp.getSize().height/2)* y_ratio)/1000);
 						// Package Dimensions Labels
-						int z_pos = package_depth;
+						float z_pos = (float)pallet_z/1000 + (float)package_depth/1000;
 						String orientation = "";
 						if(temp.getText().contains("^")) {
 							orientation = "0";
@@ -393,7 +423,23 @@ public class GUIPalletSetup {
 							orientation = "1";
 						}
 						save.writeln(x_pos +", "+ y_pos +", "+ z_pos +", "+ orientation);
-						urscript.writeln("movel(p["+x_pos/1000+", "+y_pos/1000+", "+z_pos/1000+", -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)");
+						
+						urscript.writeln("movej(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						
+						urscript.writeln("set digital out(0, 1)");
+						urscript.writeln("movel(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						urscript.writeln("movel(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						
+						urscript.writeln("movej(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString((float)(z_pos+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						urscript.writeln("movel(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString(z_pos)+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						urscript.writeln("set digital out(0, 0)");
+						urscript.writeln("movel(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString((float)(z_pos+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						
+						urscript.writeln("movej(p["+Float.toString(home_x)+", "+Float.toString(home_y)+", "+Float.toString((float)(home_z+0.05))+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						
+						//urscript.writeln("The pallet position is:"+Float.toString((float)pallet_x/1000)+","+Float.toString((float)pallet_y/1000)+","+Float.toString((float)pallet_z/1000));
+						//urscript.writeln("The package position is:"+Float.toString(x_pos)+","+Float.toString(y_pos)+","+Float.toString(z_pos));
+						//urscript.writeln("The original position is:"+Float.toString(((float)((temp.getLocation().x + temp.getSize().width/2)*x_ratio)/1000))+","+Float.toString(((float)((temp.getLocation().y + temp.getSize().height/2)* y_ratio)/1000)));
 						
 						//  movel(p[-0.400000, 0.065382, -0.031471, -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)
 					}

@@ -67,30 +67,16 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	
 	@Override
 	public void generateScript(ScriptWriter writer) {
-		if (GUIHome.on == false){
-		    gui_home_thread.run();
-		}
-
 		String temp = null;
-		
-		//writer.appendLine("foo = "+showTcp+"\n");
-		///*
-		//writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
-		//writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");
-		//writer.appendLine("popup(\""+Double.toString(tcp[0])+"\", title=\"OMG it worked\", blocking=True)");
-		//writer.sync();
-		//Selector.script_file = "Popup.script";
-		
-		
-		if( Selector.first_run == true) {
-		//if( Selector.script_file == "") {
-		//	writer.sync();
-		//}else {
-			//Open and read the script file line by line into the writer
-			FileManipulate urscript = new FileManipulate("../../programs/waypointTest.script");
-			//FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
-			//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
-			temp = urscript.readLine();
+		if( GUIHome.on == true) {
+			//if( Selector.script_file == "") {
+			//	writer.sync();
+			//}else {
+				//Open and read the script file line by line into the writer
+			FileManipulate urscript = new FileManipulate("waypointTest.script", "../programs"); 
+				//FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
+				//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
+				temp = urscript.readLine();
 			while(temp != null) {
 				//writer.appendLine("popup(\""+temp+"\", title=\"OMG it worked\", blocking=True)");
 				writer.appendLine(temp+"\n");
@@ -102,7 +88,23 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			urscript.close();
 			
 		}
-		Selector.first_run = true;
+		
+		if (GUIHome.on == false){
+		    gui_home_thread.run();
+		}
+
+		
+		
+		//writer.appendLine("foo = "+showTcp+"\n");
+		///*
+		//writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
+		//writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");on == true
+		//writer.appendLine("popup(\""+Double.toString(tcp[0])+"\", title=\"OMG it worked\", blocking=True)");
+		//writer.sync();
+		//Selector.script_file = "Popup.script";
+		
+		
+		
 			//writer.writeChildren();
 		writer.sync();
 		//}
