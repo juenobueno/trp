@@ -2,6 +2,7 @@ therobotpeople/urcap/GUIConfigure.class
 therobotpeople/urcap/GUIHome$6.class
 therobotpeople/urcap/VirtualKeyboard$6.class
 therobotpeople/urcap/getRobotRealtimeData$RTinfo.class
+therobotpeople/urcap/GUIPalletSetup$1$1.class
 therobotpeople/urcap/GUIPalletSetup$1.class
 therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/GuiTextField.class
@@ -36,6 +37,7 @@ therobotpeople/urcap/GUIHome$4.class
 therobotpeople/urcap/GUIHome$5.class
 therobotpeople/urcap/GUIStatistics.class
 therobotpeople/urcap/VirtualKeyboard.class
+therobotpeople/urcap/GUIPalletSetup$11.class
 therobotpeople/urcap/GUIHome$2.class
 therobotpeople/urcap/GUIConfigure$1$1.class
 therobotpeople/urcap/GUIPalletSetup$8.class
