@@ -16,8 +16,6 @@ import com.ur.urcap.api.domain.variable.Variable;
 import com.ur.urcap.api.domain.userinteraction.RobotPositionCallback;
 import com.ur.urcap.api.domain.value.jointposition.JointPositions;
 
-
-
 public class GUIConfigure {	
 	public GUIConfigure(String existing_preset_name) {
 		this.run(existing_preset_name);
@@ -39,6 +37,7 @@ public class GUIConfigure {
 		int default_package_elevation = 0;
 		int default_edge_gap = 0;
 		int default_box_gap = 0;
+		int default_rotation = 0; 
 		String default_preset_name = ""; 
 
 		if (existing_preset_name != FileManipulate.default_pallet_preset) {
@@ -62,6 +61,8 @@ public class GUIConfigure {
 					default_pallet_y	  		= Integer.parseInt(saved.readLine());
 					default_pallet_z	  		= Integer.parseInt(saved.readLine());
 
+					default_rotation 			= Integer.parseInt(saved.readLine());
+					
 					saved.close();
 				} catch (Exception e) {
 				
@@ -222,7 +223,8 @@ public class GUIConfigure {
 					public void onOk(Pose pose, JointPositions jointPositions) { 
 						pallet_x_text.setText(String.format("%d", (int)(pose.getPosition().getX() * 1000)));
 						pallet_y_text.setText(String.format("%d", (int)(pose.getPosition().getY() * 1000)));
-						pallet_z_text.setText(String.format("%d", (int)(pose.getPosition().getZ() * 1000)));
+						//pallet_z_text.setText(String.format("%d", (int)(pose.getPosition().getZ() * 1000)));
+						pallet_z_text.setText(String.format("%f", pose.getPosition().getZ() * 1000));
 						
 						main.setVisible(true);
 					} 
@@ -244,6 +246,9 @@ public class GUIConfigure {
 		preset_name_text.setLocation(150,460);
 		main.add(preset_name_text);
 		
+		// Invisible rotation_text field
+		final GuiTextField rotation_text = new GuiTextField();
+		rotation_text.setText(Integer.toString(default_rotation));
 	    
 		// Pallet Button 
 		JButton pallet = new JButton("<html><center>Configure<br>Pallet Pattern</center></html>");
@@ -316,6 +321,7 @@ public class GUIConfigure {
 				String pallet_y = pallet_y_text.getText();
 				String pallet_z = pallet_z_text.getText();
 				String preset_name = preset_name_text.getText();
+				String rotation = rotation_text.getText();
 				
 				// Store information in file
 				FileManipulate f = new FileManipulate(preset_name, folder);
@@ -333,6 +339,8 @@ public class GUIConfigure {
 				f.writeln(pallet_x);
 				f.writeln(pallet_y);
 				f.writeln(pallet_z);
+				
+				f.writeln(rotation);
 				f.close();
 				
 				//Need to call the interface from here with all the variables I need
@@ -346,6 +354,7 @@ public class GUIConfigure {
 					Integer.parseInt(package_height),
 					Integer.parseInt(edge_gap),
 					Integer.parseInt(box_gap),
+					Integer.parseInt(rotation),
 					FileManipulate.default_waypoints_folder,
 					preset_name
 				);
@@ -372,6 +381,53 @@ public class GUIConfigure {
 		});
 		
 		
+		// Rotation Stuff
+		final ImagePanel rotation = new ImagePanel();
+	
+		if (default_rotation == 0) {
+			rotation.changeImage("rot_0.png");
+		} else if (default_rotation == 1) {
+			rotation.changeImage("rot_1.png");
+		} else if (default_rotation == 2) {
+			rotation.changeImage("rot_2.png");
+		} else if (default_rotation == 3) {
+			rotation.changeImage("rot_3.png");
+		}
+		
+		rotation.setBounds(500, 300, 240, 240);
+		rotation.setOpaque(false);
+		main.add(rotation);
+		rotation.repaint();
+		
+		
+		// Rotation Button
+		JButton rotate = new JButton("Rotate Robot");
+		rotate.setSize(200, 40);
+		rotate.setLocation(520,550);
+		main.add(rotate);
+
+		rotate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int current_rotation = Integer.parseInt(rotation_text.getText());
+				current_rotation = (current_rotation + 1) % 4;
+				rotation_text.setText(Integer.toString(current_rotation));
+				
+				if (current_rotation == 0) {
+					rotation.changeImage("rot_0.png");
+				} else if (current_rotation == 1) {
+					rotation.changeImage("rot_1.png");
+				} else if (current_rotation == 2) {
+					rotation.changeImage("rot_2.png");
+				} else if (current_rotation == 3) {
+					rotation.changeImage("rot_3.png");
+				}
+				
+				rotation.repaint();
+			}
+		});
+		
+		
 		// Create a background and load in a custom image
 		BackgroundPanel bg = null;
 		try{
@@ -382,8 +438,8 @@ public class GUIConfigure {
 			//
 		}
 		main.add(bg);
-
 		
+				
 		// Open JFrame
 		main.setVisible(true);
 	}
