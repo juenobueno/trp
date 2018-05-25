@@ -368,16 +368,16 @@ public class GUIPalletSetup {
 			@Override
 			//
 			public void actionPerformed(ActionEvent arg0) {
-				FileManipulate urscript = new FileManipulate("../../programs/waypointTest.script"); 
+				FileManipulate urscript = new FileManipulate("waypointTest.script", "../programs"); 
 				FileManipulate save = new FileManipulate(file_name, folder);
 				for( int i = 0; i < button_layout.size(); i++) {
 					save.writeln("==== Layer "+i+" ====");
 					for( int j = 0; j < button_layout.get(i).size(); j++) {
 						JButton temp = button_layout.get(i).get(j);
-						int x_pos = (int) ((temp.getLocation().x + temp.getSize().width/2)*x_ratio);
-						int y_pos = (int) ((temp.getLocation().y + temp.getSize().height/2)* y_ratio);
+						float x_pos = ((float)pallet_x/1000) + ((float)((temp.getLocation().x + temp.getSize().width/2)*x_ratio)/1000);
+						float y_pos = ((float)pallet_y/1000) + ((float)((temp.getLocation().y + temp.getSize().height/2)* y_ratio)/1000);
 						// Package Dimensions Labels
-						int z_pos = package_depth;
+						float z_pos = (float)pallet_z/1000 + (float)package_depth/1000;
 						String orientation = "";
 						if(temp.getText().contains("^")) {
 							orientation = "0";
@@ -389,7 +389,11 @@ public class GUIPalletSetup {
 							orientation = "1";
 						}
 						save.writeln(x_pos +", "+ y_pos +", "+ z_pos +", "+ orientation);
-						urscript.writeln("movel(p["+x_pos/1000+", "+y_pos/1000+", "+z_pos/1000+", -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)");
+						urscript.writeln("movel(p["+Float.toString(x_pos)+", "+Float.toString(y_pos)+", "+Float.toString(z_pos)+", 3.2, -0.0383, 0.011],3.000,0.300,0,0.001)");
+						
+						//urscript.writeln("The pallet position is:"+Float.toString((float)pallet_x/1000)+","+Float.toString((float)pallet_y/1000)+","+Float.toString((float)pallet_z/1000));
+						//urscript.writeln("The package position is:"+Float.toString(x_pos)+","+Float.toString(y_pos)+","+Float.toString(z_pos));
+						//urscript.writeln("The original position is:"+Float.toString(((float)((temp.getLocation().x + temp.getSize().width/2)*x_ratio)/1000))+","+Float.toString(((float)((temp.getLocation().y + temp.getSize().height/2)* y_ratio)/1000)));
 						
 						//  movel(p[-0.400000, 0.065382, -0.031471, -1.926875, -1.926875, 0.516304],3.000,0.300,0,0.001)
 					}
