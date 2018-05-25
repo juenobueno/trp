@@ -71,7 +71,9 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 		    gui_home_thread.run();
 		}
 
-		writer.appendLine("foo = "+showTcp+"\n");
+		String temp = null;
+		
+		//writer.appendLine("foo = "+showTcp+"\n");
 		///*
 		//writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
 		//writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");
