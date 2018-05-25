@@ -46,6 +46,8 @@ public class GUIPalletSetup {
 	final int edge_gap_y;
 	final int box_gap_x;
 	final int box_gap_y;
+	
+	final int rotation;
 
 	final JFrame main;
 	final Grid grid;
@@ -71,11 +73,13 @@ public class GUIPalletSetup {
 	}
 	*/
 
-	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, String folder, String file_name) {
+	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, int rotation, String folder, String file_name) {
 		
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
+		
+		this.rotation = rotation;
 
 		if( pallet_width > pallet_width_max || pallet_height > pallet_height_max) {
 
