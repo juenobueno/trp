@@ -102,7 +102,8 @@ public class VirtualKeyboard implements Runnable {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if( temp.getText() == "<<") {
-						output = temp.getText().substring(0, temp.getText().length()-1);
+						output = output.substring(0, output.length()-1);
+						preview.setText(output);
 					}else {
 						output += temp.getText();
 						preview.setText(output);
@@ -149,7 +150,7 @@ public class VirtualKeyboard implements Runnable {
 		//space
 		JButton space = new JButton();
 		space.setSize(200, button_height);
-		space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 4*button_height);
+		space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 5*button_height);
 		space.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -160,7 +161,7 @@ public class VirtualKeyboard implements Runnable {
 		//yes
 		JButton yes = new JButton("yes");
 		yes.setSize(button_width, button_height);
-		yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 4*button_height);
+		yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 5*button_height);
 		yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent argo0) {
@@ -173,7 +174,7 @@ public class VirtualKeyboard implements Runnable {
 		//no
 		JButton no = new JButton("no");
 		no.setSize(button_width, button_height);
-		no.setLocation((int)(yes.getLocation().x + yes.getSize().getWidth()), 4*button_height);
+		no.setLocation((int)(yes.getLocation().x + yes.getSize().getWidth()), 5*button_height);
 		no.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent argo0) {
