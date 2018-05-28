@@ -4,6 +4,7 @@ therobotpeople/urcap/VirtualKeyboard$6.class
 therobotpeople/urcap/getRobotRealtimeData$RTinfo.class
 therobotpeople/urcap/GUIPalletSetup$1$1.class
 therobotpeople/urcap/GUIPalletSetup$1.class
+therobotpeople/urcap/GUIConfigure$4.class
 therobotpeople/urcap/BackgroundPanel.class
 therobotpeople/urcap/GuiTextField.class
 therobotpeople/urcap/DashboardServerInterface.class
@@ -42,5 +43,6 @@ therobotpeople/urcap/GUIHome$2.class
 therobotpeople/urcap/GUIConfigure$1$1.class
 therobotpeople/urcap/GUIPalletSetup$8.class
 therobotpeople/urcap/GUIPalletSetup$2.class
+therobotpeople/urcap/ImagePanel.class
 therobotpeople/urcap/VirtualKeyboard$4.class
 therobotpeople/urcap/GUIPalletSetup$5.class

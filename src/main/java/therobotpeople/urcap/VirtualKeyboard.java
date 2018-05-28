@@ -16,6 +16,7 @@ public class VirtualKeyboard implements Runnable {
 	private String output;
 	private Boolean running;
 	private JTextField text;
+	private final JTextField preview;
 	private final int button_width = 50;
 	private final int button_height = 50;
 	private Boolean lower_case;
@@ -37,7 +38,7 @@ public class VirtualKeyboard implements Runnable {
 		this.running = false;
 		this.text = null;
 		this.lower_case = true;
-		
+		this.preview = new JTextField();
 		this.mainframe = new JFrame();
 	}
 	
@@ -66,22 +67,26 @@ public class VirtualKeyboard implements Runnable {
 		setLower();
 		setBottom();
 		
+		preview.setSize(button_width*5,button_width);
+		preview.setLocation(0, 0);
+		mainframe.add(preview);
+		
 		this.mainframe.setVisible(true);
 		
 	}
 	
 	private void setLower() {
-		keyRow(this.firstRow, 0, 0);
-		keyRow(this.secondRow, 0, this.button_height);
-		keyRow(this.thirdRow, 0, 2*this.button_height);
-		keyRow(this.fourthRow, 0, 3*this.button_height);
+		keyRow(this.firstRow, 0, this.button_height);
+		keyRow(this.secondRow, 0, 2*this.button_height);
+		keyRow(this.thirdRow, 0, 3*this.button_height);
+		keyRow(this.fourthRow, 0, 4*this.button_height);
 	}
 	
 	private void setUpper() {
-		keyRow(this.FIRSTROW, 0, 0);
-		keyRow(this.SECONDROW, 0, this.button_height);
-		keyRow(this.THIRDROW, 0, 2*this.button_height);
-		keyRow(this.FOURTHROW, 0, 3*this.button_height);
+		keyRow(this.FIRSTROW, 0, this.button_height);
+		keyRow(this.SECONDROW, 0, 2*this.button_height);
+		keyRow(this.THIRDROW, 0, 3*this.button_height);
+		keyRow(this.FOURTHROW, 0, 4*this.button_height);
 	}
 	
 	
@@ -96,8 +101,12 @@ public class VirtualKeyboard implements Runnable {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					output += temp.getText();
-					
+					if( temp.getText() == "<<") {
+						output = temp.getText().substring(0, temp.getText().length()-1);
+					}else {
+						output += temp.getText();
+						preview.setText(output);
+					}
 					if( lower_case == false) {
 						lower_case = true;
 						mainframe.removeAll();
@@ -105,6 +114,7 @@ public class VirtualKeyboard implements Runnable {
 						setBottom();
 						mainframe.repaint();
 					}
+					
 				}
 				
 			});
@@ -118,7 +128,7 @@ public class VirtualKeyboard implements Runnable {
 		//shift
 		JButton shift = new JButton("Shift");
 		shift.setSize(button_width, button_height);
-		shift.setLocation(0, 4*button_height);
+		shift.setLocation(0, 5*button_height);
 		shift.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -144,6 +154,7 @@ public class VirtualKeyboard implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				output += " ";
+				preview.setText(output);
 			}
 		});
 		//yes
