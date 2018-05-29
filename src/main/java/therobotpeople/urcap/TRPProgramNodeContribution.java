@@ -1,5 +1,7 @@
 package therobotpeople.urcap;
 
+import java.text.DecimalFormat;
+
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
@@ -67,6 +69,22 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	
 	@Override
 	public void generateScript(ScriptWriter writer) {
+		/*
+		//code to get rrobot position
+		//getRobotRealtimeData getData = new getRobotRealtimeData();
+		//getData.readNow();
+		//DecimalFormat df = new DecimalFormat("#.####");
+		//double[] tcp = getData.getActualTcpPose();
+		//String showTcp = "p["+
+				df.format(tcp[0])+","+
+				df.format(tcp[1])+","+
+				df.format(tcp[2])+","+
+				df.format(tcp[3])+","+
+				df.format(tcp[4])+","+
+				df.format(tcp[5])+"]";
+				//*/
+		//writer.appendLine("popup(\""+showTcp+"\", title=\"OMG it worked\", blocking=True)");
+		
 		String temp = null;
 		if( GUIHome.on == true) {
 			//if( Selector.script_file == "") {
@@ -88,7 +106,7 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 			urscript.close();
 			
 		}
-		
+		///*/
 		if (GUIHome.on == false){
 		    gui_home_thread.run();
 		}

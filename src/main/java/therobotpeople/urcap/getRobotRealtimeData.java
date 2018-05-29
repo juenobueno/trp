@@ -19,7 +19,7 @@ public class getRobotRealtimeData {
 	private int TCP_port = 30003;
 	
 	// Initialize a new array for storing received data from realtime interface
-	private double[] RealtimeMessage = new double[133]; 
+	private double[] RealtimeMessage = new double[139]; 
 	
 	// Public method that reads a snapshot from real time client interface
 	public void readNow(){
