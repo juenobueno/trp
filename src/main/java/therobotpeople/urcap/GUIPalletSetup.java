@@ -143,6 +143,8 @@ public class GUIPalletSetup {
 	public void run() {
 
 		// Choose Origin Button
+		
+		// Also need a choose pick up point and a choose pick up waiting location for before it picks it up
 	    JButton chooseOrigin = new JButton("Choose Origin"); 
 	    chooseOrigin.setSize(200, 40); 
 	    chooseOrigin.setLocation(350, 350);
