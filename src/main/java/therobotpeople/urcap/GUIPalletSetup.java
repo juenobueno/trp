@@ -74,7 +74,6 @@ public class GUIPalletSetup {
 	*/
 
 	public GUIPalletSetup(int pallet_x, int pallet_y, int pallet_z, int pallet_width, int pallet_height, int package_width, int package_height, int edge_gap, int box_gap, int rotation, String folder, String file_name) {
-		
 		this.pallet_x = pallet_x;
 		this.pallet_y = pallet_y;
 		this.pallet_z = pallet_z;
@@ -219,11 +218,29 @@ public class GUIPalletSetup {
 
 		final ArrayList<JButton> palletized = new ArrayList<JButton>();
 
+
+
+		
 		final JPanel pallet = new JPanel();
 		pallet.setBackground(Color.ORANGE);
 		pallet.setLayout(null);
-		pallet.setSize(pallet_width,pallet_height);
-		pallet.setLocation(400, 0);
+		
+		if (pallet_width == pallet_height) {
+			int x = (int) (200 + (600 - 500) / 2);
+			int y = (int) ((600 - 500) / 2);
+			pallet.setBounds(x, y, 500, 500);
+		} else if (pallet_width > pallet_height) {
+			int h = (int) (pallet_height / pallet_width * 500);
+			int x = (int) (200 + (600 - 500) / 2);
+			int y = (int) ((600 - h) / 2);
+			pallet.setBounds(x, y, 500, h);
+		} else if (pallet_width < pallet_height) {
+			int w = (int) (pallet_width / pallet_height * 500);
+			int x = (int) (200 + (600 - w) / 2);
+			int y = (int) ((600 - 500) / 2);
+			pallet.setBounds(x, y, w, 500);
+		}
+		
 		pallet.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
