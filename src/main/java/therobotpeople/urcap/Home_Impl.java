@@ -103,7 +103,8 @@ public class Home_Impl extends Home_GUI implements Runnable {
 	public ActionListener new_preset_button_action() {
 		ActionListener res = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new GUIConfigure((String)presets.getSelectedItem());
+				//new GUIConfigure((String)presets.getSelectedItem());
+				new Configure_Impl((String)presets.getSelectedItem());
 				main.dispose();
 			}
 		};

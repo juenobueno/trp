@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 
 // This Class Stores the GUI settings for the Configure Page
 // It also contains abstract definitions for certain buttons
-public abstract class Configure_GUI {
+public abstract class Configure_GUI implements Runnable {
 	
 	// Varaibles required to setup a Pallet which are set in Configure	
 	int default_pallet_x          = 0;
@@ -75,10 +75,22 @@ public abstract class Configure_GUI {
 	//Need to handle the preset
 	
 	public Configure_GUI() {
-		this("","");
+		run(FileManipulate.default_pallet_preset);
 	}
 	
-	public Configure_GUI(final String existing_preset_name, final String folder) {
+	public Configure_GUI(String preset) {
+		run(preset);
+	}
+	
+	public void run() {
+		run(FileManipulate.default_pallet_preset);
+	}
+	
+	public void run(String existing_preset_name) {
+		run(existing_preset_name, FileManipulate.default_pallet_presets_folder);
+	}
+	
+	public void run(final String existing_preset_name, final String folder) {
 		//Need a function to get existing values which have been saved
 		this.main = new JFrame();
 		this.main.setLayout(null);

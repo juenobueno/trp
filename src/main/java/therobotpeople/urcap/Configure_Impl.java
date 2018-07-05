@@ -11,6 +11,11 @@ import com.ur.urcap.api.domain.value.jointposition.JointPositions;
 
 public class Configure_Impl extends Configure_GUI{
 
+	
+	public Configure_Impl(String preset) {
+		run(preset);
+	}
+	
 	@Override
 	public ActionListener cancel_button_action() {
 		// TODO Auto-generated method stub
@@ -78,7 +83,7 @@ public class Configure_Impl extends Configure_GUI{
 					}
 				}
 				
-				// Get all the information in the text fields		
+				// Get all the inf				ormation in the text fields		
 				String package_height = package_height_text.getText();
 				String package_width = package_width_text.getText();
 				String package_elevation = package_elevation_text.getText();
@@ -162,5 +167,7 @@ public class Configure_Impl extends Configure_GUI{
 		};
 		return res;
 	}
+
+	
 
 }
