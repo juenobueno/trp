@@ -73,11 +73,12 @@ public abstract class Configure_GUI {
 	//Implemented in another class
 	
 	//Need to handle the preset
+	
 	public Configure_GUI() {
-		this(FileManipulate.default_pallet_preset);
+		this("","");
 	}
 	
-	public Configure_GUI(String preset) {
+	public Configure_GUI(final String existing_preset_name, final String folder) {
 		//Need a function to get existing values which have been saved
 		this.main = new JFrame();
 		this.main.setLayout(null);
@@ -86,7 +87,7 @@ public abstract class Configure_GUI {
 		this.main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//Load in preset values
-		this.load_default_values_from_file(preset);
+		this.load_default_values_from_file(existing_preset_name);
 		
 		//Create all gui elements
 		//Instanstiate all the elements
@@ -200,11 +201,11 @@ public abstract class Configure_GUI {
 		package_elevation_text.setText(Integer.toString(default_package_elevation));
 		edge_gap_text.setText(Integer.toString(default_edge_gap));
 		box_gap_text.setText(Integer.toString(default_box_gap));
-		preset_name_text.setText(preset);
+		preset_name_text.setText(existing_preset_name);
 		
 		// Set bution actions up using functions that need to be implemented
 		choose_origin_button.addActionListener(choose_origin_button_action());
-		configure_pallet_button.addActionListener(configure_pallet_button_action());
+		configure_pallet_button.addActionListener(configure_pallet_button_action(existing_preset_name, folder));
 		cancel_button.addActionListener(cancel_button_action());
 		rotate_robot_button.addActionListener(rotate_robot_button_action());
 		
@@ -215,7 +216,7 @@ public abstract class Configure_GUI {
 	public abstract ActionListener cancel_button_action();
 	public abstract ActionListener rotate_robot_button_action();
 	
-	public abstract ActionListener configure_pallet_button_action();
+	public abstract ActionListener configure_pallet_button_action(final String existing_preset_name, final String folder);
 	
 	public abstract ActionListener choose_origin_button_action();
 	
