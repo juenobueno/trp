@@ -7,9 +7,10 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 
-public class Home_Impl extends Home_GUI implements Runnable {
-
-	
+/*
+ * GUI_ConfigureImpl implements the functionality of the Configurations GUI. 
+ */
+public class GUI_HomeImpl extends GUI_HomeLayout {	
 	@Override
 	public ActionListener pause_button_action() {
 		ActionListener res = new ActionListener() {
@@ -25,8 +26,19 @@ public class Home_Impl extends Home_GUI implements Runnable {
 	public ActionListener play_button_action() {
 		ActionListener res = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DashboardServerInterface.Play_Program();
-				status.setText("Status: Running");
+				// Restart only if program was not in the middle of something 
+				if (status.getText() == "Status: Running") {
+					return; 
+				} else if (status.getText() == "Status: Paused") {
+					DashboardServerInterface.Play_Program();
+					status.setText("Status: Running");
+				} else if (status.getText() == "Status: Choose Preset") {
+					return; 
+				} else {
+					DashboardServerInterface.Stop_Program();
+					DashboardServerInterface.Play_Program();
+					status.setText("Status: Running");
+				}
 			}
 		};
 		return res;
@@ -64,6 +76,7 @@ public class Home_Impl extends Home_GUI implements Runnable {
                 String selection = event.getItem().toString();
 
 		    	if (!selection.equals("-- new preset --")) {
+		    		copy_urscript_to_static_location(selection);
 		    		String buffer = "Status: ";
 		    		buffer += selection; 
 		    		buffer += " Ready";
@@ -79,6 +92,23 @@ public class Home_Impl extends Home_GUI implements Runnable {
 		return res;
 	}
 
+	void copy_urscript_to_static_location(String pallet_preset) {
+		FileManipulate trp_palletiser_script = new FileManipulate("trp_palletiser.script", "../programs");
+		FileManipulate pallet_preset_script = new FileManipulate(pallet_preset, FileManipulate.default_scripts_folder);
+		
+		String currentLine = null;
+		
+		// Copy the file line by line
+		currentLine = pallet_preset_script.readLine();
+		while(currentLine != null) {
+			trp_palletiser_script.writeln(currentLine);
+			currentLine = pallet_preset_script.readLine();
+		}
+		
+		trp_palletiser_script.close();
+		pallet_preset_script.close();
+	}
+	
 	@Override
 	public ActionListener delete_preset_button_action() {
 		ActionListener res = new ActionListener() {
@@ -93,6 +123,11 @@ public class Home_Impl extends Home_GUI implements Runnable {
 				f2.delete();
 				f2.close();
 				
+				// Delete corresponding file in trp_urscripts
+				FileManipulate f3 = new FileManipulate((String)presets.getSelectedItem(), FileManipulate.default_scripts_folder);
+				f3.delete();
+				f3.close();
+				
 				refresh_presets(presets);
 			}
 		};
@@ -103,15 +138,15 @@ public class Home_Impl extends Home_GUI implements Runnable {
 	public ActionListener new_preset_button_action() {
 		ActionListener res = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//new GUIConfigure((String)presets.getSelectedItem());
-				new Configure_Impl((String)presets.getSelectedItem());
-				main.dispose();
+				new GUI_ConfigureImpl(presets.getSelectedItem().toString());
+				main.setVisible(false);
 			}
 		};
 		return res;
 	}
 	
-	private void refresh_presets(JComboBox<String> presets) {
+	@Override
+	public void refresh_presets(JComboBox presets) {
 		presets.removeAllItems();
 		presets.addItem("-- new preset --");
 	
@@ -122,6 +157,9 @@ public class Home_Impl extends Home_GUI implements Runnable {
 			presets.addItem(file_names[i]);
 		}
 		
+		presets.repaint();
+		
 		presets_folder.close();
+		
 	}
 }

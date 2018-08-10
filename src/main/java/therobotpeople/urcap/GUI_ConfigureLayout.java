@@ -1,273 +1,213 @@
 package therobotpeople.urcap;
 
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-// This Class Stores the GUI settings for the Configure Page
-// It also contains abstract definitions for certain buttons
-public abstract class Configure_GUI implements Runnable {
+/*
+ * GUI_ConfigureLayout provides the layout of all the GUI elements for the configurations page. 
+ */
+public abstract class GUI_ConfigureLayout {
 	
-	// Varaibles required to setup a Pallet which are set in Configure	
-	int default_pallet_x          = 0;
-	int default_pallet_y          = 0;
-	int default_pallet_z          = 0;
-	int default_pallet_width      = 400;
-	int default_pallet_height     = 400;
+	// Default values of the parameters which describe a pallet layout, dimensions in mm
+	// These are used to fill in the text boxes visible to the user.
 	int default_package_width     = 100;
 	int default_package_height    = 50;
-	int default_package_elevation = 0;
+	int default_package_elevation = 25;
+	int default_pallet_width      = 500;
+	int default_pallet_height     = 500;
 	int default_edge_gap          = 0;
 	int default_box_gap           = 0;
-	int default_rotation          = 0;
+	String default_preset_name	  = "";
+	
+	// Parameters which describe the dimensions of GUI Elements
+	private int screen_width          = 800;
+	private int screen_height         = 600;
+	private int default_label_width   = 150;
+	private int default_label_height  = 20;
+	private int default_text_width    = 50;
+	private int default_text_height   = 20;
+	private int default_button_width  = 200;
+	private int default_button_height = 50;
 	
 	// GUI Elements
-	
-	// To add a new GUI element, you will need to also add it to
-	// the functions Add_to_main and the constructor
 	JFrame main;
-	JLabel pallet_x_label;
-	JLabel pallet_y_label;
-	JLabel pallet_z_label;
-	JLabel pallet_width_label;
-	JLabel pallet_height_label;
 	JLabel package_width_label;
 	JLabel package_height_label;
 	JLabel package_elevation_label;
+	JLabel pallet_width_label;
+	JLabel pallet_height_label;
 	JLabel edge_gap_label;
 	JLabel box_gap_label;
 	JLabel preset_name_label;
+
+	TextField package_width_text;
+	TextField package_height_text;
+	TextField package_elevation_text;
+	TextField pallet_width_text;
+	TextField pallet_height_text;
+	TextField edge_gap_text;
+	TextField box_gap_text;
+	TextField preset_name_text;
 	
-	GuiTextField pallet_x_text;
-	GuiTextField pallet_y_text;
-	GuiTextField pallet_z_text;
-	GuiTextField pallet_width_text;
-	GuiTextField pallet_height_text;
-	GuiTextField package_width_text;
-	GuiTextField package_height_text;
-	GuiTextField package_elevation_text;
-	GuiTextField edge_gap_text;
-	GuiTextField box_gap_text;
-	GuiTextField preset_name_text;
-	
+	JButton rotate_robot_button;
 	JButton choose_origin_button;
+	JButton choose_pickup_button;
 	JButton configure_pallet_button;
 	JButton cancel_button;
-	JButton rotate_robot_button;
 	
 	ImagePanel rotate_robot_image;
-	BackgroundPanel background;
+	ImagePanel bg;
+	
+	// Variables used to store data that is not visible on the GUI. These
+	// are objects as they need to be passed by reference.
+	Integer rotation = 0;
+	
+	Float origin_x = 0.0f;
+	Float origin_y = 0.0f;
+	Float origin_z = 0.0f;
+	
+	Float pickup_x = 0.0f;
+	Float pickup_y = 0.0f;
+	Float pickup_z = 0.0f;
+	
+	public GUI_ConfigureLayout(String existing_preset_name) {
+		// Instantiating GUI elements
+		main = new JFrame();
+		main.setLayout(null);
+		main.setSize(screen_width,screen_height);
+		main.setLocationRelativeTo(null);
+		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-	private int sw, screen_width          = 800;
-	private int sh, screen_height         = 600;
-	private int lw ,default_label_width   = 150;
-	private int lh ,default_label_height  = 20;
-	private int tw ,default_text_width    = 50;
-	private int th ,default_text_height   = 20;
-	private int bw, default_button_width  = 200;
-	private int bh, default_button_height = 50;
-	//Constructor to instantiate all the images
-	//Custom functions will call functions which will need to be
-	//Implemented in another class
-	
-	//Need to handle the preset
-	
-	public Configure_GUI() {
-		run(FileManipulate.default_pallet_preset);
-	}
-	
-	public Configure_GUI(String preset) {
-		run(preset);
-	}
-	
-	public void run() {
-		run(FileManipulate.default_pallet_preset);
-	}
-	
-	public void run(String existing_preset_name) {
-		run(existing_preset_name, FileManipulate.default_pallet_presets_folder);
-	}
-	
-	public void run(final String existing_preset_name, final String folder) {
-		//Need a function to get existing values which have been saved
-		this.main = new JFrame();
-		this.main.setLayout(null);
-		this.main.setSize(sw,sh);
-		this.main.setLocationRelativeTo(null);
-		this.main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		//Load in preset values
-		this.load_default_values_from_file(existing_preset_name);
-		
-		//Create all gui elements
-		//Instanstiate all the elements
-		pallet_x_label = new JLabel("Pallet X");
-		pallet_y_label = new JLabel("Pallet Y");
-		pallet_z_label = new JLabel("Pallet Z");
-		pallet_width_label  = new JLabel("Pallet Width");
-		pallet_height_label = new JLabel("Pallet Height");
 		package_width_label  = new JLabel("Package Width");
 		package_height_label = new JLabel("Package Height");
 		package_elevation_label = new JLabel("Package Elevation");
+		pallet_width_label  = new JLabel("Pallet Width");
+		pallet_height_label = new JLabel("Pallet Height");
 		edge_gap_label = new JLabel("Edge Gap");
 		box_gap_label = new JLabel("Box Gap");
 		preset_name_label = new JLabel("Preset Name");
 		
-		pallet_x_text = new GuiTextField();
-		pallet_y_text = new GuiTextField();
-		pallet_z_text = new GuiTextField();
-		pallet_width_text = new GuiTextField();
-		pallet_height_text = new GuiTextField();
-		package_width_text = new GuiTextField();
-		package_height_text = new GuiTextField();
-		package_elevation_text = new GuiTextField();
-		edge_gap_text = new GuiTextField();
-		box_gap_text = new GuiTextField();
-		preset_name_text = new GuiTextField();
+		package_width_text = new TextField();
+		package_height_text = new TextField();
+		package_elevation_text = new TextField();
+		pallet_width_text = new TextField();
+		pallet_height_text = new TextField();
+		edge_gap_text = new TextField();
+		box_gap_text = new TextField();
+		preset_name_text = new TextField();
 		
-		choose_origin_button = new JButton("Choose Origin");
-		configure_pallet_button = new JButton("Configure");
-		cancel_button = new JButton("Cancel");
 		rotate_robot_button = new JButton("Rotate Robot");
+		choose_origin_button = new JButton("Choose Origin");
+		choose_pickup_button = new JButton("Choose Pickup");
+		configure_pallet_button = new JButton("Done");
+		cancel_button = new JButton("Cancel");
 		
-		rotate_robot_image = new ImagePanel();
-		background = null;
+		rotate_robot_image = new ImagePanel(null);
+		bg = new ImagePanel("bg_configure.png");
 
-		//Set the Size of all Elements
-		pallet_x_label.setSize(lw,lh);
-		pallet_y_label.setSize(lw,lh);
-		pallet_z_label.setSize(lw,lh);
-		pallet_width_label.setSize(lw,lh);
-		pallet_height_label.setSize(lw,lh);
-		package_width_label.setSize(lw,lh);
-		package_height_label.setSize(lw,lh);
-		package_elevation_label.setSize(lw,lh);
-		edge_gap_label.setSize(lw,lh);
-		box_gap_label.setSize(lw,lh);
-		preset_name_label.setSize(lw,lh);
+		// Set the size of all GUI elements
+		package_width_label.setSize(default_label_width,default_label_height);
+		package_height_label.setSize(default_label_width,default_label_height);
+		package_elevation_label.setSize(default_label_width,default_label_height);
+		pallet_width_label.setSize(default_label_width,default_label_height);
+		pallet_height_label.setSize(default_label_width,default_label_height);
+		edge_gap_label.setSize(default_label_width,default_label_height);
+		box_gap_label.setSize(default_label_width,default_label_height);
+		preset_name_label.setSize(default_label_width,default_label_height);
 		
-		pallet_x_text.setSize(tw,th);
-		pallet_y_text.setSize(tw,th);
-		pallet_z_text.setSize(tw,th);
-		pallet_width_text.setSize(tw,th);
-		pallet_height_text.setSize(tw,th);
-		package_width_text.setSize(tw,th);
-		package_height_text.setSize(tw,th);
-		package_elevation_text.setSize(tw,th);
-		edge_gap_text.setSize(tw,th);
-		box_gap_text.setSize(tw,th);
-		preset_name_text.setSize(tw,th);
+		package_width_text.setSize(default_text_width,default_text_height);
+		package_height_text.setSize(default_text_width,default_text_height);
+		package_elevation_text.setSize(default_text_width,default_text_height);
+		pallet_width_text.setSize(default_text_width,default_text_height);
+		pallet_height_text.setSize(default_text_width,default_text_height);
+		edge_gap_text.setSize(default_text_width,default_text_height);
+		box_gap_text.setSize(default_text_width,default_text_height);
+		preset_name_text.setSize(100,default_text_height);
 		
-		choose_origin_button.setSize(bw,bh);
-		configure_pallet_button.setSize(bw,bh);
-		cancel_button.setSize(bw,bh);
-		rotate_robot_button.setSize(bw,bh);
+		rotate_robot_button.setSize(default_button_width,default_button_height);
+		choose_origin_button.setSize(default_button_width,default_button_height);
+		choose_pickup_button.setSize(default_button_width,default_button_height);
+		configure_pallet_button.setSize(default_button_width,default_button_height);
+		cancel_button.setSize(default_button_width,25);
 		
 		rotate_robot_image.setBounds(500,300,240,240);
-		background.setBounds(0,0,800,600);
-
+		rotate_robot_image.setOpaque(false);
+		bg.setBounds(0,0,800,600);
 		
-		//Set position
-		pallet_x_label.setLocation(50,360);
-		pallet_y_label.setLocation(50,390);
-		pallet_z_label.setLocation(50,420);
-		pallet_width_label.setLocation(50,170);
-		pallet_height_label.setLocation(50,200);
+		// Set the position of all the GUI elements
 		package_width_label.setLocation(50,70);
 		package_height_label.setLocation(50,100);
 		package_elevation_label.setLocation(50,130);
-		edge_gap_label.setLocation(50,240);
-		box_gap_label.setLocation(50,270);
-		preset_name_label.setLocation(50,460);
+		pallet_width_label.setLocation(50,160);
+		pallet_height_label.setLocation(50,190);
+		edge_gap_label.setLocation(50,220);
+		box_gap_label.setLocation(50,250);	
+		preset_name_label.setLocation(50,470);
 		
-		pallet_x_text.setLocation(150,360);
-		pallet_y_text.setLocation(150,390);
-		pallet_z_text.setLocation(150,420);
-		pallet_width_text.setLocation(150,170);
-		pallet_height_text.setLocation(150,200);
-		package_width_text.setLocation(150,70);
-		package_height_text.setLocation(150,100);
-		package_elevation_text.setLocation(150,130);
-		edge_gap_text.setLocation(150,240);
-		box_gap_text.setLocation(150,270);
-		preset_name_text.setLocation(150,460);
+		package_width_text.setLocation(200,70);
+		package_height_text.setLocation(200,100);
+		package_elevation_text.setLocation(200,130);
+		pallet_width_text.setLocation(200,160);
+		pallet_height_text.setLocation(200,190);
+		edge_gap_text.setLocation(200,220);
+		box_gap_text.setLocation(200,250);
+		preset_name_text.setLocation(150,470);
+				
+		rotate_robot_button.setLocation(50,290);
+		choose_origin_button.setLocation(50,350);
+		choose_pickup_button.setLocation(50,410);
+		configure_pallet_button.setLocation(50,500);
+		cancel_button.setLocation(50,560);
 		
-		choose_origin_button.setLocation(50,310);
-		configure_pallet_button.setLocation(50,490);
-		cancel_button.setLocation(50,550);
-		rotate_robot_button.setLocation(520,550);;
-		
-		//rotate_robot_image; //Set using setBounds
-		//background;
-
-		//set text
-		pallet_x_text.setText(Integer.toString(default_pallet_x));
-		pallet_y_text.setText(Integer.toString(default_pallet_y));
-		pallet_z_text.setText(Integer.toString(default_pallet_z));
-		pallet_width_text.setText(Integer.toString(default_pallet_width));
-		pallet_height_text.setText(Integer.toString(default_pallet_height));
-		package_width_text.setText(Integer.toString(default_package_width));
-		package_height_text.setText(Integer.toString(default_package_height));
-		package_elevation_text.setText(Integer.toString(default_package_elevation));
-		edge_gap_text.setText(Integer.toString(default_edge_gap));
-		box_gap_text.setText(Integer.toString(default_box_gap));
-		preset_name_text.setText(existing_preset_name);
-		
-		// Set bution actions up using functions that need to be implemented
-		choose_origin_button.addActionListener(choose_origin_button_action());
-		configure_pallet_button.addActionListener(configure_pallet_button_action(existing_preset_name, folder));
-		cancel_button.addActionListener(cancel_button_action());
+		// Set the functions associated with each button
 		rotate_robot_button.addActionListener(rotate_robot_button_action());
+		choose_origin_button.addActionListener(choose_origin_button_action());
+		choose_pickup_button.addActionListener(choose_pickup_button_action());
+		configure_pallet_button.addActionListener(configure_pallet_button_action());
+		cancel_button.addActionListener(cancel_button_action());
 		
+		// Add everything into the main JFrame
+		main.add(pallet_width_label);
+		main.add(pallet_height_label);
+		main.add(package_width_label);
+		main.add(package_height_label);
+		main.add(package_elevation_label);
+		main.add(edge_gap_label);
+		main.add(box_gap_label);
+		main.add(preset_name_label);
 		
-		//Add everything into the main JFrame
-		this.add_all_to_main();
+		main.add(pallet_width_text);
+		main.add(pallet_height_text);
+		main.add(package_width_text);
+		main.add(package_height_text);
+		main.add(package_elevation_text);
+		main.add(edge_gap_text);
+		main.add(box_gap_text);
+		main.add(preset_name_text);
+		
+		main.add(rotate_robot_button);
+		main.add(choose_origin_button);
+		main.add(choose_pickup_button);
+		main.add(configure_pallet_button);
+		main.add(cancel_button);
+		
+		main.add(rotate_robot_image);
+		main.add(bg);
+		
+		// Update the default parameters which describe a pallet layout if 
+		// an existing pallet layout is being editted. 
+		load_default_values_from_file(existing_preset_name);
+		
+		main.setVisible(true);
 	}
-	public abstract ActionListener cancel_button_action();
+
+	public abstract void load_default_values_from_file(String filename);
 	public abstract ActionListener rotate_robot_button_action();
-	
-	public abstract ActionListener configure_pallet_button_action(final String existing_preset_name, final String folder);
-	
 	public abstract ActionListener choose_origin_button_action();
+	public abstract ActionListener choose_pickup_button_action();
+	public abstract ActionListener configure_pallet_button_action();
+	public abstract ActionListener cancel_button_action();
 	
-	private void load_default_values_from_file(String filename) {
-		
-	}
-	
-	private void add_all_to_main() {
-		this.main.add(pallet_x_label);
-		this.main.add(pallet_y_label);
-		this.main.add(pallet_z_label);
-		this.main.add(pallet_width_label);
-		this.main.add(pallet_height_label);
-		this.main.add(package_width_label);
-		this.main.add(package_height_label);
-		this.main.add(package_elevation_label);
-		this.main.add(edge_gap_label);
-		this.main.add(box_gap_label);
-		this.main.add(preset_name_label);
-		
-		this.main.add(pallet_x_text);
-		this.main.add(pallet_y_text);
-		this.main.add(pallet_z_text);
-		this.main.add(pallet_width_text);
-		this.main.add(pallet_height_text);
-		this.main.add(package_width_text);
-		this.main.add(package_height_text);
-		this.main.add(package_elevation_text);
-		this.main.add(edge_gap_text);
-		this.main.add(box_gap_text);
-		this.main.add(preset_name_text);
-		
-		this.main.add(choose_origin_button);
-		this.main.add(configure_pallet_button);
-		this.main.add(cancel_button);
-		this.main.add(rotate_robot_button);
-		
-		this.main.add(rotate_robot_image);
-		this.main.add(background);
-		
-	}
 }
