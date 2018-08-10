@@ -7,11 +7,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+ * FileManipulate provides a basic interface for reading and writing
+ * the textfiles used to store pallet presets / URScript. 
+ */
 public class FileManipulate {
 	
 	public static String default_pallet_preset = "-- new preset --";
 	public static String default_pallet_presets_folder = "trp_pallet_presets";
-	public static String default_waypoints_folder = "trp_waypoints";
+	public static String default_waypoints_folder = "trp_pallet_waypoints";
+	public static String default_scripts_folder = "trp_pallet_urscripts";
 	
 	//private String folder = null;
 	//private String filename = null;
@@ -55,8 +60,9 @@ public class FileManipulate {
 	public boolean exists() {
 		if( this.file == null) {
 			return false;
+		} else {
+			return true;
 		}
-		return this.file.exists();
 	}
 	
 	public void close() {
@@ -219,7 +225,7 @@ public class FileManipulate {
 	
 	public void rename(FileManipulate new_file) {
 		this.file.renameTo(new_file.file);
-		this.file = null;
+		this.file = null;		
 	}
 	
 }

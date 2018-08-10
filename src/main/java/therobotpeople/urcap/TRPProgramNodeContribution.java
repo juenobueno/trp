@@ -1,59 +1,103 @@
 package therobotpeople.urcap;
 
-import java.text.DecimalFormat;
-
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
-import com.ur.urcap.api.domain.util.Filter;
-import com.ur.urcap.api.domain.variable.Variable;
-import com.ur.urcap.api.ui.annotation.Input;
-import com.ur.urcap.api.ui.annotation.Label;
-import com.ur.urcap.api.ui.component.InputEvent;
-import com.ur.urcap.api.ui.component.InputTextField;
-import com.ur.urcap.api.ui.component.LabelComponent;
 
+/*
+ * The Node Contribution is what is seen in the 'Command' Tab of the URCap.
+ */
 public class TRPProgramNodeContribution implements ProgramNodeContribution {
-	private static final String NAME = "name";
-
-	private final DataModel model;
+	// These two instance variable are instantiated by Polyscope
+	public static DataModel model;
 	public static URCapAPI api;
-	public static Thread gui_home_thread = new Thread(new GUIHome());
-	//private final ScriptWriter writer;
+	
+	// The Pallet GUI runs on a separate thread so it is not blocking the 
+	// usual functions of the UR. 
+	public static Thread gui_thread = new Thread(new GUI_HomeImpl());
 
 	public TRPProgramNodeContribution(URCapAPI api, DataModel model) {
 		TRPProgramNodeContribution.api = api;
-		this.model = model;
+		TRPProgramNodeContribution.model = model;
 	}
-	
-	@Input(id = "yourname")
-	private InputTextField nameTextField;
-	@Input(id = "yourname2")
-	private InputTextField nameTextField2;
-	@Input(id = "yourname3")
-	private InputTextField nameTextField3;
 
-	@Label(id = "titlePreviewLabel")
-	private LabelComponent titlePreviewLabel;
-
-	@Label(id = "messagePreviewLabel")
-	private LabelComponent messagePreviewLabel;
-
-	@Input(id = "yourname")
-	public void onInput(InputEvent event) {
-		if (event.getEventType() == InputEvent.EventType.ON_CHANGE) {
-			setName(nameTextField.getText());
+	// This method sends URScript to the Robot when the URCap is reached in
+	// the program structure. This only occurs once. 
+	@Override
+	public void generateScript(ScriptWriter writer) {
+		// Make sure that only one instance of the GUI is open 
+		if (GUI_HomeImpl.on == false){
+		    gui_thread.run();
+		    writer.sync();
+		    return;
 		}
+		
+		// When generateScript is run while the GUI is on, this means that the 
+		// user is trying to start/restart the palletising process. In order to
+		// perform move commands, all commands must be written in through the
+		// script writer from a static location.
+		//
+		// As a result, this requires all move commands to be placed in ../programs/trp_palletiser.script
+		// prior to the start/restart. This function assumes this has been done already.
+		// This implementation can be found in GUI_HomeImpl
+		if( GUI_HomeImpl.on == true) {
+			String currentLine = null;
+			
+			// Open the UR Script file determined by the last_selected.txt file
+			FileManipulate ur_script = new FileManipulate("trp_palletiser.script", "../programs"); 
+			
+			// Read the UR Script file line by line, and write each command to the UR
+			currentLine = ur_script.readLine();
+			while(currentLine != null) {
+				writer.appendLine(currentLine + "\n");
+				currentLine = ur_script.readLine();
+			}
+			
+			ur_script.close();
+		}
+		
+		// This line of code prevents some error about the robot not being
+		// set any commands for a long period of time. 
+		writer.sync();
+		
+		// Not sure what Stefan was trying to achieve here
+
+		// code to get rrobot position
+		// getRobotRealtimeData getData = new getRobotRealtimeData();
+		// getData.readNow();
+		// DecimalFormat df = new DecimalFormat("#.####");
+		// double[] tcp = getData.getActualTcpPose();
+		// String showTcp = "p["+
+		//		df.format(tcp[0])+","+
+		//		df.format(tcp[1])+","+
+		//		df.format(tcp[2])+","+
+		//		df.format(tcp[3])+","+
+		//		df.format(tcp[4])+","+
+		//		df.format(tcp[5])+"]";
+		//
+		// writer.appendLine("popup(\""+showTcp+"\", title=\"OMG it worked\", blocking=True)");
+		//
+		///writer.appendLine("foo = "+showTcp+"\n");
+		// 
+		// writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
+		// writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");on == true
+		// writer.appendLine("popup(\""+Double.toString(tcp[0])+"\", title=\"OMG it worked\", blocking=True)");
+		// writer.sync();
+		// Selector.script_file = "Popup.script";
+		// writer.writeChildren();
 	}
 	
-
+	
+	
 	@Override
 	public void openView() {	
+		// Java Code that is run when the 'Command' Tab is opened
 	}
 
 	@Override
 	public void closeView() {
+		// Java Code that is run when the 'Command' Tab is closed
 	}
 
 	@Override
@@ -65,82 +109,5 @@ public class TRPProgramNodeContribution implements ProgramNodeContribution {
 	@Override
 	public boolean isDefined() {
 		return true;
-	}
-	
-	@Override
-	public void generateScript(ScriptWriter writer) {
-		/*
-		//code to get rrobot position
-		//getRobotRealtimeData getData = new getRobotRealtimeData();
-		//getData.readNow();
-		//DecimalFormat df = new DecimalFormat("#.####");
-		//double[] tcp = getData.getActualTcpPose();
-		//String showTcp = "p["+
-				df.format(tcp[0])+","+
-				df.format(tcp[1])+","+
-				df.format(tcp[2])+","+
-				df.format(tcp[3])+","+
-				df.format(tcp[4])+","+
-				df.format(tcp[5])+"]";
-				//*/
-		//writer.appendLine("popup(\""+showTcp+"\", title=\"OMG it worked\", blocking=True)");
-		
-		String temp = null;
-		if( GUIHome.on == true) {
-			//if( Selector.script_file == "") {
-			//	writer.sync();
-			//}else {
-				//Open and read the script file line by line into the writer
-			FileManipulate urscript = new FileManipulate("waypointTest.script", "../programs"); 
-				//FileManipulate urcopy = new FileManipulate("../../programs/robocopy.script");
-				//writer.appendLine("popup(\"Messages\", title=\"OMG it worked\", blocking=True)");
-				temp = urscript.readLine();
-			while(temp != null) {
-				//writer.appendLine("popup(\""+temp+"\", title=\"OMG it worked\", blocking=True)");
-				writer.appendLine(temp+"\n");
-				//urcopy.writeln(temp);
-				temp = urscript.readLine();
-			}
-			
-			//urcopy.close();
-			urscript.close();
-			
-		}
-		///*/
-		if (GUIHome.on == false){
-		    gui_home_thread.run();
-		}
-
-		
-		
-		//writer.appendLine("foo = "+showTcp+"\n");
-		///*
-		//writer.appendLine("foo2 = "+nameTextField2.getText()+"\n");
-		//writer.appendLine("foo3 = "+nameTextField3.getText()+"\n");on == true
-		//writer.appendLine("popup(\""+Double.toString(tcp[0])+"\", title=\"OMG it worked\", blocking=True)");
-		//writer.sync();
-		//Selector.script_file = "Popup.script";
-		
-		
-		
-			//writer.writeChildren();
-		writer.sync();
-		//}
-	}
-
-	private String generatePopupMessage() {
-		return model.isSet(NAME) ? "Hello " + getName() + ", welcome to PolyScope!" : "No name set";
-	}
-
-	private String getName() {
-		return model.get(NAME, "");
-	}
-
-	private void setName(String name) {
-		if ("".equals(name)){
-			model.remove(NAME);
-		}else{
-			model.set(NAME, name);
-		}
 	}
 }

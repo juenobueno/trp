@@ -9,9 +9,9 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class getRobotRealtimeData {
+public class GetRealtimeRobotData {
 	
-	public getRobotRealtimeData() { }
+	public GetRealtimeRobotData() { }
 	
 	// localhost IP
 	private String TCP_IP = "127.0.0.1";

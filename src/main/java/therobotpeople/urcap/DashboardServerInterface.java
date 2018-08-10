@@ -7,6 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/*
+ * DashboardServerInterface connects to a locally hosted server in order
+ * to control the state of the UR. Strings are written to the open port
+ * in order to issue commands to the UR. 
+ */
 public final class DashboardServerInterface {
 
 	private static Socket sock = null;

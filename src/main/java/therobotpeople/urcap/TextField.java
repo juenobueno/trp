@@ -6,21 +6,15 @@ import java.awt.event.MouseListener;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class GuiTextField extends JTextField implements MouseListener {
+public class TextField extends JTextField implements MouseListener {
 
-
-	GuiTextField(){
+	TextField() {
 		addMouseListener(this);
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//QWERTYKeyboard temp = new QWERTYKeyboard();
-		//temp.text = this;
-		VirtualKeyboard temp = new VirtualKeyboard();
-		temp.set_text(this);
-		Thread t = new Thread(temp);
-		t.start();
+		new VirtualKeyboard((JTextField)this);
 	}
 
 	@Override

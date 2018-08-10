@@ -6,25 +6,23 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 // Rewrite of QWERTY Keyboard with most of the static removed
-public class VirtualKeyboard implements Runnable {
+public class VirtualKeyboard {
 	private String output;
 	private Boolean running;
 	private JTextField text;
-	private final JTextField preview;
 	private final int button_width = 50;
 	private final int button_height = 50;
 	private Boolean lower_case;
 	
-	public final String[] firstRow = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "+", "<<"};
-	public final String[] secondRow = {"q","w","e","r","t","y","u","i","o","p","[","]"};
-	public final String[] thirdRow = {"a","s","d","f","g","h","j","k","l",";","'"};
-	public final String[] fourthRow = {"z","x","c","v","b","n","m",",",".","/"};
+	public final String[] firstRow = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+	public final String[] secondRow = {"q","w","e","r","t","y","u","i","o","p"};
+	public final String[] thirdRow = {"a","s","d","f","g","h","j","k","l"};
+	public final String[] fourthRow = {"z","x","c","v","b","n","m"};
 	
 	public final String[] FIRSTROW = {"!","@","#","$","%","^","&","*","(",")","_","+"};
 	public final String[] SECONDROW = {"Q","W","E","R","T","Y","U","I","O","P","{","}"};
@@ -33,16 +31,13 @@ public class VirtualKeyboard implements Runnable {
 
 	private final JFrame mainframe;
 	
-	VirtualKeyboard(){
-		this.output = "";
+	public VirtualKeyboard(JTextField current_textfield){
+		this.output = current_textfield.getText();
 		this.running = false;
-		this.text = null;
+		this.text = current_textfield;
 		this.lower_case = true;
-		this.preview = new JTextField();
 		this.mainframe = new JFrame();
-	}
-	
-	public void run() {
+
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener("focusedWindow", new VetoableChangeListener() {
 			private boolean gained = false;
 			
@@ -59,34 +54,34 @@ public class VirtualKeyboard implements Runnable {
 		
 		set_running(true);
 		
-		
 		this.mainframe.setLayout(null);
-		this.mainframe.setSize(800, 300);
+		this.mainframe.setSize(500, 250);
 		this.mainframe.setLocationRelativeTo(null);
+		this.mainframe.setLocation(300, 350);
 		
 		setLower();
 		setBottom();
 		
-		preview.setSize(button_width*5,button_width);
-		preview.setLocation(0, 0);
-		mainframe.add(preview);
+		//preview.setSize(button_width*5,button_width);
+		//preview.setLocation(0, 0);
+		//mainframe.add(preview);
 		
 		this.mainframe.setVisible(true);
 		
 	}
 	
 	private void setLower() {
-		keyRow(this.firstRow, 0, this.button_height);
-		keyRow(this.secondRow, 0, 2*this.button_height);
-		keyRow(this.thirdRow, 0, 3*this.button_height);
-		keyRow(this.fourthRow, 0, 4*this.button_height);
+		keyRow(this.firstRow, 0, 0);
+		keyRow(this.secondRow, 0, 1*this.button_height);
+		keyRow(this.thirdRow, 25, 2*this.button_height);
+		keyRow(this.fourthRow, 75, 3*this.button_height);
 	}
 	
 	private void setUpper() {
-		keyRow(this.FIRSTROW, 0, this.button_height);
-		keyRow(this.SECONDROW, 0, 2*this.button_height);
-		keyRow(this.THIRDROW, 0, 3*this.button_height);
-		keyRow(this.FOURTHROW, 0, 4*this.button_height);
+		keyRow(this.FIRSTROW, 0, 0);
+		keyRow(this.SECONDROW, 0, 1*this.button_height);
+		keyRow(this.THIRDROW, 25, 2*this.button_height);
+		keyRow(this.FOURTHROW, 75, 3*this.button_height);
 	}
 	
 	
@@ -103,10 +98,10 @@ public class VirtualKeyboard implements Runnable {
 				public void actionPerformed(ActionEvent arg0) {
 					if( temp.getText() == "<<") {
 						output = output.substring(0, output.length()-1);
-						preview.setText(output);
+						text.setText(output);
 					}else {
 						output += temp.getText();
-						preview.setText(output);
+						text.setText(output);
 					}
 					if( lower_case == false) {
 						lower_case = true;
@@ -126,9 +121,11 @@ public class VirtualKeyboard implements Runnable {
 	
 	
 	private void setBottom() {
+		/*
+		
 		//shift
 		JButton shift = new JButton("Shift");
-		shift.setSize(button_width, button_height);
+		shift.setSize(button_width * 2, button_height);
 		shift.setLocation(0, 5*button_height);
 		shift.addActionListener(new ActionListener() {
 			@Override
@@ -147,45 +144,52 @@ public class VirtualKeyboard implements Runnable {
 				mainframe.repaint();
 			}
 		});
+		
+		*/
+		
+		// Close
+		JButton no = new JButton("Close");
+		no.setSize(button_width * 3, button_height);
+		no.setLocation(0, 4*button_height);
+		no.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent argo0) {
+				//output = "";
+				running = false;
+				mainframe.dispose();
+			}
+		});
+		
 		//space
 		JButton space = new JButton();
-		space.setSize(200, button_height);
-		space.setLocation((int)(shift.getLocation().x + shift.getSize().getWidth()), 5*button_height);
+		space.setSize(button_width * 4, button_height);
+		space.setLocation((int)(no.getLocation().x + no.getSize().getWidth()), 4*button_height);
 		space.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				output += " ";
-				preview.setText(output);
-			}
-		});
-		//yes
-		JButton yes = new JButton("yes");
-		yes.setSize(button_width, button_height);
-		yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 5*button_height);
-		yes.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent argo0) {
-				running = false;
-				mainframe.dispose();
-				
 				text.setText(output);
 			}
 		});
-		//no
-		JButton no = new JButton("no");
-		no.setSize(button_width, button_height);
-		no.setLocation((int)(yes.getLocation().x + yes.getSize().getWidth()), 5*button_height);
-		no.addActionListener(new ActionListener() {
+		// Backspace 
+		JButton yes = new JButton("Backspace");
+		yes.setSize(button_width * 3, button_height);
+		yes.setLocation((int)(space.getLocation().x + space.getSize().getWidth()), 4*button_height);
+		yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent argo0) {
-				output = "";
-				running = false;
-				mainframe.dispose();
+				if (output.length() == 0) {
+					return; 
+				}
+				
+				output = output.substring(0, output.length()-1);
+				text.setText(output);
 			}
 		});
 		
 		
-		mainframe.add(shift);
+		
+		//mainframe.add(shift);
 		mainframe.add(space);
 		mainframe.add(yes);
 		mainframe.add(no);
@@ -207,6 +211,10 @@ public class VirtualKeyboard implements Runnable {
 	
 	public void set_text(JTextField val) {
 		this.text = val;
+	}
+	
+	public void set_output(String val) {
+		this.output = val;
 	}
 	
 	public void toggle_running() {
