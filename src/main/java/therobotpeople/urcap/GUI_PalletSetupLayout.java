@@ -105,9 +105,9 @@ public abstract class GUI_PalletSetupLayout {
 		this.box_gap_y = box_gap;
 		
 		
-		this.grid = new Grid(pallet_width, pallet_height);
-		grid.set(new Point(0,0), pallet_width, pallet_height);
-		grid.clear( new Point(edge_gap_x, edge_gap_y), pallet_width, pallet_height);
+		this.grid = new Grid(1000, 1000);
+		//grid.set(new Point(0,0), pallet_width, pallet_height);
+		//grid.clear( new Point(edge_gap_x, edge_gap_y), pallet_width, pallet_height);
 		
 		button_layout = new ArrayList<ArrayList<JButton>>();
 		button_layout.add(new ArrayList<JButton>());

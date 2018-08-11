@@ -170,9 +170,9 @@ public class GUI_PalletSetupImpl extends GUI_PalletSetupLayout {
 								   + Float.toString(pickup_y) + "," 
 								   + Float.toString(pickup_z) + ", 0, 3.14159, 0]";
 		
-		String above_pick_up_pose = "p[" + Float.toString(pickup_x + 0.1f) + "," 
-								   		 + Float.toString(pickup_y + 0.1f) + "," 
-								   		 + Float.toString(pickup_z + (float)(package_elevation / 1000.0f)) + ", 0, 3.14159, 0]";
+		String above_pick_up_pose = "p[" + Float.toString(pickup_x) + "," 
+								   		 + Float.toString(pickup_y) + "," 
+								   		 + Float.toString(pickup_z + (float)(package_elevation * 1.1 / 1000.0f)) + ", 0, 3.14159, 0]";
 		
 		// Loop over each layer
 		for( int i = 0; i< button_layout.size(); i++) {
@@ -192,34 +192,34 @@ public class GUI_PalletSetupImpl extends GUI_PalletSetupLayout {
 				
 				// Account for the rotation of the robot
 				if (rotation == 0) {
-					String x = Float.toString((origin_x) - vertical_offset); 
-					String y = Float.toString((origin_y) + horizontal_offset);
+					String x = Float.toString((origin_x) + horizontal_offset); 
+					String y = Float.toString((origin_y) - vertical_offset);
 					String z = Float.toString((origin_z) + elevation_offset);
 					String above_z = Float.toString((origin_z / 1000.0f) + elevation_offset + (float)(package_elevation / 1000.0f));
 					
 					xyz = x + "," + y + "," + z + ","; 
 					above_xyz = x + "," + y + "," + above_z + ","; 
 				} else if (rotation == 1) {
-					String x = Float.toString((origin_x / 1000.0f) + horizontal_offset); 
-					String y = Float.toString((origin_y / 1000.0f) + vertical_offset);
-					String z = Float.toString((origin_z / 1000.0f) + elevation_offset);
-					String above_z = Float.toString((origin_z / 1000.0f) + elevation_offset + (float)(package_elevation / 1000.0f));
+					String x = Float.toString((origin_x) + vertical_offset); 
+					String y = Float.toString((origin_y) + horizontal_offset);
+					String z = Float.toString((origin_z) + elevation_offset);
+					String above_z = Float.toString((origin_z) + elevation_offset + (float)(package_elevation / 1000.0f));
 					
 					xyz = x + "," + y + "," + z + ","; 
 					above_xyz = x + "," + y + "," + above_z + ","; 
 				} else if (rotation == 2) {
-					String x = Float.toString((origin_x / 1000.0f) + vertical_offset); 
-					String y = Float.toString((origin_y / 1000.0f) - horizontal_offset);
-					String z = Float.toString((origin_z / 1000.0f) + elevation_offset);
-					String above_z = Float.toString((origin_z / 1000.0f) + elevation_offset + (float)(package_elevation / 1000.0f));
+					String x = Float.toString((origin_x) - horizontal_offset); 
+					String y = Float.toString((origin_y) + vertical_offset);
+					String z = Float.toString((origin_z) + elevation_offset);
+					String above_z = Float.toString((origin_z) + elevation_offset + (float)(package_elevation / 1000.0f));
 					
 					xyz = x + "," + y + "," + z + ","; 
 					above_xyz = x + "," + y + "," + above_z + ","; 
 				} else if (rotation == 3) {
-					String x = Float.toString((origin_x / 1000.0f) - horizontal_offset); 
-					String y = Float.toString((origin_y / 1000.0f) - vertical_offset);
-					String z = Float.toString((origin_z / 1000.0f) + elevation_offset);
-					String above_z = Float.toString((origin_z / 1000.0f) + elevation_offset + (float)(package_elevation / 1000.0f));
+					String x = Float.toString((origin_x) - vertical_offset); 
+					String y = Float.toString((origin_y) - horizontal_offset);
+					String z = Float.toString((origin_z) + elevation_offset);
+					String above_z = Float.toString((origin_z) + elevation_offset + (float)(package_elevation / 1000.0f));
 					
 					xyz = x + "," + y + "," + z + ","; 
 					above_xyz = x + "," + y + "," + above_z + ","; 
@@ -286,7 +286,7 @@ public class GUI_PalletSetupImpl extends GUI_PalletSetupLayout {
 				int right_distance= grid.right_limit(position, pack_width, pack_height);
 
 				if( left_distance == position.x) {
-					if( right_distance+pack_width+position.x == pallet_width) {
+					if( right_distance+pack_width+position.x == 1000) {
 						x_pos = x_pos - x_pos%pack_width;
 					}else {
 						x_pos = x_pos + (right_distance)%pack_width+1;
@@ -303,7 +303,7 @@ public class GUI_PalletSetupImpl extends GUI_PalletSetupLayout {
 				int bottom_distance = grid.bottom_limit(position, pack_width, pack_height);
 
 				if( top_distance == position.y) {
-					if( bottom_distance+pack_height+position.y == pallet_height) {
+					if( bottom_distance+pack_height+position.y == 1000) {
 						y_pos = y_pos - y_pos%pack_height;
 					}else {
 						y_pos = y_pos+(bottom_distance)%pack_height+1;
